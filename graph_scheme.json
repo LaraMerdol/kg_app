@@ -1,0 +1,2782 @@
+{
+  "User": {
+    "count": 249515,
+    "labels": [],
+    "properties": {
+      "numFollowers": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "numPapers": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "numDatasets": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "numFollowing": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "numUpvotes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "type": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "numModels": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "numDiscussions": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "isPro": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "username": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "details": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "numSpaces": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "createdAt": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "numLikes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "fullname": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "AFFILIATED_WITH": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Organization"
+        ],
+        "properties": {
+
+        }
+      },
+      "OWNED_BY": {
+        "count": 1128,
+        "direction": "in",
+        "labels": [
+          "Collection"
+        ],
+        "properties": {
+
+        }
+      },
+      "PUBLISHED": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Space",
+          "Paper",
+          "Model",
+          "SEModel",
+          "Dataset",
+          "SEModelDescendant",
+          "SEModelAncestor"
+        ],
+        "properties": {
+
+        }
+      },
+      "FOLLOWS": {
+        "count": 1158,
+        "direction": "out",
+        "labels": [
+          "User",
+          "User"
+        ],
+        "properties": {
+
+        }
+      },
+      "LIKES": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant"
+        ],
+        "properties": {
+
+        }
+      }
+    }
+  },
+  "IS_QUANTIZED_FROM": {
+    "count": 3880,
+    "properties": {
+      "updated_at": {
+        "indexed": false,
+        "type": "DATE_TIME",
+        "existence": false,
+        "array": false
+      },
+      "evidence": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      },
+      "confidence": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      }
+    },
+    "type": "relationship"
+  },
+  "Model": {
+    "count": 16079,
+    "labels": [
+      "SEModelAncestor"
+    ],
+    "properties": {
+      "libraries": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "region": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "gated": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "other": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "sha": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "downloads": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "artifactCommunity": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "private": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "languages": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "author": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "communityResolution": {
+        "unique": false,
+        "indexed": false,
+        "type": "FLOAT",
+        "existence": false
+      },
+      "description": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "createdAt": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "communityAlgorithm": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "license": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "exist": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "tags": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "seTaskGroups": {
+        "unique": false,
+        "indexed": true,
+        "type": "LIST",
+        "existence": false
+      },
+      "lastModified": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "pipeline_tag": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "seTaskCluster": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "library_name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "likes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "model_type": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "IS_QUANTIZED_FROM": {
+        "count": 7,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "TRAINED_ON": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Dataset"
+        ],
+        "properties": {
+
+        }
+      },
+      "EVALUATED_ON": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Benchmark"
+        ],
+        "properties": {
+          "metric": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "score": {
+            "indexed": false,
+            "type": "FLOAT",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "SUITABLE_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "SETask"
+        ],
+        "properties": {
+          "reasoning": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "IS_ADAPTER_OF": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "IS_FINETUNED_FROM": {
+        "count": 115,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "CONTAINS": {
+        "count": 1888,
+        "direction": "in",
+        "labels": [
+          "Collection"
+        ],
+        "properties": {
+
+        }
+      },
+      "CITES": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Paper"
+        ],
+        "properties": {
+
+        }
+      },
+      "DEFINED_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Task"
+        ],
+        "properties": {
+
+        }
+      },
+      "USES_MODEL": {
+        "count": 1188,
+        "direction": "in",
+        "labels": [
+          "Space"
+        ],
+        "properties": {
+
+        }
+      },
+      "PUBLISHED": {
+        "count": 340,
+        "direction": "in",
+        "labels": [
+          "User",
+          "Organization"
+        ],
+        "properties": {
+
+        }
+      },
+      "LIKES": {
+        "count": 959,
+        "direction": "in",
+        "labels": [
+          "User"
+        ],
+        "properties": {
+
+        }
+      },
+      "IS_MERGE_OF": {
+        "count": 10,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      }
+    }
+  },
+  "TRAINED_ON": {
+    "count": 8499,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "Dataset": {
+    "count": 1949,
+    "labels": [],
+    "properties": {
+      "libraries": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "tags": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "gated": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "seTaskGroups": {
+        "unique": false,
+        "indexed": true,
+        "type": "LIST",
+        "existence": false
+      },
+      "other": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "modalities": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "lastModified": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "sha": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "downloads": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "artifactCommunity": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "private": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "formats": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "size": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "languages": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "communityResolution": {
+        "unique": false,
+        "indexed": false,
+        "type": "FLOAT",
+        "existence": false
+      },
+      "description": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "createdAt": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "communityAlgorithm": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "likes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "license": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "USES_DATASET": {
+        "count": 24,
+        "direction": "in",
+        "labels": [
+          "Space"
+        ],
+        "properties": {
+
+        }
+      },
+      "DEFINED_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Task"
+        ],
+        "properties": {
+
+        }
+      },
+      "TRAINED_ON": {
+        "count": 635,
+        "direction": "in",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+
+        }
+      },
+      "PUBLISHED": {
+        "count": 340,
+        "direction": "in",
+        "labels": [
+          "User",
+          "Organization"
+        ],
+        "properties": {
+
+        }
+      },
+      "CONTAINS": {
+        "count": 1888,
+        "direction": "in",
+        "labels": [
+          "Collection"
+        ],
+        "properties": {
+
+        }
+      },
+      "CITES": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Paper"
+        ],
+        "properties": {
+
+        }
+      }
+    }
+  },
+  "Organization": {
+    "count": 36491,
+    "labels": [],
+    "properties": {
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "username": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "type": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "fullname": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "AFFILIATED_WITH": {
+        "count": 502,
+        "direction": "in",
+        "labels": [
+          "User"
+        ],
+        "properties": {
+
+        }
+      },
+      "OWNED_BY": {
+        "count": 1128,
+        "direction": "in",
+        "labels": [
+          "Collection"
+        ],
+        "properties": {
+
+        }
+      },
+      "PUBLISHED": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Space",
+          "Model",
+          "SEModel",
+          "Dataset",
+          "SEModelDescendant",
+          "SEModelAncestor"
+        ],
+        "properties": {
+
+        }
+      }
+    }
+  },
+  "SEModelAncestor": {
+    "count": 865,
+    "labels": [
+      "Model"
+    ],
+    "properties": {
+      "libraries": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "region": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "gated": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "other": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "sha": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "downloads": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "artifactCommunity": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "private": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "languages": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "author": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "communityResolution": {
+        "unique": false,
+        "indexed": false,
+        "type": "FLOAT",
+        "existence": false
+      },
+      "description": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "createdAt": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "communityAlgorithm": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "license": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "exist": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "tags": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "seTaskGroups": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "lastModified": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "pipeline_tag": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "seTaskCluster": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "library_name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "likes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "model_type": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "IS_QUANTIZED_FROM": {
+        "count": 24,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "TRAINED_ON": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Dataset"
+        ],
+        "properties": {
+
+        }
+      },
+      "RELATED_SPACE": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Space"
+        ],
+        "properties": {
+
+        }
+      },
+      "EVALUATED_ON": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Benchmark"
+        ],
+        "properties": {
+          "metric": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "score": {
+            "indexed": false,
+            "type": "FLOAT",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "SUITABLE_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "SETask"
+        ],
+        "properties": {
+          "reasoning": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "IS_ADAPTER_OF": {
+        "count": 10,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "IS_FINETUNED_FROM": {
+        "count": 1342,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "CONTAINS": {
+        "count": 1888,
+        "direction": "in",
+        "labels": [
+          "Collection"
+        ],
+        "properties": {
+
+        }
+      },
+      "CITES": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Paper"
+        ],
+        "properties": {
+
+        }
+      },
+      "DEFINED_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Task"
+        ],
+        "properties": {
+
+        }
+      },
+      "USES_MODEL": {
+        "count": 1188,
+        "direction": "in",
+        "labels": [
+          "Space"
+        ],
+        "properties": {
+
+        }
+      },
+      "PUBLISHED": {
+        "count": 340,
+        "direction": "in",
+        "labels": [
+          "User",
+          "Organization"
+        ],
+        "properties": {
+
+        }
+      },
+      "LIKES": {
+        "count": 959,
+        "direction": "in",
+        "labels": [
+          "User"
+        ],
+        "properties": {
+
+        }
+      },
+      "IS_MERGE_OF": {
+        "count": 116,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      }
+    }
+  },
+  "IS_ADAPTER_OF": {
+    "count": 4093,
+    "properties": {
+      "updated_at": {
+        "indexed": false,
+        "type": "DATE_TIME",
+        "existence": false,
+        "array": false
+      },
+      "evidence": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      },
+      "confidence": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      }
+    },
+    "type": "relationship"
+  },
+  "FOLLOWS": {
+    "count": 429884,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "SEModelDescendant": {
+    "count": 10529,
+    "labels": [
+      "Model"
+    ],
+    "properties": {
+      "libraries": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "tags": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "region": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "gated": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "seTaskGroups": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "other": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "lastModified": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "sha": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "pipeline_tag": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "seTaskCluster": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "downloads": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "artifactCommunity": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "private": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "library_name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "languages": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "author": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "communityResolution": {
+        "unique": false,
+        "indexed": false,
+        "type": "FLOAT",
+        "existence": false
+      },
+      "description": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "createdAt": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "communityAlgorithm": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "likes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "license": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "IS_QUANTIZED_FROM": {
+        "count": 2,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModel",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "TRAINED_ON": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Dataset"
+        ],
+        "properties": {
+
+        }
+      },
+      "RELATED_SPACE": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Space"
+        ],
+        "properties": {
+
+        }
+      },
+      "EVALUATED_ON": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Benchmark"
+        ],
+        "properties": {
+          "metric": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "score": {
+            "indexed": false,
+            "type": "FLOAT",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "SUITABLE_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "SETask"
+        ],
+        "properties": {
+          "reasoning": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "IS_ADAPTER_OF": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "Model",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "IS_FINETUNED_FROM": {
+        "count": 1,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "CONTAINS": {
+        "count": 1888,
+        "direction": "in",
+        "labels": [
+          "Collection"
+        ],
+        "properties": {
+
+        }
+      },
+      "CITES": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Paper"
+        ],
+        "properties": {
+
+        }
+      },
+      "DEFINED_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Task"
+        ],
+        "properties": {
+
+        }
+      },
+      "USES_MODEL": {
+        "count": 1188,
+        "direction": "in",
+        "labels": [
+          "Space"
+        ],
+        "properties": {
+
+        }
+      },
+      "PUBLISHED": {
+        "count": 340,
+        "direction": "in",
+        "labels": [
+          "User",
+          "Organization"
+        ],
+        "properties": {
+
+        }
+      },
+      "LIKES": {
+        "count": 959,
+        "direction": "in",
+        "labels": [
+          "User"
+        ],
+        "properties": {
+
+        }
+      },
+      "IS_MERGE_OF": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      }
+    }
+  },
+  "CONTAINS": {
+    "count": 58024,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "CITES": {
+    "count": 8663,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "Benchmark": {
+    "count": 222,
+    "labels": [],
+    "properties": {
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "seTaskGroups": {
+        "unique": false,
+        "indexed": true,
+        "type": "LIST",
+        "existence": false
+      },
+      "implementation": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "language": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "EVALUATED_ON": {
+        "count": 187,
+        "direction": "in",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "metric": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "score": {
+            "indexed": false,
+            "type": "FLOAT",
+            "existence": false,
+            "array": false
+          }
+        }
+      }
+    }
+  },
+  "PUBLISHED": {
+    "count": 87792,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "Space": {
+    "count": 140801,
+    "labels": [],
+    "properties": {
+      "tags": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "gated": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "seTaskGroups": {
+        "unique": false,
+        "indexed": true,
+        "type": "LIST",
+        "existence": false
+      },
+      "lastModified": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "sha": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "seTaskCluster": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "private": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "cardData": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "createdAt": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "likes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "sdk": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "USES_DATASET": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Dataset"
+        ],
+        "properties": {
+
+        }
+      },
+      "USES_MODEL": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+
+        }
+      },
+      "RELATED_SPACE": {
+        "count": 79,
+        "direction": "in",
+        "labels": [
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+
+        }
+      },
+      "PUBLISHED": {
+        "count": 340,
+        "direction": "in",
+        "labels": [
+          "User",
+          "Organization"
+        ],
+        "properties": {
+
+        }
+      }
+    }
+  },
+  "IS_MERGE_OF": {
+    "count": 4209,
+    "properties": {
+      "updated_at": {
+        "indexed": false,
+        "type": "DATE_TIME",
+        "existence": false,
+        "array": false
+      },
+      "evidence": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      },
+      "confidence": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      }
+    },
+    "type": "relationship"
+  },
+  "Paper": {
+    "count": 1136,
+    "labels": [],
+    "properties": {
+      "summary": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "publishedAt": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "seTaskGroups": {
+        "unique": false,
+        "indexed": true,
+        "type": "LIST",
+        "existence": false
+      },
+      "title": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "source": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "upvotes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "url": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "PUBLISHED": {
+        "count": 340,
+        "direction": "in",
+        "labels": [
+          "User"
+        ],
+        "properties": {
+
+        }
+      },
+      "CONTAINS": {
+        "count": 1888,
+        "direction": "in",
+        "labels": [
+          "Collection"
+        ],
+        "properties": {
+
+        }
+      },
+      "CITES": {
+        "count": 420,
+        "direction": "in",
+        "labels": [
+          "Model",
+          "Dataset",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+
+        }
+      }
+    }
+  },
+  "USES_DATASET": {
+    "count": 2687,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "Collection": {
+    "count": 33841,
+    "labels": [],
+    "properties": {
+      "seTaskGroups": {
+        "unique": false,
+        "indexed": true,
+        "type": "LIST",
+        "existence": false
+      },
+      "title": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "theme": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "lastUpdated": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "slug": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "upvotes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "size": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "OWNED_BY": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "User",
+          "Organization"
+        ],
+        "properties": {
+
+        }
+      },
+      "CONTAINS": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Dataset",
+          "Model",
+          "SEModelDescendant",
+          "SEModel",
+          "SEModelAncestor",
+          "Paper"
+        ],
+        "properties": {
+
+        }
+      }
+    }
+  },
+  "AFFILIATED_WITH": {
+    "count": 105439,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "RELATED_SPACE": {
+    "count": 175,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "EVALUATED_ON": {
+    "count": 2115,
+    "properties": {
+      "metric": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      },
+      "score": {
+        "indexed": false,
+        "type": "FLOAT",
+        "existence": false,
+        "array": false
+      }
+    },
+    "type": "relationship"
+  },
+  "SUITABLE_FOR": {
+    "count": 5658,
+    "properties": {
+      "reasoning": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      }
+    },
+    "type": "relationship"
+  },
+  "IS_FINETUNED_FROM": {
+    "count": 5579,
+    "properties": {
+      "updated_at": {
+        "indexed": false,
+        "type": "DATE_TIME",
+        "existence": false,
+        "array": false
+      },
+      "evidence": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      },
+      "confidence": {
+        "indexed": false,
+        "type": "STRING",
+        "existence": false,
+        "array": false
+      }
+    },
+    "type": "relationship"
+  },
+  "SETask": {
+    "count": 146,
+    "labels": [],
+    "properties": {
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "description": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "label": {
+        "unique": false,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "SUITABLE_FOR": {
+        "count": 350,
+        "direction": "in",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "reasoning": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "USED_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "SEActivity"
+        ],
+        "properties": {
+
+        }
+      }
+    }
+  },
+  "SEModel": {
+    "count": 4133,
+    "labels": [],
+    "properties": {
+      "libraries": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "region": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "gated": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "other": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "sha": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "downloads": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "artifactCommunity": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "private": {
+        "unique": false,
+        "indexed": false,
+        "type": "BOOLEAN",
+        "existence": false
+      },
+      "id": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "languages": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "author": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "communityResolution": {
+        "unique": false,
+        "indexed": false,
+        "type": "FLOAT",
+        "existence": false
+      },
+      "description": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "createdAt": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "communityAlgorithm": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "license": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "tags": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "seTaskGroups": {
+        "unique": false,
+        "indexed": false,
+        "type": "LIST",
+        "existence": false
+      },
+      "lastModified": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "pipeline_tag": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "seTaskCluster": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "library_name": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      },
+      "likes": {
+        "unique": false,
+        "indexed": false,
+        "type": "INTEGER",
+        "existence": false
+      },
+      "model_type": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "IS_QUANTIZED_FROM": {
+        "count": 18,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "TRAINED_ON": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Dataset"
+        ],
+        "properties": {
+
+        }
+      },
+      "RELATED_SPACE": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Space"
+        ],
+        "properties": {
+
+        }
+      },
+      "EVALUATED_ON": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Benchmark"
+        ],
+        "properties": {
+          "metric": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "score": {
+            "indexed": false,
+            "type": "FLOAT",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "SUITABLE_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "SETask"
+        ],
+        "properties": {
+          "reasoning": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "IS_ADAPTER_OF": {
+        "count": 88,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModel",
+          "SEModelDescendant",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "IS_FINETUNED_FROM": {
+        "count": 662,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      },
+      "CONTAINS": {
+        "count": 1888,
+        "direction": "in",
+        "labels": [
+          "Collection"
+        ],
+        "properties": {
+
+        }
+      },
+      "CITES": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Paper"
+        ],
+        "properties": {
+
+        }
+      },
+      "DEFINED_FOR": {
+        "count": 0,
+        "direction": "out",
+        "labels": [
+          "Task"
+        ],
+        "properties": {
+
+        }
+      },
+      "USES_MODEL": {
+        "count": 1188,
+        "direction": "in",
+        "labels": [
+          "Space"
+        ],
+        "properties": {
+
+        }
+      },
+      "PUBLISHED": {
+        "count": 340,
+        "direction": "in",
+        "labels": [
+          "User",
+          "Organization"
+        ],
+        "properties": {
+
+        }
+      },
+      "LIKES": {
+        "count": 959,
+        "direction": "in",
+        "labels": [
+          "User"
+        ],
+        "properties": {
+
+        }
+      },
+      "IS_MERGE_OF": {
+        "count": 6,
+        "direction": "out",
+        "labels": [
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel",
+          "Model",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+          "updated_at": {
+            "indexed": false,
+            "type": "DATE_TIME",
+            "existence": false,
+            "array": false
+          },
+          "evidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          },
+          "confidence": {
+            "indexed": false,
+            "type": "STRING",
+            "existence": false,
+            "array": false
+          }
+        }
+      }
+    }
+  },
+  "DEFINED_FOR": {
+    "count": 10374,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "Task": {
+    "count": 37,
+    "labels": [],
+    "properties": {
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "label": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "DEFINED_FOR": {
+        "count": 556,
+        "direction": "in",
+        "labels": [
+          "Model",
+          "Dataset",
+          "SEModelAncestor",
+          "SEModelDescendant",
+          "SEModel"
+        ],
+        "properties": {
+
+        }
+      }
+    }
+  },
+  "SEActivity": {
+    "count": 5,
+    "labels": [],
+    "properties": {
+      "id": {
+        "unique": true,
+        "indexed": true,
+        "type": "STRING",
+        "existence": false
+      },
+      "label": {
+        "unique": false,
+        "indexed": false,
+        "type": "STRING",
+        "existence": false
+      }
+    },
+    "type": "node",
+    "relationships": {
+      "USED_FOR": {
+        "count": 146,
+        "direction": "in",
+        "labels": [
+          "SETask"
+        ],
+        "properties": {
+
+        }
+      }
+    }
+  },
+  "USES_MODEL": {
+    "count": 185285,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "OWNED_BY": {
+    "count": 33841,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "LIKES": {
+    "count": 223013,
+    "properties": {
+
+    },
+    "type": "relationship"
+  },
+  "USED_FOR": {
+    "count": 146,
+    "properties": {
+
+    },
+    "type": "relationship"
+  }
+}
