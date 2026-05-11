@@ -3,8 +3,19 @@
 from typing import List
 
 import pandas as pd
-import plotly.express as px
 import streamlit as st
+
+try:
+    import plotly.express as px
+except ModuleNotFoundError:
+    px = None
+
+
+def _ensure_plotly() -> bool:
+    if px is None:
+        st.error("This page requires the optional 'plotly' package. Install it with 'pip install plotly' and restart Streamlit.")
+        return False
+    return True
 
 try:
     from ..data import get_data_with_fallback
@@ -164,6 +175,9 @@ def render_analysis_2_placeholder(
     nav_page: str | None = None,
 ) -> None:
     """Render Social Community as task-level contribution summary tables."""
+    if not _ensure_plotly():
+        return
+
     st.subheader("Social Community Analysis")
     st.caption("Task-wise summary of artifact counts and contributor counts (no graph visualization).")
 
@@ -412,7 +426,7 @@ def render_analysis_2_placeholder(
                     labels={"pct": "% of Models", "owner_label": "Owner", "seTask": "SETask"},
                 )
 
-                fig_height = max(420, 110 + 24 * len(plot_df))
+                fig_height = max(100, 110 + 24 * len(plot_df))
                 fig.update_layout(
                     barmode="stack",
                     height=fig_height,

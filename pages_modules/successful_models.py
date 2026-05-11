@@ -4,8 +4,19 @@ import json
 from typing import Any, Dict, List
 
 import pandas as pd
-import plotly.express as px
 import streamlit as st
+
+try:
+    import plotly.express as px
+except ModuleNotFoundError:
+    px = None
+
+
+def _ensure_plotly() -> bool:
+    if px is None:
+        st.error("This page requires the optional 'plotly' package. Install it with 'pip install plotly' and restart Streamlit.")
+        return False
+    return True
 
 try:
     from ..data import get_data_with_fallback
@@ -210,6 +221,9 @@ def _prepare_task_quality_popularity_index_df(detail_df: pd.DataFrame) -> pd.Dat
 def render_analysis_4_placeholder(*_args, **kwargs) -> None:
     """Render successful-models comparison tables."""
     uri, username, password, database, row_limit = _args[:5]
+
+    if not _ensure_plotly():
+        return
 
     st.subheader("Successful Models Analysis")
     st.caption("Compares model popularity and benchmark quality only within the same SETask, benchmark, and evaluation metric.")

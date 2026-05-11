@@ -10,7 +10,19 @@ from collections import defaultdict
 from typing import Any, Dict, Set, Tuple, List
 
 import numpy as np
-import plotly.express as px
+try:
+    import plotly.express as px
+except ModuleNotFoundError:
+    px = None
+
+
+def _ensure_plotly() -> bool:
+    if px is None:
+        st.error("This page requires the optional 'plotly' package. Install it with 'pip install plotly' and restart Streamlit.")
+        return False
+    return True
+
+
 try:
     from ..config import CACHE_FILE
     from ..data import cached_entries_for_ui, get_data_with_fallback, query_looks_write_operation, utc_now_iso
@@ -52,6 +64,9 @@ except ImportError:
 
 
 def render_task_ecosystem_page(uri: str, username: str, password: str, database: str, row_limit: int) -> None:
+    if not _ensure_plotly():
+        return
+
     st.subheader("Task Ecosystem Analysis")
     st.caption(
         "For each SE task in our knowledge graph, we build a task-centered subgraph with models, datasets, papers, benchmarks, collections, and spaces."
@@ -178,6 +193,9 @@ def render_task_ecosystem_page(uri: str, username: str, password: str, database:
 
 
 def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, database: str, row_limit: int) -> None:
+    if not _ensure_plotly():
+        return
+
     st.subheader("All Tasks Ecosystem Overview")
     st.caption("Aggregated ecosystem count statistics for all SETasks.")
 
@@ -1307,6 +1325,9 @@ def render_task_artifact_overlaps_page(
     database: str,
     row_limit: int,
 ) -> None:
+    if not _ensure_plotly():
+        return
+
     st.subheader("Task Artifact Overlaps")
     st.caption("Pairwise overlap summary for tasks and activities.")
 
@@ -2106,6 +2127,9 @@ def render_task_specificity_page(
     database: str,
     row_limit: int,
 ) -> None:
+    if not _ensure_plotly():
+        return
+
     st.subheader("Task Specificity vs Generality")
     st.caption(
         "For a selected task, classify artifacts as exclusive to the task, shared with few tasks, or broadly shared infrastructure."

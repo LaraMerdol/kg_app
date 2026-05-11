@@ -28,6 +28,8 @@ You need:
   - `numpy`
   - `plotly`
 
+The easiest way to install them is with the included [requirements.txt](requirements.txt).
+
 If you are using the bundled virtual environment, activate it before running anything.
 
 ## Setup
@@ -42,7 +44,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 If the dependencies are not installed yet, install them into your environment with pip:
 
 ```powershell
-pip install streamlit neo4j pandas numpy plotly
+pip install -r requirements.txt
 ```
 
 ## Run the Streamlit app
