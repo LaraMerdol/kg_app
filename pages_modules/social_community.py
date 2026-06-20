@@ -23,6 +23,8 @@ try:
         SOCIAL_COMMUNITY_COUNTS_QUERY,
         SOCIAL_COMMUNITY_MODEL_LIKES_BY_OWNER_QUERY,
         SOCIAL_COMMUNITY_MODEL_LIKES_BY_ORG_TYPE_QUERY,
+        SOCIAL_COMMUNITY_MODEL_PUBLISHER_DISTRIBUTION_QUERY,
+        SOCIAL_COMMUNITY_TOP_CONTRIBUTORS_QUERY,
         SOCIAL_COMMUNITY_NETWORK_QUERY,
     )
 except ImportError:
@@ -31,6 +33,8 @@ except ImportError:
         SOCIAL_COMMUNITY_COUNTS_QUERY,
         SOCIAL_COMMUNITY_MODEL_LIKES_BY_OWNER_QUERY,
         SOCIAL_COMMUNITY_MODEL_LIKES_BY_ORG_TYPE_QUERY,
+        SOCIAL_COMMUNITY_MODEL_PUBLISHER_DISTRIBUTION_QUERY,
+        SOCIAL_COMMUNITY_TOP_CONTRIBUTORS_QUERY,
         SOCIAL_COMMUNITY_NETWORK_QUERY,
     )
 
@@ -164,6 +168,87 @@ def _load_likes_by_org_type_df(
         df["model_id"] = df["model_id"].fillna("").astype(str)
     df["organization_type"] = df["organization_type"].fillna("Unknown").astype(str)
     return df.sort_values(["likes", "organization_type", "model_id"], ascending=[False, True, True]).reset_index(drop=True)
+
+
+def _load_publisher_distribution_df(
+    uri: str,
+    username: str,
+    password: str,
+    database: str,
+    row_limit: int,
+    prefer_cache: bool,
+) -> pd.DataFrame:
+    rows, source, info = get_data_with_fallback(
+        uri=uri,
+        username=username,
+        password=password,
+        database=database,
+        query=SOCIAL_COMMUNITY_MODEL_PUBLISHER_DISTRIBUTION_QUERY,
+        row_limit=row_limit,
+        prefer_cache=prefer_cache,
+    )
+    if source == "online":
+        st.success(info)
+    else:
+        st.warning(info)
+
+    df = pd.DataFrame(rows)
+    if df.empty:
+        return df
+
+    for column in ["uniqueContributors", "uniqueModels"]:
+        if column in df.columns:
+            df[column] = pd.to_numeric(df[column], errors="coerce").fillna(0).astype(int)
+
+    if "publisher_type" in df.columns:
+        df["publisher_type"] = df["publisher_type"].fillna("Unknown").astype(str)
+    if "organization_division" in df.columns:
+        df["organization_division"] = df["organization_division"].fillna("N/A").astype(str)
+
+    return df.sort_values(["publisher_type", "organization_division"], ascending=[True, True]).reset_index(drop=True)
+
+
+def _load_top_contributors_df(
+    uri: str,
+    username: str,
+    password: str,
+    database: str,
+    row_limit: int,
+    prefer_cache: bool,
+) -> pd.DataFrame:
+    rows, source, info = get_data_with_fallback(
+        uri=uri,
+        username=username,
+        password=password,
+        database=database,
+        query=SOCIAL_COMMUNITY_TOP_CONTRIBUTORS_QUERY,
+        row_limit=row_limit,
+        params={"top_limit": row_limit},
+        prefer_cache=prefer_cache,
+    )
+    if source == "online":
+        st.success(info)
+    else:
+        st.warning(info)
+
+    df = pd.DataFrame(rows)
+    if df.empty:
+        return df
+
+    for column in ["uniqueModels", "uniqueSETasks"]:
+        if column in df.columns:
+            df[column] = pd.to_numeric(df[column], errors="coerce").fillna(0).astype(int)
+
+    for column in ["contributor", "contributorType", "organizationDivision"]:
+        if column in df.columns:
+            df[column] = df[column].fillna("").astype(str)
+
+    if "seTasks" in df.columns:
+        df["seTasks"] = df["seTasks"].apply(
+            lambda value: ", ".join([str(item).strip() for item in value if str(item).strip()]) if isinstance(value, list) else str(value)
+        )
+
+    return df.sort_values(["uniqueModels", "uniqueSETasks", "contributor"], ascending=[False, False, True]).reset_index(drop=True)
 
 
 def render_analysis_2_placeholder(
@@ -396,8 +481,19 @@ def render_analysis_2_placeholder(
             # Prepare categories and plotting order
             categories = ["Org-Dominated", "Mixed", "User-Dominated"]
             cols = st.columns(3)
-            max_display = 200
+            max_display = 28
+            panel_height = 620
             colors = {"user_pct": "#4a90d9", "org_pct": "#d94a4a", "orphan_pct": "#cccccc"}
+
+            truncated_counts = {
+                cat: max(0, int((dom_df["dominance"] == cat).sum()) - max_display)
+                for cat in categories
+            }
+            if any(count > 0 for count in truncated_counts.values()):
+                st.caption(
+                    "Each dominance panel shows up to "
+                    f"{max_display} tasks to keep all three charts approximately the same size and readable."
+                )
 
             import plotly.express as _px
             for idx, cat in enumerate(categories):
@@ -406,7 +502,15 @@ def render_analysis_2_placeholder(
                     cols[idx].markdown(f"**{cat}** — (0 tasks)")
                     continue
 
-                subset = subset.sort_values("org_pct", ascending=True).head(max_display)
+                if cat == "Org-Dominated":
+                    subset = subset.sort_values("org_pct", ascending=True)
+                elif cat == "User-Dominated":
+                    subset = subset.sort_values("user_pct", ascending=True)
+                else:
+                    subset = subset.assign(balance_gap=(subset["user_pct"] - subset["org_pct"]).abs())
+                    subset = subset.sort_values(["balance_gap", "orphan_pct"], ascending=[True, True])
+
+                subset = subset.head(max_display)
                 plot_df = subset[["seTask", "user_pct", "org_pct", "orphan_pct"]].copy()
 
                 # convert to long form for stacked bars
@@ -422,23 +526,26 @@ def render_analysis_2_placeholder(
                     orientation="h",
                     category_orders={"owner_label": ["User", "Organization", "No Owner"], "seTask": plot_df["seTask"].tolist()},
                     color_discrete_map={"User": colors["user_pct"], "Organization": colors["org_pct"], "No Owner": colors["orphan_pct"]},
-                    title=f"{cat} ({len(subset)} tasks)",
+                    title=(
+                        f"{cat} ({len(subset)} shown"
+                        + (f", +{truncated_counts[cat]} more" if truncated_counts[cat] > 0 else "")
+                        + ")"
+                    ),
                     labels={"pct": "% of Models", "owner_label": "Owner", "seTask": "SETask"},
                 )
 
-                fig_height = max(100, 110 + 24 * len(plot_df))
                 fig.update_layout(
                     barmode="stack",
-                    height=fig_height,
+                    height=panel_height,
                     xaxis=dict(range=[0, 100], title="% of Models"),
                     showlegend=(idx == 0),
-                    margin=dict(l=10, r=10, t=55, b=10),
+                    margin=dict(l=10, r=10, t=70, b=10),
                     title_font=dict(size=18),
                     font=dict(size=13),
                     legend=dict(font=dict(size=12), title=dict(text="Owner", font=dict(size=13))),
                 )
                 fig.update_xaxes(title_font=dict(size=14), tickfont=dict(size=12))
-                fig.update_yaxes(title_font=dict(size=14), tickfont=dict(size=12))
+                fig.update_yaxes(title_font=dict(size=14), tickfont=dict(size=12), automargin=True)
                 fig.update_traces(marker_line_color="#ffffff", marker_line_width=0.6, hovertemplate="%{x:.1f}%<extra>%{color}</extra>")
                 cols[idx].plotly_chart(fig, use_container_width=True)
     except Exception as exc:
@@ -841,3 +948,192 @@ def render_analysis_2_placeholder(
         with right_col:
             st.markdown("#### Tasks Dominated by Organization Model Publishers")
             st.dataframe(org_dominated_df, use_container_width=True, height=280)
+
+    st.divider()
+
+    # ============ General Model Statistics by Publisher Type ============
+    st.subheader("General Model Statistics by Publisher Type")
+    st.caption("Overview of unique model counts and statistics across user publishers, organization publishers, and organization type divisions.")
+
+    try:
+        stats_data = []
+
+        # User vs Organization model statistics from likes data
+        if not likes_df.empty:
+            user_models = likes_df[likes_df["owner_type"] == "User"].drop_duplicates(subset=["model_id"])
+            org_models = likes_df[likes_df["owner_type"] == "Organization"].drop_duplicates(subset=["model_id"])
+
+            stats_data.append({
+                "Publisher Type": "User",
+                "Total Unique Models": len(user_models),
+                "Avg Likes": round(user_models["likes"].mean(), 2) if len(user_models) > 0 else 0,
+                "Median Likes": int(user_models["likes"].median()) if len(user_models) > 0 else 0,
+                "Min Likes": int(user_models["likes"].min()) if len(user_models) > 0 else 0,
+                "Max Likes": int(user_models["likes"].max()) if len(user_models) > 0 else 0,
+            })
+
+            stats_data.append({
+                "Publisher Type": "Organization",
+                "Total Unique Models": len(org_models),
+                "Avg Likes": round(org_models["likes"].mean(), 2) if len(org_models) > 0 else 0,
+                "Median Likes": int(org_models["likes"].median()) if len(org_models) > 0 else 0,
+                "Min Likes": int(org_models["likes"].min()) if len(org_models) > 0 else 0,
+                "Max Likes": int(org_models["likes"].max()) if len(org_models) > 0 else 0,
+            })
+
+            stats_df = pd.DataFrame(stats_data)
+
+            st.markdown("#### Model Publisher Type Statistics")
+            st.dataframe(stats_df, use_container_width=True, height=160)
+
+            # Create a visualization comparing user vs organization models
+            comparison_data = [{
+                "Category": "User-Owned",
+                "Total Models": len(user_models),
+            }, {
+                "Category": "Organization-Owned",
+                "Total Models": len(org_models),
+            }]
+            comparison_df = pd.DataFrame(comparison_data)
+
+            fig_comparison = px.bar(
+                comparison_df,
+                x="Category",
+                y="Total Models",
+                title="Total Unique Models by Publisher Type",
+                labels={"Total Models": "Model Count"},
+                color="Category",
+                color_discrete_map={"User-Owned": "#4a90d9", "Organization-Owned": "#d94a4a"},
+            )
+            fig_comparison.update_layout(height=380, showlegend=False)
+            st.plotly_chart(fig_comparison, use_container_width=True)
+        else:
+            st.info("Load likes comparison data above to see model statistics by publisher type.")
+
+        # Unique Contributor Distribution
+        st.markdown("#### Unique Contributor Distribution")
+        st.caption("Direct SEModel publisher counts grouped by user type, organization type, and organization divisions.")
+
+        publisher_state_key = "social_community_publisher_distribution_rows"
+        load_publisher_clicked = st.button(
+            "Load publisher distribution",
+            type="primary",
+            key="social_community_publisher_distribution_load",
+        )
+
+        if load_publisher_clicked or publisher_state_key not in st.session_state:
+            try:
+                st.session_state[publisher_state_key] = _load_publisher_distribution_df(
+                    uri=uri,
+                    username=username,
+                    password=password,
+                    database=database,
+                    row_limit=max(int(row_limit), 5000000),
+                    prefer_cache=load_clicked,
+                )
+            except Exception as exc:
+                st.error(f"Could not load publisher distribution: {exc}")
+                st.session_state[publisher_state_key] = pd.DataFrame()
+
+        publisher_df = st.session_state.get(publisher_state_key, pd.DataFrame())
+        if publisher_df.empty:
+            st.info("Load publisher distribution to see unique contributor counts by owner type and organization division.")
+        else:
+            display_publisher_df = publisher_df.rename(
+                columns={
+                    "publisher_type": "Publisher Type",
+                    "organization_division": "Organization Division",
+                    "uniqueContributors": "Unique Contributors",
+                    "uniqueModels": "Unique Models",
+                }
+            )
+            st.dataframe(display_publisher_df, use_container_width=True, height=220)
+
+            pub_fig = px.bar(
+                display_publisher_df,
+                x="Organization Division",
+                y="Unique Contributors",
+                color="Publisher Type",
+                barmode="group",
+                title="Unique Contributors by Publisher Type and Organization Division",
+                labels={
+                    "Organization Division": "Organization Division",
+                    "Unique Contributors": "Unique Contributors",
+                    "Publisher Type": "Publisher Type",
+                },
+            )
+            pub_fig.update_layout(height=420, xaxis_tickangle=-20)
+            st.plotly_chart(pub_fig, use_container_width=True)
+
+            model_fig = px.bar(
+                display_publisher_df,
+                x="Organization Division",
+                y="Unique Models",
+                color="Publisher Type",
+                barmode="group",
+                title="Unique Models by Publisher Type and Organization Division",
+                labels={
+                    "Organization Division": "Organization Division",
+                    "Unique Models": "Unique Models",
+                    "Publisher Type": "Publisher Type",
+                },
+            )
+            model_fig.update_layout(height=420, xaxis_tickangle=-20)
+            st.plotly_chart(model_fig, use_container_width=True)
+
+            st.download_button(
+                "Download publisher distribution (CSV)",
+                data=display_publisher_df.to_csv(index=False),
+                file_name="social_community_publisher_distribution.csv",
+                mime="text/csv",
+            )
+
+        st.markdown("#### Top 100 SEModel Contributors")
+        st.caption("Top contributors ranked by unique SEModel publications, with contributor type and published task count.")
+
+        top_contrib_state_key = "social_community_top_contributors_rows"
+        load_top_contrib_clicked = st.button(
+            "Load top 100 contributors",
+            type="primary",
+            key="social_community_top_contributors_load",
+        )
+
+        if load_top_contrib_clicked or top_contrib_state_key not in st.session_state:
+            try:
+                st.session_state[top_contrib_state_key] = _load_top_contributors_df(
+                    uri=uri,
+                    username=username,
+                    password=password,
+                    database=database,
+                    row_limit=100,
+                    prefer_cache=load_clicked,
+                )
+            except Exception as exc:
+                st.error(f"Could not load top contributors: {exc}")
+                st.session_state[top_contrib_state_key] = pd.DataFrame()
+
+        top_contrib_df = st.session_state.get(top_contrib_state_key, pd.DataFrame())
+        if top_contrib_df.empty:
+            st.info("Load the top 100 contributors table to see the highest-volume SEModel publishers.")
+        else:
+            display_top_contrib_df = top_contrib_df.rename(
+                columns={
+                    "contributor": "Contributor",
+                    "contributorType": "Contributor Type",
+                    "organizationDivision": "Organization Division",
+                    "uniqueModels": "Unique Models",
+                    "uniqueSETasks": "Unique SETasks",
+                    "seTasks": "SETasks",
+                }
+            )
+            st.dataframe(display_top_contrib_df, use_container_width=True, height=420)
+
+            st.download_button(
+                "Download top 100 contributors (CSV)",
+                data=display_top_contrib_df.to_csv(index=False),
+                file_name="social_community_top_100_contributors.csv",
+                mime="text/csv",
+            )
+
+    except Exception as exc:
+        st.warning(f"Could not render model statistics by publisher type: {exc}")

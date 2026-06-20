@@ -1,0 +1,751 @@
+base_model,n_derived_models,share_pct,cumulative_pct,rank,n_tasks,n_activities,tasks
+Qwen/Qwen2.5-7B,126,4.3,4.3,1,21,4,code completion; code editing; code generation; code review; code search; code translation; coding; construction for security; corrective maintenance; cybersecurity; data analysis; debugging; design pattern; information security; quality management; rapid prototyping; sentiment analysis; static analysis; system design; verification; vulnerability detection
+meta-llama/Llama-3.1-8B,95,3.24,7.54,2,22,5,bug prediction; code completion; code generation; code review; code translation; coding; construction for security; cybersecurity; data analysis; debugging; defect detection; information security; logging; requirements analysis; sentiment analysis; software security; static analysis; structural design; test generation; type inference; verification; vulnerability detection
+mistralai/Mistral-7B-v0.1,94,3.21,10.75,3,8,2,code completion; code editing; code generation; code search; coding; rapid prototyping; software design; system design
+Qwen/Qwen3-0.6B-Base,83,2.83,13.58,4,8,4,code completion; code generation; code translation; coding; design pattern; information security; logging; system design
+Qwen/Qwen2.5-14B,71,2.42,16.0,5,13,5,code completion; code generation; code review; code search; code translation; coding; data analysis; design pattern; static analysis; system design; system requirement; test generation; verification
+Qwen/Qwen2.5-1.5B,63,2.15,18.15,6,9,3,code completion; code editing; code generation; coding; data analysis; program repair; sentiment analysis; type inference; verification
+codellama/CodeLlama-7b-hf,60,2.05,20.2,7,13,3,code completion; code generation; code review; code understanding; coding; data analysis; information security; logging; program repair; static analysis; test generation; type inference; verification
+Qwen/Qwen3-4B-Base,59,2.01,22.21,8,13,5,architectural design; code completion; code generation; code review; code translation; code understanding; coding; data analysis; debugging; design pattern; rapid prototyping; system requirement; vulnerability detection
+Qwen/Qwen2.5-32B,57,1.94,24.15,9,13,4,code completion; code editing; code generation; code representation; code review; code understanding; coding; data analysis; design pattern; quality assurance; software architecture; software maintenance; software security
+Qwen/Qwen3-1.7B-Base,55,1.88,26.03,10,4,2,code generation; code understanding; coding; construction for security
+Qwen/Qwen3-8B-Base,49,1.67,27.7,11,9,4,code generation; code review; coding; data analysis; design pattern; logging; rapid prototyping; system design; verification
+Qwen/Qwen3-Coder-30B-A3B-Instruct,49,1.67,29.37,12,5,2,code generation; code understanding; coding; data analysis; system design
+mrm8488/bloom-560m-finetuned-the-stack-rust,48,1.64,31.01,13,6,3,code completion; code generation; code translation; coding; defect detection; program repair
+Qwen/Qwen3-4B-Instruct-2507,48,1.64,32.65,14,5,2,code completion; code generation; coding; data analysis; debugging
+Qwen/Qwen2.5-3B,45,1.54,34.19,15,12,4,code editing; code generation; code review; coding; construction for security; data analysis; design pattern; information security; logging; security testing; static analysis; verification
+Qwen/Qwen3-4B-Thinking-2507,42,1.43,35.62,16,5,2,code completion; code generation; coding; data analysis; debugging
+Qwen/Qwen3-30B-A3B-Thinking-2507,36,1.23,36.85,17,3,1,code generation; coding; data analysis
+deepseek-ai/deepseek-coder-6.7b-base,36,1.23,38.08,18,8,4,code completion; code editing; code generation; code review; code search; coding; system design; vulnerability detection
+Qwen/Qwen2.5-0.5B,35,1.19,39.27,19,11,3,code generation; code review; code search; code translation; coding; data analysis; debugging; information security; logging; static analysis; vulnerability detection
+Qwen/Qwen3-30B-A3B-Instruct-2507,33,1.13,40.4,20,3,1,code generation; coding; data analysis
+infly/OpenCoder-1.5B-Base,30,1.02,41.42,21,2,1,code completion; code generation
+deepseek-ai/deepseek-coder-1.3b-base,29,0.99,42.41,22,7,2,code completion; code editing; code generation; code understanding; coding; construction for security; data analysis
+mistral-community/Mistral-7B-v0.2,26,0.89,43.3,23,9,3,code generation; code review; code search; coding; cybersecurity; data analysis; information security; logging; vulnerability detection
+openai/gpt-oss-20b,26,0.89,44.19,24,10,4,code completion; code generation; code summarization; coding; data analysis; program synthesis; rapid prototyping; specification generation; static analysis; verification
+Qwen/Qwen3-14B-Base,23,0.78,44.97,25,3,2,code generation; coding; software architecture
+Qwen/Qwen3-32B,22,0.75,45.72,26,4,2,code completion; code generation; code review; coding
+codellama/CodeLlama-13b-hf,22,0.75,46.47,27,6,3,code completion; code generation; coding; cybersecurity; data analysis; program repair
+microsoft/phi-4,20,0.68,47.15,28,3,2,code generation; coding; quality assurance
+openai-community/gpt2,18,0.61,47.76,29,7,3,code completion; code generation; code search; code summarization; coding; rapid prototyping; sentiment analysis
+Salesforce/codegen-350M-multi,17,0.58,48.34,30,5,2,code completion; code generation; coding; program synthesis; rapid prototyping
+microsoft/Phi-3.5-vision-instruct,17,0.58,48.92,31,4,2,code generation; code understanding; coding; cybersecurity
+mistralai/Mistral-7B-v0.3,17,0.58,49.5,32,10,3,code completion; code generation; coding; data analysis; debugging; logging; preventive maintenance; software testing; testing automation; verification
+meta-llama/Llama-3.2-1B-Instruct,16,0.55,50.05,33,2,1,code generation; coding
+meta-llama/Llama-3.1-70B,16,0.55,50.6,34,5,2,code completion; code generation; coding; data analysis; information security
+microsoft/phi-2,15,0.51,51.11,35,5,2,code completion; code generation; coding; cybersecurity; vulnerability detection
+meta-llama/Llama-2-13b,15,0.51,51.62,36,2,1,code generation; coding
+Qwen/Qwen3-VL-8B-Instruct,15,0.51,52.13,37,2,1,code generation; coding
+google-bert/bert-base-uncased,15,0.51,52.64,38,9,3,code coverage prediction; information security; logging; quality assurance; requirements classification; requirements engineering; sentiment analysis; software maintenance; software requirement
+ibm-granite/granite-20b-code-base-8k,15,0.51,53.15,39,8,3,code generation; code review; code translation; code understanding; coding; instruction generation; verification; vulnerability detection
+bigcode/starcoder2-3b,15,0.51,53.66,40,4,1,code completion; code generation; coding; data analysis
+codellama/CodeLlama-34b-Instruct-hf,15,0.51,54.17,41,3,1,code completion; code generation; coding
+codellama/CodeLlama-70b-hf,14,0.48,54.65,42,6,2,code completion; code editing; code generation; code review; coding; program repair
+FacebookAI/roberta-base,14,0.48,55.13,43,14,4,api recommendation; code completion; code generation; code representation; code review; code search; code summarization; code understanding; information security; logging; requirements specification; software maintenance; static analysis; vulnerability detection
+google/gemma-2b,14,0.48,55.61,44,6,3,code completion; code generation; code understanding; coding; debugging; use cases generation
+meta-llama/Llama-2-7b,13,0.44,56.05,45,3,1,code completion; code generation; coding
+gpt2,13,0.44,56.49,46,6,3,code completion; code generation; code search; coding; logging; verification
+Qwen/Qwen3-30B-A3B-Base,12,0.41,56.9,47,6,3,code editing; code generation; code review; data analysis; logging; software quality
+zai-org/GLM-4.6,12,0.41,57.31,48,2,1,code generation; coding
+google-t5/t5-base,12,0.41,57.72,49,5,2,code comment generation; code generation; code summarization; program synthesis; verification
+deepseek-ai/DeepSeek-R1-Distill-Qwen-32B,11,0.38,58.1,50,6,2,code completion; code generation; code review; coding; log parsing; logging
+ibm-granite/granite-8b-code-base-4k,11,0.38,58.48,51,5,2,code completion; code generation; code translation; coding; vulnerability detection
+Qwen/Qwen2.5-72B,11,0.38,58.86,52,5,2,code generation; coding; cybersecurity; data analysis; information security
+microsoft/codebert-base,11,0.38,59.24,53,11,4,code completion; code generation; code review; code search; code summarization; defect detection; design pattern; rapid prototyping; software design; static analysis; vulnerability detection
+meta-llama/Meta-Llama-3-8B,11,0.38,59.62,54,8,3,code completion; code generation; cybersecurity; data analysis; instruction generation; logging; security testing; sentiment analysis
+microsoft/Phi-3-mini-4k-instruct,10,0.34,59.96,55,9,4,code completion; code generation; code review; coding; data analysis; design pattern; information security; software design; testing automation
+Qwen/Qwen3-VL-32B-Instruct,10,0.34,60.3,56,1,1,code generation
+microsoft/Phi-3.5-mini-instruct,10,0.34,60.64,57,3,1,code generation; code understanding; coding
+deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct,10,0.34,60.98,58,4,1,code completion; code generation; coding; program synthesis
+deepseek-ai/deepseek-coder-33b-base,10,0.34,61.32,59,2,1,code completion; code generation
+zai-org/GLM-4.7,9,0.31,61.63,60,1,1,code generation
+deepseek-ai/DeepSeek-R1-Distill-Qwen-7B,9,0.31,61.94,61,5,2,code completion; code generation; code review; code understanding; coding
+Qwen/Qwen3-VL-30B-A3B-Instruct,9,0.31,62.25,62,3,1,code completion; code generation; coding
+distilbert/distilbert-base-uncased,9,0.31,62.56,63,8,3,code generation; code review; construction for security; debugging; information security; logging; security testing; sentiment analysis
+Qwen/Qwen3-VL-4B-Instruct,9,0.31,62.87,64,1,1,code generation
+Qwen/Qwen3-VL-8B-Thinking,9,0.31,63.18,65,2,1,code generation; coding
+MiniMaxAI/MiniMax-M2.1,9,0.31,63.49,66,1,1,code generation
+ibm-granite/granite-3b-code-base-2k,9,0.31,63.8,67,4,2,code generation; code translation; coding; vulnerability detection
+bhenrym14/mistral-7b-platypus-fp16,8,0.27,64.07,68,1,1,code generation
+Qwen/Qwen1.5-0.5B,8,0.27,64.34,69,1,1,code understanding
+meta-llama/Llama-3.2-1B,8,0.27,64.61,70,4,3,code generation; code review; coding; requirements specification
+CohereLabs/c4ai-command-r-08-2024,8,0.27,64.88,71,1,1,code completion
+Nanbeige/Nanbeige4-3B-Base,8,0.27,65.15,72,2,1,code generation; coding
+Salesforce/codet5-base,8,0.27,65.42,73,10,5,code clone detection; code comment generation; code generation; code summarization; code translation; code understanding; defect detection; software design; software requirement; system design
+MiniMaxAI/MiniMax-M2.5,8,0.27,65.69,74,2,2,code generation; system design
+Qwen/Qwen3-235B-A22B,8,0.27,65.96,75,1,1,code generation
+openai/gpt-oss-120b,8,0.27,66.23,76,5,3,code generation; coding; rapid prototyping; test generation; verification
+deepseek-ai/DeepSeek-R1-Distill-Llama-8B,8,0.27,66.5,77,4,2,code completion; code generation; code review; coding
+Qwen/Qwen3-VL-2B-Instruct,8,0.27,66.77,78,3,1,code completion; code generation; coding
+Qwen/Qwen3-VL-32B-Thinking,8,0.27,67.04,79,2,2,code generation; design pattern
+mistralai/Mistral-Small-3.1-24B-Base-2503,8,0.27,67.31,80,3,1,code editing; code generation; coding
+Qwen/Qwen3.5-27B,7,0.24,67.55,81,3,3,code generation; code review; information security
+Qwen/Qwen3-Coder-480B-A35B-Instruct,7,0.24,67.79,82,4,2,code generation; code understanding; coding; logging
+EpistemeAI/Fireball-Meta-Llama-3.1-8B-Instruct-Agent-0.002,7,0.24,68.03,83,4,1,code completion; code generation; coding; data analysis
+EssentialAI/rnj-1,7,0.24,68.27,84,3,2,code generation; data analysis; logging
+google/gemma-7b,7,0.24,68.51,85,6,3,code generation; code search; code understanding; coding; rapid prototyping; use cases generation
+nreimers/MiniLM-L6-H384-uncased,7,0.24,68.75,86,1,1,code search
+Qwen/Qwen3-VL-30B-A3B-Thinking,7,0.24,68.99,87,2,1,code generation; coding
+MiniMaxAI/MiniMax-M2,7,0.24,69.23,88,1,1,code generation
+ibm-granite/granite-3.1-8b-base,7,0.24,69.47,89,4,1,code completion; code generation; code understanding; coding
+google/codegemma-7b-it,6,0.2,69.67,90,7,3,code completion; code generation; code review; code search; coding; cybersecurity; verification
+google/gemma-2b-it,6,0.2,69.87,91,4,3,code generation; code review; logging; security testing
+internlm/AlchemistCoder-DS-6.7B,6,0.2,70.07,92,3,2,code generation; code review; coding
+zai-org/GLM-4.7-Flash,6,0.2,70.27,93,2,1,code generation; coding
+TinyLlama/TinyLlama-1.1B-intermediate-step-1431k-3T,6,0.2,70.47,94,5,2,code generation; code review; coding; debugging; logging
+answerdotai/ModernBERT-base,6,0.2,70.67,95,5,3,cybersecurity; data analysis; logging; sentiment analysis; verification
+dphn/dolphin-2.1-mistral-7b,6,0.2,70.87,96,1,1,code generation
+google/gemma-3-1b-pt,6,0.2,71.07,97,5,2,code generation; code summarization; information security; static analysis; vulnerability detection
+meta-llama/Meta-Llama-3-8B-Instruct,6,0.2,71.27,98,6,3,bug localization; code completion; code generation; code review; coding; data analysis
+google/gemma-3-4b-pt,6,0.2,71.47,99,5,3,code generation; code review; coding; static analysis; vulnerability detection
+deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B,6,0.2,71.67,100,7,2,code completion; code generation; coding; data analysis; design pattern; software architecture; system design
+DavidAU/Qwen3-Deckard-Large-Almost-Human-6B-III-Final-OMEGA,6,0.2,71.87,101,2,1,code generation; coding
+Qwen/Qwen2-72B,6,0.2,72.07,102,2,1,code generation; data analysis
+Qwen/Qwen1.5-MoE-A2.7B,6,0.2,72.27,103,1,1,code generation
+ibm-granite/granite-3.1-2b-base,6,0.2,72.47,104,2,1,code completion; coding
+Qwen/Qwen3-VL-4B-Thinking,6,0.2,72.67,105,2,1,code generation; coding
+describeai/gemini,5,0.17,72.84,106,2,2,code generation; information security
+DavidAU/Qwen3-ST-TNG-DS9-Voyager-Unhinged2-6B,5,0.17,73.01,107,2,1,code generation; coding
+NousResearch/Meta-Llama-3-8B,5,0.17,73.18,108,3,1,code completion; code generation; data analysis
+Kwaipilot/KAT-Dev,5,0.17,73.35,109,2,1,code generation; coding
+mradermacher/Qwen3-8B-DND-Almost-Human-B-e32-i1-GGUF,5,0.17,73.52,110,2,1,code generation; coding
+LeroyDyer/LCARS_AI_StarTrek_Computer,5,0.17,73.69,111,1,1,coding
+LeroyDyer/SpyazWeb_AI_DeepMind_Project,5,0.17,73.86,112,1,1,coding
+LeroyDyer/SpydazWeb_AI_Swahili_Project,5,0.17,74.03,113,1,1,coding
+huggingface/CodeBERTa-small-v1,5,0.17,74.2,114,2,1,code completion; code search
+CohereLabs/c4ai-command-r-plus,5,0.17,74.37,115,1,1,code completion
+Qwen/Qwen3.5-0.8B-Base,5,0.17,74.54,116,4,3,code generation; code review; data analysis; verification
+deepseek-ai/DeepSeek-R1-0528-Qwen3-8B,5,0.17,74.71,117,1,1,code generation
+meta-llama/Llama-3.1-405B,5,0.17,74.88,118,2,1,code generation; coding
+mistralai/Mixtral-8x7B-v0.1,5,0.17,75.05,119,2,1,code generation; coding
+EleutherAI/gpt-neo-125m,5,0.17,75.22,120,3,1,code generation; coding; program synthesis
+stabilityai/stable-code-3b,5,0.17,75.39,121,2,1,code generation; coding
+deepseek-ai/deepseek-coder-33b-instruct,5,0.17,75.56,122,4,2,code completion; code generation; code review; debugging
+meta-llama/Llama-3.2-3B,5,0.17,75.73,123,7,3,code completion; code generation; coding; debugging; decompilation; static analysis; verification
+Qwen/Qwen3-VL-2B-Thinking,5,0.17,75.9,124,1,1,code generation
+bigscience/bloom,5,0.17,76.07,125,3,2,code generation; program synthesis; rapid prototyping
+Salesforce/codegen-16B-multi,5,0.17,76.24,126,2,1,code generation; program synthesis
+SEBIS/code_trans_t5_base_code_documentation_generation_java,4,0.14,76.38,127,3,1,api recommendation; code comment generation; code summarization
+deepseek-ai/DeepSeek-Coder-V2-Lite-Base,4,0.14,76.52,128,2,1,code completion; code generation
+Qwen/Qwen1.5-1.8B,4,0.14,76.66,129,3,1,code generation; code understanding; coding
+Salesforce/codet5p-220m,4,0.14,76.8,130,6,2,code completion; code generation; code understanding; security design; test generation; vulnerability detection
+Qwen/Qwen3.5-2B-Base,4,0.14,76.94,131,2,2,code generation; verification
+Salesforce/codegen-2B-multi,4,0.14,77.08,132,2,1,code generation; program synthesis
+cortexso/qwen2.5-coder,4,0.14,77.22,133,1,1,code editing
+huggyllama/llama-30b,4,0.14,77.36,134,2,1,code generation; coding
+deepse/CodeUp-Llama-2-13b-chat-hf,4,0.14,77.5,135,1,1,code generation
+deepse/CodeUp-alpha-Llama-2-13b-chat-hf,4,0.14,77.64,136,1,1,code generation
+Salesforce/codet5-large,4,0.14,77.78,137,3,2,code generation; code understanding; software testing
+Qwen/Qwen3.5-9B-Base,4,0.14,77.92,138,2,1,code generation; coding
+codellama/CodeLlama-13b-Python-hf,4,0.14,78.06,139,3,1,code completion; code generation; coding
+Qwen/Qwen3.5-35B-A3B-Base,4,0.14,78.2,140,2,2,code generation; debugging
+bigcode/starcoderbase-1b,4,0.14,78.34,141,3,1,code completion; code generation; coding
+google/codegemma-2b,4,0.14,78.48,142,1,1,code generation
+deepseek-ai/DeepSeek-R1-Distill-Qwen-14B,4,0.14,78.62,143,3,2,code completion; code review; coding
+deepseek-ai/DeepSeek-V3.2-Exp-Base,4,0.14,78.76,144,2,2,code generation; system design
+Yhhhhhhhhh/deepseeker-coder-6.7b-base-yh,4,0.14,78.9,145,2,2,code generation; verification
+baidu/ERNIE-4.5-21B-A3B-Thinking,4,0.14,79.04,146,2,1,code generation; coding
+Qwen/Qwen2-7B,4,0.14,79.18,147,3,1,code generation; coding; data analysis
+OpenLemur/lemur-70b-chat-v1,4,0.14,79.32,148,1,1,code generation
+Qwen/Qwen2-1.5B,4,0.14,79.46,149,1,1,code translation
+ibm-granite/granite-4.0-1b-base,4,0.14,79.6,150,1,1,code completion
+ibm-granite/granite-4.0-micro-base,4,0.14,79.74,151,1,1,code completion
+DavidAU/L3.2-Rogue-Creative-Instruct-Uncensored-Abliterated-7B,4,0.14,79.88,152,2,1,code generation; coding
+meta-llama/CodeLlama-34b-hf,4,0.14,80.02,153,4,2,code completion; code generation; software testing; test generation
+meta-llama/Llama-2-7b-chat-hf,4,0.14,80.16,154,3,1,code completion; code generation; coding
+microsoft/Phi-3-medium-128k-instruct,4,0.14,80.3,155,2,1,code generation; coding
+juyongjiang/CodeUp-Llama-2-13b-chat-hf,4,0.14,80.44,156,1,1,code generation
+microsoft/phi-1,4,0.14,80.58,157,3,1,code generation; coding; data analysis
+DavidAU/Qwen3-MOE-2x8B-TNG-Deckard-Beta-16B,4,0.14,80.72,158,2,1,code generation; coding
+uukuguy/speechless-zephyr-code-functionary-7b,4,0.14,80.86,159,2,1,code completion; code generation
+DavidAU/Qwen3-Esper3-Reasoning-Instruct-6B-Brainstorm20x-Enhanced-E32-128k-ctx,4,0.14,81.0,160,2,1,code generation; coding
+DavidAU/Qwen3-DND-LoveCraft-Master-of-Horror-Jan-v1-256k-ctx-8B,4,0.14,81.14,161,2,1,code generation; coding
+internlm/AlchemistCoder-L-7B,4,0.14,81.28,162,2,1,code generation; coding
+meta-llama/Llama-2-13b-hf,4,0.14,81.42,163,2,1,code generation; code search
+KoboldAI/Mistral-7B-Erebus-v3,4,0.14,81.56,164,1,1,coding
+meta-llama/CodeLlama-70b-hf,4,0.14,81.7,165,3,2,code completion; software testing; test generation
+mradermacher/Qwen3-6B-Almost-Human-XMEN-X4-X2-X1-Dare-e32-GGUF,4,0.14,81.84,166,2,1,code generation; coding
+ByteDance-Seed/Seed-Coder-8B-Base,4,0.14,81.98,167,3,1,code completion; code editing; code generation
+openlm-research/open_llama_3b_v2,4,0.14,82.12,168,1,1,code generation
+zai-org/GLM-4.5-Air,3,0.1,82.22,169,1,1,code generation
+rednote-hilab/dots.ocr,3,0.1,82.32,170,1,1,code representation
+Sao10K/L3-8B-Stheno-v3.2,3,0.1,82.42,171,4,2,code completion; code generation; verification; vulnerability detection
+deepseek-ai/DeepSeek-R1,3,0.1,82.52,172,2,1,code completion; code generation
+Qwen/Qwen2.5-VL-3B-Instruct,3,0.1,82.62,173,2,1,code search; code understanding
+Qwen/Qwen2.5-VL-7B-Instruct,3,0.1,82.72,174,3,2,code generation; defect detection; verification
+Alibaba-Apsara/DASD-4B-Thinking,3,0.1,82.82,175,2,2,code generation; debugging
+deepseek-ai/DeepSeek-R1-Distill-Llama-70B,3,0.1,82.92,176,2,1,code completion; coding
+microsoft/Phi-4-mini-instruct,3,0.1,83.02,177,2,1,code generation; coding
+pipizhao/Pandalyst_13B_V1.0,3,0.1,83.12,178,1,1,data analysis
+DavidAU/Qwen3-Stargate-SG1-Uncensored-Abliterated-8B,3,0.1,83.22,179,2,1,code generation; coding
+Qwen/Qwen3-235B-A22B-Thinking-2507,3,0.1,83.32,180,1,1,code generation
+zai-org/GLM-4.6-FP8,3,0.1,83.42,181,1,1,code generation
+DavidAU/Qwen3-MOE-4x4B-16B-Jan-Polaris-Instruct-Power-House,3,0.1,83.52,182,2,1,code generation; coding
+DavidAU/Mistral-Magistral-Devstral-Instruct-FUSED-CODER-Reasoning-36B,3,0.1,83.62,183,2,1,code generation; coding
+deepseek-ai/DeepSeek-Coder-V2-Base,3,0.1,83.72,184,1,1,code completion
+pipizhao/Pandalyst-7B-V1.1,3,0.1,83.82,185,1,1,data analysis
+p-e-w/gpt-oss-20b-heretic,3,0.1,83.92,186,2,1,code generation; coding
+uukuguy/speechless-tora-code-7b-v1.0,3,0.1,84.02,187,1,1,coding
+openlm-research/open_llama_3b,3,0.1,84.12,188,1,1,code generation
+mradermacher/Qwen3-SG1-10S-III-INSTRUCT-Float32-256k-ctx-6B-i1-GGUF,3,0.1,84.22,189,2,1,code generation; coding
+DavidAU/Qwen3-42B-A3B-Spock-Brutal-Recall-Instruct,3,0.1,84.32,190,2,1,code generation; coding
+togethercomputer/LLaMA-2-7B-32K,3,0.1,84.42,191,1,1,code generation
+tiiuae/falcon-7b,3,0.1,84.52,192,1,1,coding
+mradermacher/Qwen3-DND-Darkest-BIG-Jan-Horror-v1-256k-ctx-8B-GGUF,3,0.1,84.62,193,2,1,code generation; coding
+mradermacher/Mistral-2x24B-MOE-Power-Magistral-Devstral-Reasoning-Ultimate-44B-i1-GGUF,3,0.1,84.72,194,2,1,code generation; coding
+mradermacher/Qwen3-2x6B-TNG-Deckard-Alpha-12B-LH-i1-GGUF,3,0.1,84.82,195,2,1,code generation; coding
+EleutherAI/gpt-neo-1.3B,3,0.1,84.92,196,2,1,code generation; coding
+replit/replit-code-v1-3b,3,0.1,85.02,197,2,1,code completion; code generation
+internlm/JanusCoder-14B,3,0.1,85.12,198,1,1,code generation
+HuggingFaceTB/SmolLM3-3B-Base,3,0.1,85.22,199,2,2,code generation; logging
+Xwin-LM/XwinCoder-13B,3,0.1,85.32,200,1,1,code generation
+Xwin-LM/XwinCoder-34B,3,0.1,85.42,201,1,1,code generation
+01-ai/Yi-Coder-9B,3,0.1,85.52,202,7,3,code generation; coding; data analysis; design pattern; logging; sentiment analysis; system design
+ibm-granite/granite-4.0-h-micro-base,3,0.1,85.62,203,1,1,code completion
+01-ai/Yi-Coder-1.5B,3,0.1,85.72,204,2,1,code completion; code editing
+ibm-granite/granite-4.0-h-tiny-base,3,0.1,85.82,205,1,1,code completion
+WhiteRabbitNeo/WhiteRabbitNeo-13B-v1,3,0.1,85.92,206,2,2,code generation; cybersecurity
+allenai/OLMo-2-1124-7B,3,0.1,86.02,207,2,1,code completion; code generation
+Walmart-the-bag/Misted-7B,3,0.1,86.12,208,1,1,coding
+dphn/dolphin-2.0-mistral-7b,3,0.1,86.22,209,1,1,code generation
+dnhkng/RYS-XLarge,3,0.1,86.32,210,1,1,code generation
+distilbert/distilgpt2,3,0.1,86.42,211,3,2,code generation; construction for security; vulnerability detection
+internlm/JanusCoder-8B,3,0.1,86.52,212,1,1,code generation
+ibm-granite/granite-4.0-h-small,3,0.1,86.62,213,1,1,code completion
+LeroyDyer/Mixtral_AI_CyberTron,3,0.1,86.72,214,1,1,coding
+Qwen/Qwen2-0.5B,3,0.1,86.82,215,4,2,code completion; code generation; code review; coding
+LeroyDyer/Mixtral_BioMedical_7b,3,0.1,86.92,216,1,1,coding
+LeroyDyer/QuietStar_Project,3,0.1,87.02,217,1,1,coding
+deepseek-ai/deepseek-coder-7b-instruct-v1.5,3,0.1,87.12,218,2,2,code generation; debugging
+internlm/internlm2-base-7b,3,0.1,87.22,219,1,1,data analysis
+LeroyDyer/_Spydaz_Web_AI_MistralStar_001_Project,3,0.1,87.32,220,1,1,coding
+QuixiAI/samantha-1.2-mistral-7b,3,0.1,87.42,221,1,1,code generation
+zai-org/glm-4-9b,3,0.1,87.52,222,2,1,code completion; code generation
+Orenguteng/Llama-3-8B-Lexi-Uncensored,3,0.1,87.62,223,2,1,code completion; code generation
+ServiceNow-AI/Apriel-1.5-15b-Thinker,3,0.1,87.72,224,1,1,coding
+lightonai/LateOn-Code-edge,3,0.1,87.82,225,1,1,code search
+liminerity/M7-7b,3,0.1,87.92,226,1,1,coding
+sentence-transformers/all-MiniLM-L6-v2,2,0.07,87.99,227,3,1,code generation; code search; data analysis
+stabilityai/stablecode-completion-alpha-3b,2,0.07,88.06,228,2,1,code completion; coding
+XuezhaOrg/Qwen3Novel-0.6B,2,0.07,88.13,229,2,1,code generation; coding
+sentence-transformers/all-mpnet-base-v2,2,0.07,88.2,230,3,1,debugging; logging; sentiment analysis
+WhiteRabbitNeo/Llama-3-WhiteRabbitNeo-8B-v2.0,2,0.07,88.27,231,3,2,code completion; code generation; cybersecurity
+stabilityai/stablecode-completion-alpha-3b-4k,2,0.07,88.34,232,1,1,code completion
+zai-org/GLM-5,2,0.07,88.41,233,1,1,code generation
+allenai/OLMo-2-0425-1B,2,0.07,88.48,234,2,2,code completion; information security
+stabilityai/stablecode-instruct-alpha-3b,2,0.07,88.55,235,1,1,code completion
+tiiuae/Falcon3-10B-Base,2,0.07,88.62,236,2,1,code generation; data analysis
+abacusai/Llama-3-Smaug-8B,2,0.07,88.69,237,2,1,code completion; code generation
+aifeifei798/DarkIdol-Llama-3.1-8B-Instruct-1.2-Uncensored,2,0.07,88.76,238,3,1,code completion; code generation; data analysis
+akjindal53244/Llama-3.1-Storm-8B,2,0.07,88.83,239,3,2,code completion; code generation; verification
+baichuan-inc/Baichuan-7B,2,0.07,88.9,240,1,1,coding
+unsloth/llama-3-8b-Instruct-bnb-4bit,2,0.07,88.97,241,4,2,code completion; code generation; software quality; testing automation
+upstage/SOLAR-10.7B-v1.0,2,0.07,89.04,242,1,1,code generation
+xlnet/xlnet-base-cased,2,0.07,89.11,243,2,1,sentiment analysis; software maintenance
+bigcode/starcoder2-7b,2,0.07,89.18,244,2,1,code generation; code search
+allenai/Olmo-3-1025-7B,2,0.07,89.25,245,1,1,code generation
+answerdotai/ModernBERT-large,2,0.07,89.32,246,2,2,requirements specification; sentiment analysis
+rombodawg/rombos_Replete-Coder-Llama3-8B,2,0.07,89.39,247,1,1,code translation
+VAGOsolutions/Llama-3-SauerkrautLM-8b-Instruct,2,0.07,89.46,248,2,1,code completion; code generation
+mixedbread-ai/mxbai-rerank-base-v1,2,0.07,89.53,249,1,1,code search
+refactai/Refact-1_6B-fim,2,0.07,89.6,250,2,1,code completion; coding
+google-t5/t5-small,2,0.07,89.67,251,2,2,code summarization; logging
+kakaocorp/kanana-1.5-8b-instruct-2505,2,0.07,89.74,252,1,1,coding
+deepseek-ai/deepseek-coder-5.7bmqa-base,2,0.07,89.81,253,1,1,code completion
+defog/llama-3-sqlcoder-8b,2,0.07,89.88,254,3,1,code completion; code generation; data analysis
+facebook/bart-large,2,0.07,89.95,255,3,2,code generation; instruction generation; rapid prototyping
+fblgit/UNA-TheBeagle-7b-v1,2,0.07,90.02,256,1,1,data analysis
+fblgit/UNA-dolphin-2.6-mistral-7b-dpo-laser,2,0.07,90.09,257,1,1,data analysis
+google-t5/t5-large,2,0.07,90.16,258,2,1,api recommendation; code generation
+ibm-granite/granite-4.0-h-tiny,2,0.07,90.23,259,1,1,code completion
+maldv/llama-3-fantasy-writer-8b,2,0.07,90.3,260,2,1,code completion; code generation
+ibm-granite/granite-4.0-h-small-base,2,0.07,90.37,261,1,1,code completion
+google/gemma-2-9b,2,0.07,90.44,262,2,2,code generation; system requirement
+ibm-granite/granite-4.0-h-micro,2,0.07,90.51,263,1,1,code completion
+ibm-granite/granite-4.0-h-350m-base,2,0.07,90.58,264,1,1,code completion
+google/gemma-3-270m,2,0.07,90.65,265,2,1,code completion; code generation
+google/gemma-3-27b-pt,2,0.07,90.72,266,3,2,code generation; coding; quality assurance
+ibm-granite/granite-4.0-h-1b-base,2,0.07,90.79,267,1,1,code completion
+llm-agents/tora-code-7b-v1.0,2,0.07,90.86,268,1,1,coding
+meta-llama/CodeLlama-7b-Python-hf,2,0.07,90.93,269,2,1,code generation; coding
+pipizhao/Pandalyst-7B-V1.2,2,0.07,91.0,270,1,1,data analysis
+mlabonne/Marcoro14-7B-slerp,2,0.07,91.07,271,1,1,data analysis
+openbmb/Eurus-70b-sft,2,0.07,91.14,272,2,1,code generation; coding
+nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16,2,0.07,91.21,273,3,2,code generation; gui testing; verification
+mrfakename/qwen3-0.6b-writing,2,0.07,91.28,274,2,1,code generation; coding
+mradermacher/Qwen3-6B-Almost-Human-XMEN-X3-X4-X2-X1-Dare-Complex-i1-GGUF,2,0.07,91.35,275,2,1,code generation; coding
+mradermacher/Qwen3-2x6B-TNG-Deckard-Alpha-III-12B-i1-GGUF,2,0.07,91.42,276,2,1,code generation; coding
+mosaicml/mpt-7b,2,0.07,91.49,277,1,1,code generation
+moonshotai/Kimi-K2-Instruct-0905,2,0.07,91.56,278,2,1,code generation; coding
+ibm-granite/granite-4.0-350m-base,2,0.07,91.63,279,1,1,code completion
+microsoft/CodeGPT-small-py,2,0.07,91.7,280,3,1,code generation; code understanding; coding
+mistralai/Mistral-Nemo-Base-2407,2,0.07,91.77,281,4,1,code completion; code generation; code understanding; coding
+mistralai/Ministral-3-3B-Base-2512,2,0.07,91.84,282,2,2,coding; information security
+mistralai/Codestral-22B-v0.1,2,0.07,91.91,283,2,1,code completion; coding
+mistral-community/Mixtral-8x22B-v0.1,2,0.07,91.98,284,2,1,code generation; coding
+miromind-ai/MiroThinker-4B-DPO-v0.2,2,0.07,92.05,285,2,2,code generation; debugging
+microsoft/wavecoder-ultra-6.7b,2,0.07,92.12,286,4,1,code generation; code summarization; code translation; coding
+microsoft/Phi-3-medium-4k-instruct,2,0.07,92.19,287,2,1,code generation; coding
+VietAI/vit5-base,2,0.07,92.26,288,1,1,sentiment analysis
+01-ai/Yi-34B,2,0.07,92.33,289,1,1,code generation
+zenlm/zen4-coder-pro,2,0.07,92.4,290,1,1,coding
+DavidAU/Qwen3-Polaris-Preview-128k-6B-Brainstorm20x,2,0.07,92.47,291,2,1,code generation; coding
+Snowflake/snowflake-arctic-embed-m-long,2,0.07,92.54,292,4,2,code completion; code generation; coding; software maintenance
+MaziyarPanahi/Mistral-7B-v0.1,2,0.07,92.61,293,1,1,code generation
+HelpingAI/Cipher-20B,2,0.07,92.68,294,1,1,code generation
+DavidAU/Qwen3-ST-The-Next-Generation-42B,2,0.07,92.75,295,2,1,code generation; coding
+Qwen/Qwen3.5-4B-Base,2,0.07,92.82,296,2,1,code editing; code generation
+DavidAU/Qwen3-ST-The-Next-Generation-32B,2,0.07,92.89,297,2,1,code generation; coding
+DavidAU/Qwen3-ST-Deep-Space-Nine-v3-256k-ctx-6B,2,0.07,92.96,298,2,1,code generation; coding
+HuggingFaceTB/SmolLM-1.7B,2,0.07,93.03,299,3,1,code completion; code generation; coding
+HuggingFaceTB/SmolLM2-1.7B,2,0.07,93.1,300,2,1,code generation; coding
+BSC-LT/salamandra-2b,2,0.07,93.17,301,1,1,data analysis
+DavidAU/Qwen3-TND-Double-Deckard-A-C-11B-220,2,0.07,93.24,302,2,1,code generation; coding
+Qwen/Qwen3.5-397B-A17B,2,0.07,93.31,303,1,1,code generation
+HuggingFaceTB/SmolLM2-360M,2,0.07,93.38,304,2,2,code generation; logging
+DavidAU/Qwen3-DND-Jan-v1-256k-ctx-Brainstorm40x-8B,2,0.07,93.45,305,2,1,code generation; coding
+Salesforce/codet5p-770m-py,2,0.07,93.52,306,3,1,code completion; code generation; code understanding
+DavidAU/Qwen3-Almost-Human-6B-III-Final-OMEGA2,2,0.07,93.59,307,2,1,code generation; coding
+Salesforce/codet5p-770m,2,0.07,93.66,308,3,1,code completion; code generation; code understanding
+MiniMaxAI/MiniMax-Text-01,2,0.07,93.73,309,1,1,code editing
+DavidAU/Qwen3-8B-DND-Almost-Human-C,2,0.07,93.8,310,2,1,code generation; coding
+Qwen/CodeQwen1.5-7B,2,0.07,93.87,311,1,1,code generation
+DavidAU/Qwen3-ST-The-Next-Generation-II-FreakStorm-E32-v1-256k-ctx-6B,2,0.07,93.94,312,2,1,code generation; coding
+Daoguang/PyCodeGPT,2,0.07,94.01,313,1,1,code generation
+DavidAU/Qwen3-Yoyo-V4-42B-A3B-Thinking-TOTAL-RECALL-ST-TNG-IV,2,0.07,94.08,314,2,1,code generation; coding
+Gen-Verse/Qwen3-4B-RA-SFT,2,0.07,94.15,315,3,2,code generation; data analysis; debugging
+DavidAU/Mistral-2x24B-MOE-Magistral-2506-Devstral-2507-1.1-Coder-Reasoning-Ultimate-44B,2,0.07,94.22,316,2,1,code generation; coding
+NousResearch/Llama-2-7b-chat-hf,2,0.07,94.29,317,2,2,logging; vulnerability detection
+DavidAU/Qwen3-17B-QiMing-V1.0-Total-Recall-Medium,2,0.07,94.36,318,2,1,code generation; coding
+CohereLabs/c4ai-command-r7b-12-2024,2,0.07,94.43,319,1,1,code translation
+Salesforce/codegen-6B-mono,2,0.07,94.5,320,2,1,code generation; program synthesis
+BEE-spoke-data/smol_llama-220M-GQA,2,0.07,94.57,321,1,1,code generation
+CohereLabs/c4ai-command-r-v01,2,0.07,94.64,322,1,1,code completion
+DeepPavlov/rubert-base-cased,2,0.07,94.71,323,3,1,functional requirement; requirements classification; software requirement
+BEE-spoke-data/smol_llama-101M-GQA,2,0.07,94.78,324,1,1,code generation
+BSC-LT/salamandra-7b,2,0.07,94.85,325,1,1,data analysis
+DavidAU/Qwen3-53B-A3B-TOTAL-RECALL-MASTER-CODER-v1.4,2,0.07,94.92,326,1,1,code generation
+CohereLabs/c4ai-command-a-03-2025,2,0.07,94.99,327,2,1,code generation; code translation
+Salesforce/codegen25-7b-multi_P,2,0.07,95.06,328,1,1,program synthesis
+Salesforce/codet5p-220m-bimodal,2,0.07,95.13,329,2,1,code generation; code translation
+DavidAU/Qwen3-Yoyo-V3-54B-A3B-Thinking-TOTAL-RECALL,2,0.07,95.2,330,2,1,code generation; coding
+ClueAI/ChatYuan-large-v1,2,0.07,95.27,331,1,1,code generation
+DavidAU/Qwen3-Yoyo-V4-42B-A3B-Thinking-TOTAL-RECALL,2,0.07,95.34,332,2,1,code generation; coding
+DavidAU/Qwen3-Yoyo-V3-42B-A3B-Thinking-Total-Recall,2,0.07,95.41,333,2,1,code generation; coding
+DavidAU/Almost-Human-X3-32bit-1460-6B,2,0.07,95.48,334,2,1,code generation; coding
+Danielbrdz/Barcenas-Llama3-8b-ORPO,1,0.03,95.51,335,2,1,code completion; code generation
+mradermacher/Qwen3-ST-Deep-Space-Nine-v1-256k-ctx-6B-GGUF,1,0.03,95.54,336,2,1,code generation; coding
+mradermacher/Qwen3-Instruct-F16-6B-Brainstorm20x-128k-ctx-i1-GGUF,1,0.03,95.57,337,2,1,code generation; coding
+mradermacher/Qwen3-Jan-DEMA-20x-6B-i1-GGUF,1,0.03,95.6,338,2,1,code generation; coding
+mradermacher/Qwen3-RA-TNG-1500-6B-i1-GGUF,1,0.03,95.63,339,2,1,code generation; coding
+mradermacher/Qwen3-RA-TNG-1220-6B-i1-GGUF,1,0.03,95.66,340,2,1,code generation; coding
+mradermacher/Qwen3-Jan-Jan-20x-Almost-Human-III-8B-232-i1-GGUF,1,0.03,95.69,341,1,1,coding
+mradermacher/Qwen3-Almost-Human-6B-III-240-OMEGA2-i1-GGUF,1,0.03,95.72,342,1,1,coding
+mradermacher/Qwen3-Coder-42B-A3B-Instruct-TOTAL-RECALL-MASTER-CODER-M-768k-ctx-i1-GGUF,1,0.03,95.75,343,1,1,code generation
+nbeerbower/llama-3-sauce-v1-8B,1,0.03,95.78,344,2,1,code completion; code generation
+mradermacher/Qwen3-ST-The-Next-Generation-II-FreakStorm2-E32-v1-256k-ctx-6B-i1-GGUF,1,0.03,95.81,345,2,1,code generation; coding
+nightmedia/Qwen3-4B-Element16,1,0.03,95.84,346,2,2,code generation; debugging
+nothingiisreal/L3-8B-Celeste-v1,1,0.03,95.87,347,2,1,code completion; code generation
+norallm/normistral-7b-scratch,1,0.03,95.9,348,1,1,code generation
+nightmedia/Qwen3-MOE-2x8B-TNG-Deckard-Beta-16B-qx-mlx,1,0.03,95.93,349,2,1,code generation; coding
+nightmedia/Qwen3-Esper3-Reasoning-CODER-Instruct-6B-Brainstorm20x-q8-mlx,1,0.03,95.96,350,2,1,code generation; coding
+nightmedia/Qwen3-Esper3-Reasoning-CODER-Instruct-21B-Brainstorm20x-q6-mlx,1,0.03,95.99,351,2,1,code generation; coding
+nightmedia/Qwen3-Esper3-Reasoning-CODER-Instruct-21B-Brainstorm20x-128k-ctx-q6-mlx,1,0.03,96.02,352,2,1,code generation; coding
+nightmedia/Qwen3-Deckard-Large-Almost-Human-6B-III-F-mlx,1,0.03,96.05,353,2,1,code generation; coding
+nightmedia/Qwen3-55B-A3B-2507-TOTAL-RECALL-v2-MASTER-CODER-q6-hi-mlx,1,0.03,96.08,354,1,1,coding
+nightmedia/Qwen3-4B-Thinking2-Claude,1,0.03,96.11,355,2,2,code generation; debugging
+nightmedia/Qwen3-42B-A3B-2507-TOTAL-RECALL-v2-Medium-MASTER-CODER-q6-hi-mlx,1,0.03,96.14,356,2,1,code generation; coding
+mradermacher/Qwen3-Shining-Lucy-CODER-2.4B-e32-mix2-i1-GGUF,1,0.03,96.17,357,2,1,code generation; coding
+nightmedia/Mistral-Devstral-2507-CODER-Brainstorm40x-44B-q6-mlx,1,0.03,96.2,358,2,1,code generation; coding
+nightmedia/Mistral-Devstral-2505-CODER-Brainstorm40x-44B-q6-mlx,1,0.03,96.23,359,2,1,code generation; coding
+nightmedia/ERNIE-4.5-36B-A3B-Thinking-Brainstorm20x-qx64-hi-mlx,1,0.03,96.26,360,2,1,code generation; coding
+nextai-team/Moe-4x7b-reason-code-qa,1,0.03,96.29,361,1,1,code generation
+nextai-team/Moe-2x7b-QA-Code,1,0.03,96.32,362,3,2,code generation; code review; coding
+mrm8488/codebert2codebert-finetuned-code-refinement-small,1,0.03,96.35,363,1,1,defect detection
+Daemontatox/Llama-3.3-8B-Instruct,1,0.03,96.38,364,1,1,code generation
+Daemontatox/Tiny-OR1-Rust,1,0.03,96.41,365,4,1,code completion; code generation; code understanding; coding
+mradermacher/Qwen3-Shining-Lucy-CODER-3.4B-Brainstorm20x-e32-GGUF,1,0.03,96.44,366,2,1,code generation; coding
+DavidAU/L3-Dark-Planet-8B-V2-Eight-Orbs-Of-Power,1,0.03,96.47,367,2,1,code completion; code generation
+mradermacher/Qwen2.5-4x7B-Quad-Coder-Instruct-30B-128k-ctx-i1-GGUF,1,0.03,96.5,368,2,1,code generation; coding
+DavidAU/L3.1-RP-Hero-BigTalker-8B,1,0.03,96.53,369,2,1,code completion; code generation
+DavidAU/Qwen3-Instruct-6B-Brainstorm20x-128k-ctx,1,0.03,96.56,370,2,1,code generation; coding
+migtissera/Tess-2.0-Llama-3-8B,1,0.03,96.59,371,2,1,code completion; code generation
+migtissera/Llama-3-8B-Synthia-v3.5,1,0.03,96.62,372,2,1,code completion; code generation
+microsoft/unixcoder-base-unimodal,1,0.03,96.65,373,4,1,code completion; code representation; code search; code summarization
+microsoft/unixcoder-base-nine,1,0.03,96.68,374,1,1,code generation
+microsoft/phi-4-gguf,1,0.03,96.71,375,1,1,code generation
+microsoft/phi-1_5,1,0.03,96.74,376,1,1,code generation
+DavidAU/Qwen3-VL-12B-Thinking-Brainstorm20x,1,0.03,96.77,377,2,1,code generation; coding
+microsoft/mpnet-base,1,0.03,96.8,378,1,1,code search
+microsoft/graphcodebert-base,1,0.03,96.83,379,1,1,code completion
+microsoft/codereviewer,1,0.03,96.86,380,1,1,code review
+microsoft/Phi-4-mini-reasoning,1,0.03,96.89,381,1,1,coding
+DavidAU/Qwen3-Yoyo-V4-42B-A3B-Thinking-TOTAL-RECALL-PKDick-V,1,0.03,96.92,382,2,1,code generation; coding
+microsoft/Phi-3-small-8k-instruct,1,0.03,96.95,383,1,1,code generation
+DavidAU/Qwen3-Yoyo-V4-42B-A3B-Thinking-TOTAL-RECALL-TNG-IV-PKDick-V,1,0.03,96.98,384,1,1,code generation
+microsoft/OmniParser,1,0.03,97.01,385,1,1,cybersecurity
+microsoft/MiniLM-L12-H384-uncased,1,0.03,97.04,386,2,1,code generation; code search
+microsoft/DialoGPT-small,1,0.03,97.07,387,1,1,coding
+Dream-org/Dream-Coder-v0-Instruct-7B,1,0.03,97.1,388,2,1,code generation; coding
+microsoft/CodeGPT-small-java-adaptedGPT2,1,0.03,97.13,389,1,1,code understanding
+michaelnath/dummy_code_to_code_model,1,0.03,97.16,390,1,1,code translation
+mgoin/Nemotron-4-340B-Instruct-vllm,1,0.03,97.19,391,1,1,program synthesis
+DavidAU/Qwen3-MOE-4x4B-16B-Jan-Polaris-Instruct-Power-House-V1.1,1,0.03,97.22,392,2,1,code generation; coding
+mistralai/Ministral-3-8B-Base-2512,1,0.03,97.25,393,1,1,coding
+mradermacher/Qwen3-53B-A3B-TOTAL-RECALL-MASTER-CODER-v1.4-128k-GGUF,1,0.03,97.28,394,1,1,code generation
+mistralai/Ministral-8B-Instruct-2410,1,0.03,97.31,395,1,1,vulnerability detection
+mradermacher/Qwen3-16B-QiMing-V1.0-Total-Recall-Light-i1-GGUF,1,0.03,97.34,396,2,1,code generation; coding
+mradermacher/Qwen2.5-Wolverine-CODER-11B-i1-GGUF,1,0.03,97.37,397,2,1,code generation; coding
+mradermacher/Qwen2.5-Wolverine-CODER-11B-V2-128k-ctx-i1-GGUF,1,0.03,97.4,398,2,1,code generation; coding
+mradermacher/Qwen2.5-Godzilla-Coder-V2-51B-GGUF,1,0.03,97.43,399,1,1,code generation
+mradermacher/Qwen2.5-8x7B-Vee-Eight-Coder-Instruct-53B-128k-ctx-i1-GGUF,1,0.03,97.46,400,2,1,code generation; coding
+mradermacher/Qwen2.5-6x7B-Six-Pack-Coder-Instruct-42B-i1-GGUF,1,0.03,97.49,401,2,1,code generation; coding
+DIvest1ng/LogBert,1,0.03,97.52,402,1,1,logging
+mradermacher/Qwen2.5-3X7B-CoderInstruct-OlympicCoder-MS-Next-Coder-25B-v1-128k-ctx-i1-GGUF,1,0.03,97.55,403,2,1,code generation; coding
+mradermacher/Qwen2.5-2X11B-CODER-Dueling-Wolverines-V2-28B-GGUF,1,0.03,97.58,404,2,1,code generation; coding
+DavidAU/Qwen3-18B-QiMing-V1.0-Silence-Of-The-Qwen,1,0.03,97.61,405,2,1,code generation; coding
+mradermacher/Llama3-8B-Instruct-Replete-Adapted-i1-GGUF,1,0.03,97.64,406,1,1,code translation
+mradermacher/Almost-Human-X3-32bit-1839-6B-i1-GGUF,1,0.03,97.67,407,2,1,code generation; coding
+DavidAU/Qwen3-32B-VL-Instruct-Polaris-HI16-Heretic-Uncensored,1,0.03,97.7,408,1,1,design pattern
+moonshotai/Kimi-Linear-48B-A3B-Instruct,1,0.03,97.73,409,1,1,code generation
+DavidAU/Qwen3-42B-A3B-2507-YOYO2-TOTAL-RECALL-Instruct,1,0.03,97.76,410,2,1,code generation; coding
+DavidAU/Qwen3-4B-Apollo-V0.1-Thinking-heretic-Uncensored-Abliterated,1,0.03,97.79,411,2,2,code generation; debugging
+mixedbread-ai/mxbai-rerank-large-v2,1,0.03,97.82,412,1,1,code search
+mistralai/Pixtral-12B-Base-2409,1,0.03,97.85,413,1,1,code generation
+DavidAU/Qwen3-54B-A3B-2507-YOYO2-TOTAL-RECALL-Instruct,1,0.03,97.88,414,2,1,code generation; coding
+mistralai/Mistral-Small-24B-Base-2501,1,0.03,97.91,415,1,1,code generation
+DavidAU/Qwen3-Grand-Horror-Light-1.7B,1,0.03,97.94,416,2,1,code generation; coding
+nothingiisreal/L3.1-8B-Celeste-V1.5,1,0.03,97.97,417,2,1,code completion; code generation
+openai-community/gpt2-large,1,0.03,98.0,418,1,1,code generation
+nvidia/AceInstruct-72B,1,0.03,98.03,419,1,1,coding
+trohrbaugh/Qwen3.5-122B-A10B-heretic,1,0.03,98.06,420,1,1,code generation
+ArliAI/Llama-3.1-8B-ArliAI-RPMax-v1.3,1,0.03,98.09,421,2,1,code completion; code generation
+uukuguy/speechless-llama2-hermes-orca-platypus-wizardlm-13b,1,0.03,98.12,422,2,1,code generation; coding
+ura-hcmut/GemSUra-2B,1,0.03,98.15,423,1,1,code generation
+Ayush-1722/Meta-Llama-3-8B-Instruct-Summarize-v0.2-24K-LoRANET-Merged,1,0.03,98.18,424,2,1,code completion; code generation
+unslothai/gemma,1,0.03,98.21,425,1,1,code generation
+Azazelle/Llama-3-8B-Abomination-LORA,1,0.03,98.24,426,2,1,code completion; code generation
+unsloth/codegemma-2b-bnb-4bit,1,0.03,98.27,427,2,1,code completion; code generation
+unsloth/Mistral-Nemo-Instruct-2407-bnb-4bit,1,0.03,98.3,428,1,1,information security
+uclanlp/plbart-base,1,0.03,98.33,429,1,1,code translation
+turboderp/llama3-turbcat-instruct-8b,1,0.03,98.36,430,2,1,code completion; code generation
+trollek/NinjaMouse-3B-40L-danube,1,0.03,98.39,431,1,1,coding
+trillionlabs/Tri-21B,1,0.03,98.42,432,1,1,code generation
+uygarkurt/llama-3-merged-linear,1,0.03,98.45,433,2,1,code completion; code generation
+tokyotech-llm/Qwen3-Swallow-8B-CPT-v0.2,1,0.03,98.48,434,1,1,code generation
+tokyotech-llm/Gemma-2-Llama-Swallow-2b-it-v0.1,1,0.03,98.51,435,1,1,code generation
+Azazelle/Llama-3-LongStory-LORA,1,0.03,98.54,436,2,1,code completion; code generation
+tiiuae/falcon-7b-instruct,1,0.03,98.57,437,1,1,instruction generation
+Azazelle/Llama3-RP-Lora,1,0.03,98.6,438,2,1,code completion; code generation
+BAAI/Aquila-7B,1,0.03,98.63,439,1,1,code generation
+theo77186/Llama-3-8B-Instruct-norefusal,1,0.03,98.66,440,2,1,code completion; code generation
+thelamapi/next-70b,1,0.03,98.69,441,1,1,code generation
+susnato/phi-1_5_dev,1,0.03,98.72,442,1,1,code completion
+surya-narayanan/sociology,1,0.03,98.75,443,2,1,code completion; code generation
+surya-narayanan/psychology,1,0.03,98.78,444,2,1,code completion; code generation
+ArliAI/Llama-3.1-8B-ArliAI-RPMax-v1.1,1,0.03,98.81,445,2,1,code completion; code generation
+vannynakamura/finetune_models_medicalAI,1,0.03,98.84,446,2,1,code completion; code generation
+nvidia/AceInstruct-7B,1,0.03,98.87,447,1,1,coding
+zai-org/GLM-4.5-Air-Base,1,0.03,98.9,448,1,1,code generation
+zementalist/llama-3-8B-chat-psychotherapist,1,0.03,98.93,449,2,1,code completion; code generation
+0xSero/MiniMax-M2.1-REAP-50,1,0.03,98.96,450,1,1,code generation
+zai-org/chatglm2-6b,1,0.03,98.99,451,4,1,code generation; code summarization; code translation; coding
+zai-org/LongCite-llama3.1-8b,1,0.03,99.02,452,2,1,code completion; code generation
+5CD-AI/Viet-Sailor-4B-Instruct,1,0.03,99.05,453,1,1,sentiment analysis
+Abdo36/MentalLORALLAMA3,1,0.03,99.08,454,2,1,code completion; code generation
+zai-org/GLM-4.7-FP8,1,0.03,99.11,455,1,1,code generation
+Alibaba-NLP/gte-Qwen2-1.5B-instruct,1,0.03,99.14,456,1,1,code search
+Alibaba-NLP/gte-Qwen2-7B-instruct,1,0.03,99.17,457,1,1,code search
+AlicanKiraz0/SenecaLLM-x-Llama3.1-8B,1,0.03,99.2,458,1,1,cybersecurity
+zai-org/GLM-4.5-Air-FP8,1,0.03,99.23,459,1,1,code generation
+ArliAI/Llama-3-8B-ArliAI-Formax-v1.0,1,0.03,99.26,460,2,1,code completion; code generation
+vicgalle/Configurable-Llama-3-8B-v0.3,1,0.03,99.29,461,2,1,code completion; code generation
+yulan-team/YuLan-Mini,1,0.03,99.32,462,2,2,code generation; logging
+yanismiraoui/Yarn-Mistral-7b-128k-sharded,1,0.03,99.35,463,1,1,coding
+xunge/VulBERTa,1,0.03,99.38,464,2,1,defect detection; vulnerability detection
+ArliAI/Llama-3.1-8B-ArliAI-Formax-v1.0,1,0.03,99.41,465,2,1,code completion; code generation
+wenge-research/yayi2-30b,1,0.03,99.44,466,1,1,code generation
+w11wo/indonesian-roberta-base-sentiment-classifier,1,0.03,99.47,467,1,1,sentiment analysis
+vngrs-ai/Kumru-2B-Base,1,0.03,99.5,468,1,1,code generation
+vincentyandex/lora_llama3_chunked_novel_bs128,1,0.03,99.53,469,2,1,code completion; code generation
+victunes/TherapyLlama-8B-v1,1,0.03,99.56,470,2,1,code completion; code generation
+vicgalle/Roleplay-Hermes-3-Llama-3.1-8B,1,0.03,99.59,471,2,1,code completion; code generation
+vicgalle/Humanish-Roleplay-Llama-3.1-8B,1,0.03,99.62,472,2,1,code completion; code generation
+surya-narayanan/professional_psychology,1,0.03,99.65,473,2,1,code completion; code generation
+surya-narayanan/professional_medicine,1,0.03,99.68,474,2,1,code completion; code generation
+surya-narayanan/human_sexuality,1,0.03,99.71,475,2,1,code completion; code generation
+ChaoticNeutrals/Hathor_RP-v.01-L3-8B,1,0.03,99.74,476,2,1,code completion; code generation
+refactai/Refact-1_6-base,1,0.03,99.77,477,1,1,code completion
+ByteDance-Seed/Seed-OSS-36B-Base,1,0.03,99.8,478,1,1,code generation
+projecte-aina/aguila-7b,1,0.03,99.83,479,1,1,coding
+prithivMLmods/Triangulum-10B-it,1,0.03,99.86,480,1,1,code generation
+princeton-nlp/Llama-3-Instruct-8B-SimPO,1,0.03,99.89,481,2,1,code completion; code generation
+prince-canuma/Llama-3-6B-v0,1,0.03,99.92,482,1,1,data analysis
+prem-research/prem-1B-SQL,1,0.03,99.95,483,1,1,data analysis
+ByteDance-Seed/Stable-DiffCoder-8B-Base,1,0.03,99.98,484,2,1,code editing; code generation
+Chainbase-Labs/Theia-Llama-3.1-8B-v1,1,0.03,100.01,485,2,1,code generation; data analysis
+ChaoticNeutrals/Domain-Fusion-L3-8B,1,0.03,100.04,486,2,1,code completion; code generation
+pdelobelle/robbert-v2-dutch-ner,1,0.03,100.07,487,1,1,software requirement
+openvoid/prox-7b-sft,1,0.03,100.1,488,1,1,cybersecurity
+surya-narayanan/health,1,0.03,100.13,489,2,1,code completion; code generation
+openlm-research/open_llama_7b_v2,1,0.03,100.16,490,1,1,code generation
+ChaoticNeutrals/Poppy_Porpoise-1.0-L3-8B,1,0.03,100.19,491,2,1,code completion; code generation
+ChaoticNeutrals/Poppy_Porpoise-1.4-L3-8B,1,0.03,100.22,492,2,1,code completion; code generation
+openbmb/MiniCPM-Llama3-V-2_5,1,0.03,100.25,493,1,1,code generation
+ChaoticNeutrals/T-900-8B,1,0.03,100.28,494,2,1,code completion; code generation
+openai/clip-vit-base-patch32,1,0.03,100.31,495,1,1,code generation
+EleutherAI/pythia-160m,1,0.03,100.34,496,2,1,code generation; code understanding
+nvidia/Nemotron-Cascade-8B-Thinking,1,0.03,100.37,497,3,2,code generation; construction for security; verification
+nvidia/NVIDIA-Nemotron-Nano-12B-v2-Base,1,0.03,100.4,498,2,1,code generation; data analysis
+nvidia/Llama-3_3-Nemotron-Super-49B-v1_5,1,0.03,100.43,499,1,1,coding
+nvidia/Llama-3.1-Minitron-4B-Width-Base,1,0.03,100.46,500,1,1,coding
+Blackroot/Llama3-RP-Lora,1,0.03,100.49,501,2,1,code completion; code generation
+refuelai/Llama-3-Refueled,1,0.03,100.52,502,2,1,code completion; code generation
+Blackroot/Llama-3-LongStory-LORA,1,0.03,100.55,503,2,1,code completion; code generation
+replit/replit-code-v1_5-3b,1,0.03,100.58,504,1,1,code completion
+surya-narayanan/formal_logic,1,0.03,100.61,505,2,1,code completion; code generation
+surya-narayanan/conceptual_physics,1,0.03,100.64,506,2,1,code completion; code generation
+surya-narayanan/clinical_knowledge,1,0.03,100.67,507,2,1,code completion; code generation
+surya-narayanan/biology,1,0.03,100.7,508,2,1,code completion; code generation
+surya-narayanan/astronomy,1,0.03,100.73,509,2,1,code completion; code generation
+surya-narayanan/anatomy,1,0.03,100.76,510,2,1,code completion; code generation
+state-spaces/mamba-130m-hf,1,0.03,100.79,511,1,1,code generation
+BAAI/bge-base-en-v1.5,1,0.03,100.82,512,2,1,software quality; verification
+BAAI/bge-m3,1,0.03,100.85,513,1,1,sentiment analysis
+soka0000/vclm-korean-7b,1,0.03,100.88,514,1,1,code generation
+shadowlilac/aesthetic-shadow,1,0.03,100.91,515,1,1,quality assurance
+sentence-transformers/roberta-base-nli-stsb-mean-tokens,1,0.03,100.94,516,1,1,data analysis
+sentence-transformers/distiluse-base-multilingual-cased-v1,1,0.03,100.97,517,1,1,requirements analysis
+sentence-transformers/bert-base-nli-mean-tokens,1,0.03,101.0,518,1,1,sentiment analysis
+sentence-transformers/all-distilroberta-v1,1,0.03,101.03,519,1,1,data analysis
+senseable/33x-coder,1,0.03,101.06,520,1,1,code generation
+semcoder/semcoder_1030,1,0.03,101.09,521,3,1,code completion; code generation; coding
+sapienzanlp/Minerva-7B-base-v1.0,1,0.03,101.12,522,1,1,data analysis
+rvv-karma/BASH-Coder-Mistral-7B,1,0.03,101.15,523,1,1,coding
+ruv/ruvltra-claude-code,1,0.03,101.18,524,1,1,code generation
+ruliad/deepthought-8b-llama-v0.01-alpha,1,0.03,101.21,525,2,1,code completion; code generation
+Blackroot/Llama-3-8B-Abomination-LORA,1,0.03,101.24,526,2,1,code completion; code generation
+rohitnagareddy/AdbhutMOE,1,0.03,101.27,527,1,1,code generation
+EleutherAI/pythia-14m,1,0.03,101.3,528,1,1,logging
+Ultralytics/YOLOv8,1,0.03,101.33,529,1,1,defect detection
+meta-llama/Meta-Llama-3-70B,1,0.03,101.36,530,2,1,code generation; data analysis
+codeparrot/codeparrot-small,1,0.03,101.39,531,1,1,code generation
+01-ai/Yi-9B,1,0.03,101.42,532,1,1,coding
+ResplendentAI/Smarts_Llama3,1,0.03,101.45,533,2,1,code completion; code generation
+RthItalia/PINDARO-AI-CODE,1,0.03,101.48,534,2,1,code generation; coding
+Salesforce/codegen-16B-nl,1,0.03,101.51,535,2,1,code generation; program synthesis
+Salesforce/codegen-350M-nl,1,0.03,101.54,536,2,1,code generation; program synthesis
+Salesforce/codegen-6B-multi,1,0.03,101.57,537,2,1,code generation; program synthesis
+crestf411/L3.1-8B-sunfall-v0.6.1-dpo,1,0.03,101.6,538,2,1,code completion; code generation
+Salesforce/codegen2-16B_P,1,0.03,101.63,539,1,1,program synthesis
+cortexso/mistral,1,0.03,101.66,540,3,2,code generation; code review; code understanding
+cognitivecomputations/dolphin-2.2-70b,1,0.03,101.69,541,1,1,architectural design
+codeparrot/codeparrot-small-multi,1,0.03,101.72,542,1,1,code generation
+codeparrot/codeparrot,1,0.03,101.75,543,1,1,code generation
+ResplendentAI/Luna_Llama3,1,0.03,101.78,544,2,1,code completion; code generation
+Salesforce/codegen2-1B_P,1,0.03,101.81,545,1,1,program synthesis
+Salesforce/codegen2-7B_P,1,0.03,101.84,546,1,1,program synthesis
+Salesforce/codegen25-7b-mono_P,1,0.03,101.87,547,2,1,code generation; coding
+codefuse-ai/CodeFuse-13B,1,0.03,101.9,548,1,1,code generation
+cloudyu/Meta-Llama-3-8B-Instruct-DPO,1,0.03,101.93,549,2,1,code completion; code generation
+chujiezheng/Llama-3-Instruct-8B-SimPO-ExPO,1,0.03,101.96,550,2,1,code completion; code generation
+chujiezheng/LLaMA3-iterative-DPO-final-ExPO,1,0.03,101.99,551,2,1,code completion; code generation
+chargoddard/prometheus-llama-3-8b-preference,1,0.03,102.02,552,2,1,code completion; code generation
+chargoddard/prometheus-llama-3-8b-absolute,1,0.03,102.05,553,2,1,code completion; code generation
+cgato/L3-TheSpice-8b-v0.8.3,1,0.03,102.08,554,2,1,code completion; code generation
+bunnycore/Llama-3.2-3b-lora_model,1,0.03,102.11,555,1,1,code generation
+ResplendentAI/Nymph_8B,1,0.03,102.14,556,2,1,code completion; code generation
+ResplendentAI/Aura_Llama3,1,0.03,102.17,557,2,1,code completion; code generation
+NousResearch/Llama-2-7b-hf,1,0.03,102.2,558,1,1,code generation
+distilgpt2,1,0.03,102.23,559,1,1,code generation
+eunyounglee/GPT-NeoX-1.3B-viet-final,1,0.03,102.26,560,1,1,code completion
+elyza/ELYZA-japanese-Llama-2-7b-instruct,1,0.03,102.29,561,1,1,code generation
+elyn-dev/Llama-3-Soliloquy-8B-v2,1,0.03,102.32,562,2,1,code completion; code generation
+eggbiscuit/DeepSeek-R1-Distill-Qwen2.5-3B-Instruct-BS17K,1,0.03,102.35,563,1,1,coding
+echos-keeper/Qwen3-ST-Deep-Space-Nine-v2-256k-ctx-6B-Q4_K_M-GGUF,1,0.03,102.38,564,2,1,code generation; coding
+dreamgen-preview/opus-v1.2-llama-3-8b-instruct-run3.5-epoch2.5,1,0.03,102.41,565,1,1,code generation
+dphn/dolphin-2.2-70b,1,0.03,102.44,566,1,1,architectural design
+NousResearch/Meta-Llama-3-8B-Instruct,1,0.03,102.47,567,2,1,code completion; code generation
+NousResearch/Meta-Llama-3.1-8B-Instruct,1,0.03,102.5,568,2,1,code completion; code generation
+docling-project/CodeFormula,1,0.03,102.53,569,1,1,coding
+NumbersStation/nsql-350M,1,0.03,102.56,570,1,1,data analysis
+NyxKrage/Microsoft_Phi-4,1,0.03,102.59,571,1,1,code generation
+Qwen/Qwen3-VL-235B-A22B-Instruct,1,0.03,102.62,572,1,1,code generation
+OEvortex/Emotional-llama-8B,1,0.03,102.65,573,2,1,code completion; code generation
+distilbert/distilbert-base-cased,1,0.03,102.68,574,1,1,coreference detection
+OrcaDB/gte-base-en-v1.5,1,0.03,102.71,575,2,1,code generation; coding
+Orenguteng/Llama-3.1-8B-Lexi-Uncensored-V2,1,0.03,102.74,576,2,1,code completion; code generation
+OwenArli/ArliAI-Llama-3-8B-Cumulus-v1.0,1,0.03,102.77,577,2,1,code completion; code generation
+Pinkstack/Fijik1.5-2.6b-a380m-base,1,0.03,102.8,578,2,1,code generation; coding
+Qwen/Qwen1.5-7B-Chat,1,0.03,102.83,579,1,1,code generation
+Qwen/Qwen3-Coder-Next,1,0.03,102.86,580,1,1,code editing
+Qwen/Qwen3-Next-80B-A3B-Thinking,1,0.03,102.89,581,1,1,coding
+Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice,1,0.03,102.92,582,2,1,code generation; coding
+deepseek-ai/DeepSeek-V2,1,0.03,102.95,583,1,1,code completion
+bunnycore/Llama-3.2-3B-science-lora_model,1,0.03,102.98,584,1,1,code generation
+bunnycore/Llama-3.2-3B-Long-Think-lora_model,1,0.03,103.01,585,1,1,code generation
+bunnycore/Llama-3.2-3B-Code-lora_model,1,0.03,103.04,586,1,1,code generation
+Tongyi-MAI/Z-Image-Turbo,1,0.03,103.07,587,1,1,logging
+Solshine/reflection-llama-3.1-8B-Solshine-trainround1-16bit,1,0.03,103.1,588,2,1,code completion; code generation
+albert/albert-base-v2,1,0.03,103.13,589,1,1,logging
+SteelStorage/llama-3-cat-8b-instruct-v1,1,0.03,103.16,590,2,1,code completion; code generation
+aifeifei798/llama3-8B-DarkIdol-2.1-Uncensored-32K,1,0.03,103.19,591,2,1,code completion; code generation
+aifeifei798/llama3-8B-DarkIdol-1.0,1,0.03,103.22,592,2,1,code completion; code generation
+StentorLabs/Stentor-30M,1,0.03,103.25,593,1,1,code generation
+SuperAGI/SAM,1,0.03,103.28,594,2,2,code generation; rapid prototyping
+a-m-team/AM-Thinking-v1,1,0.03,103.31,595,1,1,code generation
+TIGER-Lab/MAmmoTH2-8B-Plus,1,0.03,103.34,596,2,1,code completion; code generation
+TechxGenus/starcoder2-7b-instruct,1,0.03,103.37,597,1,1,coding
+TheDrummer/Llama-3SOME-8B-v2,1,0.03,103.4,598,2,1,code completion; code generation
+WizardLMTeam/WizardMath-70B-V1.0,1,0.03,103.43,599,1,1,architectural design
+bunnycore/Llama-3.1-8b-smart-lora,1,0.03,103.46,600,2,1,code completion; code generation
+WizardLM/WizardCoder-1B-V1.0,1,0.03,103.49,601,1,1,code summarization
+WinkingFace/Mit-0.5B,1,0.03,103.52,602,1,1,code generation
+WhiteRabbitNeo/WhiteRabbitNeo-33B-v1,1,0.03,103.55,603,1,1,cybersecurity
+Tongyi-Zhiwen/QwenLong-L1.5-30B-A3B,1,0.03,103.58,604,1,1,data analysis
+TroyDoesAI/Mermaid-Llama-3-5B-Pruned,1,0.03,103.61,605,2,1,code understanding; data analysis
+TroyDoesAI/Mermaid-Llama-6.7B-RAG,1,0.03,103.64,606,1,1,code understanding
+TroyDoesAI/Mermaid-Llama-6.7B-RAG-Code-Instruct,1,0.03,103.67,607,1,1,code understanding
+Ultralytics/YOLO11,1,0.03,103.7,608,1,1,defect detection
+Undi95/Unholy-8B-DPO-OAS,1,0.03,103.73,609,2,1,code completion; code generation
+Undi95/Meta-Llama-3.1-8B-Claude,1,0.03,103.76,610,2,1,code completion; code generation
+Undi95/Llama3-Unholy-8B-OAS,1,0.03,103.79,611,2,1,code completion; code generation
+allenai/OLMoE-1B-7B-0125,1,0.03,103.82,612,1,1,code generation
+Snowflake/snowflake-arctic-embed-l,1,0.03,103.85,613,1,1,code generation
+allenai/Olmo-3-1125-32B,1,0.03,103.88,614,1,1,code generation
+allenai/SERA-32B,1,0.03,103.91,615,1,1,code generation
+bunnycore/Cognitron-8B,1,0.03,103.94,616,2,1,code completion; code generation
+black-forest-labs/FLUX.1-dev,1,0.03,103.97,617,1,1,code generation
+bigscience/bloomz-7b1-mt,1,0.03,104.0,618,1,1,program synthesis
+bigscience/bloomz-560m,1,0.03,104.03,619,1,1,program synthesis
+bigscience/bloomz-3b,1,0.03,104.06,620,1,1,program synthesis
+bigscience/bloomz-1b7,1,0.03,104.09,621,1,1,program synthesis
+bigscience/bloomz-1b1,1,0.03,104.12,622,1,1,program synthesis
+bigcode/starencoder,1,0.03,104.15,623,1,1,code generation
+Sao10K/L3-8B-Lunaris-v1,1,0.03,104.18,624,2,1,code completion; code generation
+Sao10K/L3-8B-Niitama-v1,1,0.03,104.21,625,2,1,code completion; code generation
+bigcode/santacoder,1,0.03,104.24,626,1,1,coding
+Sao10K/L3-8B-Stheno-v3.1,1,0.03,104.27,627,2,1,code completion; code generation
+Sao10K/L3-8B-Tamamo-v1,1,0.03,104.3,628,2,1,code completion; code generation
+baidu/ERNIE-4.5-0.3B-Paddle,1,0.03,104.33,629,2,1,code generation; data analysis
+Sao10K/Llama-3.1-8B-Stheno-v3.4,1,0.03,104.36,630,2,1,code completion; code generation
+axolotl-ai-co/llama-3-8b-chatml,1,0.03,104.39,631,1,1,cybersecurity
+athirdpath/Orca-2-13b-Alpaca-Uncensored,1,0.03,104.42,632,2,1,code generation; coding
+arcee-ai/AFM-4.5B-Base,1,0.03,104.45,633,1,1,code generation
+SenseLLM/ReflectionCoder-DS-6.7B,1,0.03,104.48,634,1,1,code generation
+Severian/Nexus-IKM-Mistral-Instruct-v0.2-7B,1,0.03,104.51,635,1,1,coding
+amaye15/autoencoder,1,0.03,104.54,636,1,1,defect detection
+allura-forge/Llama-3.3-8B-Instruct,1,0.03,104.57,637,1,1,design pattern
+allenai/longformer-base-4096,1,0.03,104.6,638,1,1,logging
+facebook/bart-base,1,0.03,104.63,639,1,1,logging
+facebook/bart-large-cnn,1,0.03,104.66,640,1,1,code generation
+meta-llama/Llama-Guard-3-1B,1,0.03,104.69,641,1,1,cybersecurity
+JetBrains/CodeLlama-7B-KStack,1,0.03,104.72,642,2,1,code completion; coding
+kik41/lora-type-descriptive-llama-3-8b-v2,1,0.03,104.75,643,2,1,code completion; code generation
+kik41/lora-length-long-llama-3-8b-v2,1,0.03,104.78,644,2,1,code completion; code generation
+jaman21/Qwen3-4B-Instruct,1,0.03,104.81,645,1,1,coding
+invisietch/EtherealRainbow-v0.3-8B,1,0.03,104.84,646,2,1,code completion; code generation
+intfloat/multilingual-e5-base,1,0.03,104.87,647,2,1,security testing; verification
+intfloat/e5-large-v2,1,0.03,104.9,648,1,1,static analysis
+internlm/internlm2-chat-7b,1,0.03,104.93,649,1,1,data analysis
+internlm/internlm2-base-20b,1,0.03,104.96,650,1,1,data analysis
+IQuestLab/IQuest-Coder-V1-40B-Instruct,1,0.03,104.99,651,1,1,code representation
+IQuestLab/IQuest-Coder-V1-40B-Loop-Instruct,1,0.03,105.02,652,1,1,code representation
+JackFram/llama-68m,1,0.03,105.05,653,1,1,software testing
+internlm/AlchemistCoder-CL-7B,1,0.03,105.08,654,1,1,code generation
+kromcomp/L3-Ceto-Epith-Humanity-v0.1-8B,1,0.03,105.11,655,2,1,code completion; code generation
+JetBrains/Mellum-4b-base,1,0.03,105.14,656,1,1,code completion
+indobenchmark/indobert-lite-base-p2,1,0.03,105.17,657,1,1,sentiment analysis
+inclusionAI/Ling-mini-base-2.0-20T,1,0.03,105.2,658,1,1,code generation
+inclusionAI/Ling-mini-base-2.0,1,0.03,105.23,659,1,1,coding
+inclusionAI/Ling-flash-base-2.0,1,0.03,105.26,660,1,1,code generation
+inclusionAI/Ling-Coder-lite-base,1,0.03,105.29,661,1,1,coding
+inceptionai/jais-30b-v3,1,0.03,105.32,662,1,1,code generation
+ibm/PowerMoE-3b,1,0.03,105.35,663,1,1,code generation
+ibm-research/PowerMoE-3b,1,0.03,105.38,664,1,1,code generation
+Joe-ds/tinylama-1.1b-chat-guanaco,1,0.03,105.41,665,1,1,code generation
+Keynote-Technology/KAI-7B-v0.1,1,0.03,105.44,666,1,1,coding
+kik41/lora-type-narrative-llama-3-8b-v2,1,0.03,105.47,667,2,1,code completion; code generation
+lightonai/ColBERT-Zero,1,0.03,105.5,668,1,1,code search
+facebook/cwm,1,0.03,105.53,669,2,1,code generation; coding
+HPAI-BSC/Llama3-Aloe-8B-Alpha,1,0.03,105.56,670,2,1,code completion; code generation
+EleutherAI/pythia-70m,1,0.03,105.59,671,1,1,logging
+Endevor/InfinityRP-v2-8B,1,0.03,105.62,672,2,1,code completion; code generation
+EpistemeAI/Athene-codegemma-2-7b-it-alpaca-v1,1,0.03,105.65,673,2,1,code completion; code generation
+EuroBERT/EuroBERT-210m,1,0.03,105.68,674,1,1,code generation
+FPHam/L3-8B-Everything-COT,1,0.03,105.71,675,2,1,code completion; code generation
+FacebookAI/roberta-large,1,0.03,105.74,676,1,1,sentiment analysis
+Undi95/Llama-3-LewdPlay-8B,1,0.03,105.77,677,2,1,code completion; code generation
+FuseAI/FuseChat-Llama-3.1-8B-SFT,1,0.03,105.8,678,2,1,code completion; code generation
+meta-llama/Llama-2-70b,1,0.03,105.83,679,1,1,architectural design
+GSAI-ML/LLaDA-8B-Base,1,0.03,105.86,680,1,1,code generation
+GroNLP/bert-base-dutch-cased,1,0.03,105.89,681,1,1,software requirement
+Hastagaras/Anjir-8B-L3,1,0.03,105.92,682,2,1,code completion; code generation
+HelloKKMe/GTA1-7B,1,0.03,105.95,683,1,1,gui testing
+meta-llama/CodeLlama-13b-Instruct-hf,1,0.03,105.98,684,1,1,coding
+md-nishat-008/TigerLLM-9B-it,1,0.03,106.01,685,2,1,code generation; coding
+md-nishat-008/TigerLLM-1B-it,1,0.03,106.04,686,2,1,code generation; coding
+malteos/bloom-6b4-clp-german,1,0.03,106.07,687,1,1,code generation
+Hastagaras/Halu-OAS-8B-Llama3,1,0.03,106.1,688,2,1,code completion; code generation
+maldv/badger-lambda-llama-3-8b,1,0.03,106.13,689,1,1,code generation
+m-a-p/OpenCodeInterpreter-DS-1.3B,1,0.03,106.16,690,1,1,code generation
+lodrick-the-lafted/Olethros-8B,1,0.03,106.19,691,2,1,code completion; code generation
+lodrick-the-lafted/Limon-8B,1,0.03,106.22,692,2,1,code completion; code generation
+Hastagaras/Jamet-8B-L3-MK.V-Blackroot,1,0.03,106.25,693,2,1,code completion; code generation
+liuhaotian/llava-v1.6-vicuna-13b,1,0.03,106.28,694,1,1,code generation
+LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct,1,0.03,106.31,695,1,1,coding
+LGAI-EXAONE/EXAONE-3.5-32B-Instruct,1,0.03,106.34,696,1,1,coding
+LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct,1,0.03,106.37,697,1,1,coding
+google/codegemma-1.1-2b,1,0.03,106.4,698,2,1,code completion; code generation
+NeverSleep/Llama-3-Lumimaid-8B-v0.1-OAS,1,0.03,106.43,699,2,1,code completion; code generation
+NeverSleep/Lumimaid-v0.2-8B,1,0.03,106.46,700,2,1,code completion; code generation
+Nitral-AI/Hathor_RP-v.01-L3-8B,1,0.03,106.49,701,2,1,code completion; code generation
+google/gemma-2-27b,1,0.03,106.52,702,1,1,code generation
+google/functiongemma-270m-it,1,0.03,106.55,703,1,1,code generation
+google/flan-t5-base,1,0.03,106.58,704,1,1,code generation
+google/efficientnet-b0,1,0.03,106.61,705,1,1,defect detection
+Nitral-AI/Hathor_Sofit-L3-8B-v1,1,0.03,106.64,706,2,1,code completion; code generation
+google/codegemma-7b,1,0.03,106.67,707,2,1,code completion; code generation
+Nitral-AI/Hathor_Stable-v0.2-L3-8B,1,0.03,106.7,708,2,1,code completion; code generation
+google/codegemma-1.1-7b-it,1,0.03,106.73,709,1,1,code generation
+Nitral-AI/Hathor_Tahsin-L3-8B-v0.85,1,0.03,106.76,710,2,1,code completion; code generation
+LGAI-EXAONE/EXAONE-4.0-32B,1,0.03,106.79,711,1,1,code generation
+Nitral-AI/Poppy_Porpoise-0.72-L3-8B,1,0.03,106.82,712,2,1,code completion; code generation
+Nitral-AI/Poppy_Porpoise-1.0-L3-8B,1,0.03,106.85,713,2,1,code completion; code generation
+google-bert/bert-large-uncased,1,0.03,106.88,714,1,1,sentiment analysis
+NoesisLab/Kai-0.35B-Instruct,1,0.03,106.91,715,1,1,code generation
+ghost-x/ghost-8b-beta,1,0.03,106.94,716,2,1,code completion; code generation
+fxmeng/Mixtral-2x7B-Instruct-v0.1,1,0.03,106.97,717,1,1,code generation
+fredzzp/open-dcoder-0.5B,1,0.03,107.0,718,1,1,code generation
+NoesisLab/Kai-3B-Instruct,1,0.03,107.03,719,1,1,code generation
+failspy/Meta-Llama-3-8B-Instruct-abliterated-v3,1,0.03,107.06,720,2,1,code completion; code generation
+failspy/Llama-3-8B-Instruct-MopeyMule,1,0.03,107.09,721,2,1,code completion; code generation
+facebook/opt-350m,1,0.03,107.12,722,1,1,code generation
+google/gemma-3-12b-pt,1,0.03,107.15,723,1,1,code generation
+NeverSleep/Llama-3-Lumimaid-8B-v0.1,1,0.03,107.18,724,2,1,code completion; code generation
+NTQAI/Nxcode-CQ-7B-orpo,1,0.03,107.21,725,3,1,code completion; code generation; coding
+Multi-Domain-Expert-Learning/expert-pubmed_central,1,0.03,107.24,726,1,1,code generation
+LH-Tech-AI/Apex-1-Instruct-350M,1,0.03,107.27,727,1,1,coding
+LLM360/Crystal,1,0.03,107.3,728,1,1,coding
+LLM4Binary/llm4decompile-22b-v2,1,0.03,107.33,729,1,1,decompilation
+LLM4Binary/llm4decompile-6.7b-v1.5,1,0.03,107.36,730,1,1,debugging
+LiquidAI/LFM2-2.6B,1,0.03,107.39,731,2,1,code generation; coding
+LiquidAI/LFM2.5-1.2B-Base,1,0.03,107.42,732,1,1,code generation
+Locutusque/Hyperion-2.1-Mistral-7B,1,0.03,107.45,733,1,1,coding
+Locutusque/TinyMistral-248M-v2,1,0.03,107.48,734,1,1,code generation
+MBZUAI/Llama-3-Nanda-10B-Chat,1,0.03,107.51,735,1,1,code generation
+ibm-granite/granite-3.0-8b-base,1,0.03,107.54,736,1,1,verification
+MagicalAlchemist/Apriel-1.6-15b-Thinker,1,0.03,107.57,737,1,1,design pattern
+hyungtae/mpt-30b,1,0.03,107.6,738,1,1,code generation
+huggyllama/llama-7b,1,0.03,107.63,739,2,1,code generation; coding
+Maincode/Maincoder-1B,1,0.03,107.66,740,3,1,code completion; code generation; coding
+huawei-noah/TinyBERT_General_4L_312D,1,0.03,107.69,741,1,1,quality assurance
+herisan/llama-3-8b_mental_health_counseling_conversations,1,0.03,107.72,742,2,1,code completion; code generation
+happzy2633/qwen2.5-7b-ins-v3,1,0.03,107.75,743,1,1,code generation
+gradientai/Llama-3-8B-Instruct-Gradient-1048k,1,0.03,107.78,744,2,1,code completion; code generation
+google/t5-v1_1-large,1,0.03,107.81,745,2,2,code generation; rapid prototyping
+google/paligemma-3b-mix-224,1,0.03,107.84,746,1,1,defect detection
+Multi-Domain-Expert-Learning/expert-freelaw,1,0.03,107.87,747,1,1,code generation
+google/gemma-3n-E4B,1,0.03,107.9,748,2,1,code generation; data analysis
+Multi-Domain-Expert-Learning/expert-github,1,0.03,107.93,749,1,1,code generation
+FuseAI/FuseChat-Llama-3.1-8B-Instruct,1,0.03,107.96,750,2,1,code completion; code generation

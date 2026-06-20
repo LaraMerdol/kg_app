@@ -18,6 +18,7 @@ try:
         render_task_artifact_overlaps_page,
         render_task_ecosystem_page,
         render_task_specificity_page,
+        render_activity_metrics_page,
     )
 except ImportError:
     from config import DEFAULT_DATABASE, DEFAULT_URI, DEFAULT_USER
@@ -31,6 +32,7 @@ except ImportError:
         render_task_artifact_overlaps_page,
         render_task_ecosystem_page,
         render_task_specificity_page,
+        render_activity_metrics_page,
     )
 
 
@@ -51,6 +53,7 @@ def main() -> None:
                 ("Social Community", 2),
                 ("Model Lineage", 3),
                 ("Successful Models", 4),
+                ("Activity Metrics", "activity_metrics"),
                 ("Query Explorer", "explorer"),
                 ("Cache", "cache"),
             ],
@@ -82,22 +85,50 @@ def main() -> None:
         }
         st.title(analysis_names[current_analysis])
 
-        page_col1, page_col2, page_col3, page_col4, _ = st.columns([1, 1, 1, 1, 2], gap="small")
-        with page_col1:
-            if st.button("All Tasks", use_container_width=True, key="page_all"):
-                st.session_state.nav_page = "All Tasks"
+        page3_label = "Artifact Overlaps"
+        page4_label = "Task Specificity"
+        if current_analysis == 3:
+            page3_label = "Lineage by Task"
+            page4_label = "Lineage by Activity"
 
-        with page_col2:
-            if st.button("Specific Task", use_container_width=True, key="page_task"):
-                st.session_state.nav_page = "Specific Task"
+        if current_analysis == 3:
+            page_col1, page_col2, page_col3, page_col4, page_col5, _ = st.columns([1, 1, 1, 1, 1, 1], gap="small")
+            with page_col1:
+                if st.button("All Tasks", use_container_width=True, key="page_all"):
+                    st.session_state.nav_page = "All Tasks"
 
-        with page_col3:
-            if st.button("Artifact Overlaps", use_container_width=True, key="page_overlap"):
-                st.session_state.nav_page = "Artifact Overlaps"
+            with page_col2:
+                if st.button("Specific Task", use_container_width=True, key="page_task"):
+                    st.session_state.nav_page = "Specific Task"
 
-        with page_col4:
-            if st.button("Task Specificity", use_container_width=True, key="page_specificity"):
-                st.session_state.nav_page = "Task Specificity"
+            with page_col3:
+                if st.button(page3_label, use_container_width=True, key="page_overlap"):
+                    st.session_state.nav_page = "Artifact Overlaps"
+
+            with page_col4:
+                if st.button(page4_label, use_container_width=True, key="page_specificity"):
+                    st.session_state.nav_page = "Task Specificity"
+
+            with page_col5:
+                if st.button("Family Summary", use_container_width=True, key="page_family_summary"):
+                    st.session_state.nav_page = "Family Summary"
+        else:
+            page_col1, page_col2, page_col3, page_col4, _ = st.columns([1, 1, 1, 1, 2], gap="small")
+            with page_col1:
+                if st.button("All Tasks", use_container_width=True, key="page_all"):
+                    st.session_state.nav_page = "All Tasks"
+
+            with page_col2:
+                if st.button("Specific Task", use_container_width=True, key="page_task"):
+                    st.session_state.nav_page = "Specific Task"
+
+            with page_col3:
+                if st.button(page3_label, use_container_width=True, key="page_overlap"):
+                    st.session_state.nav_page = "Artifact Overlaps"
+
+            with page_col4:
+                if st.button(page4_label, use_container_width=True, key="page_specificity"):
+                    st.session_state.nav_page = "Task Specificity"
 
         st.divider()
 
@@ -116,6 +147,9 @@ def main() -> None:
         render_analysis_3_placeholder(uri, username, password, database, int(row_limit), st.session_state.nav_page)
     elif current_analysis == 4:
         render_analysis_4_placeholder(uri, username, password, database, int(row_limit), st.session_state.nav_page)
+    elif current_analysis == "activity_metrics":
+        st.title("Activity Metrics Over Time")
+        render_activity_metrics_page(uri, username, password, database, int(row_limit))
     elif current_analysis == "explorer":
         render_query_explorer_page(uri, username, password, database, int(row_limit))
     elif current_analysis == "cache":

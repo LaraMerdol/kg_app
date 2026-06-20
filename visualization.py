@@ -55,6 +55,28 @@ def build_cytoscape_html(
     relationships: List[Dict[str, Any]],
     height_px: int = 700,
 ) -> str:
+    type_color_map: Dict[str, str] = {
+        "SETask": "#f97316",
+        "TaskGroup": "#64748b",
+        "Artifact": "#0ea5e9",
+        "Model": "#0284c7",
+        "Dataset": "#16a34a",
+        "Paper": "#7c3aed",
+        "Benchmark": "#dc2626",
+        "Collection": "#6d28d9",
+        "Space": "#0f766e",
+        "User": "#334155",
+        "Organization": "#be123c",
+    }
+
+    def _short_node_label(title_text: str) -> str:
+        title = title_text.strip()
+        if not title:
+            return ""
+        compact = title.split("/")[-1].strip() or title
+        max_len = 22
+        return compact if len(compact) <= max_len else f"{compact[: max_len - 1]}..."
+
     node_items: List[Dict[str, Any]] = []
     node_ids: Set[str] = set()
 
@@ -65,8 +87,18 @@ def build_cytoscape_html(
         node_ids.add(node_id)
         label = str(node.get("label", "Node"))
         title = str(node.get("title", node_id))
-        display = title
-        node_items.append({"data": {"id": node_id, "label": label, "title": title, "display": display}})
+        display = _short_node_label(title)
+        node_items.append(
+            {
+                "data": {
+                    "id": node_id,
+                    "label": label,
+                    "title": title,
+                    "display": display,
+                    "fill": type_color_map.get(label, "#0ea5e9"),
+                }
+            }
+        )
 
     edge_items: List[Dict[str, Any]] = []
     edge_seen: Set[str] = set()
@@ -86,6 +118,7 @@ def build_cytoscape_html(
         edge_items.append({"data": {"id": edge_id, "source": source, "target": target, "label": rel_type}})
 
     elements_json = json.dumps(node_items + edge_items)
+    type_color_map_json = json.dumps(type_color_map)
 
     return f"""
 <!doctype html>
@@ -94,11 +127,14 @@ def build_cytoscape_html(
     <meta charset=\"utf-8\" />
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />
     <style>
-        html, body {{ margin: 0; padding: 0; background: #f8fafc; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; }}
+        html, body {{ margin: 0; padding: 0; background: #f8fafc; font-family: \"Segoe UI\", Tahoma, Geneva, Verdana, sans-serif; }}
         #wrapper {{ height: {height_px}px; width: 100%; display: grid; grid-template-rows: auto 1fr; gap: 8px; }}
         #toolbar {{ display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; }}
         #toolbar button {{ border: 1px solid #cbd5e1; background: #f1f5f9; color: #0f172a; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }}
         #meta {{ font-size: 12px; color: #334155; margin-right: 8px; }}
+        #legend {{ display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-left: 4px; }}
+        .legend-item {{ display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #0f172a; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 999px; padding: 2px 8px; }}
+        .legend-dot {{ width: 10px; height: 10px; border-radius: 999px; border: 1px solid rgba(0, 0, 0, 0.25); }}
         #cy {{ height: 100%; width: 100%; background: radial-gradient(circle at 20% 20%, #ffffff 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; border-radius: 8px; }}
     </style>
     <script src=\"https://unpkg.com/cytoscape@3.30.1/dist/cytoscape.min.js\"></script>
@@ -109,21 +145,42 @@ def build_cytoscape_html(
             <button id=\"fitBtn\">Fit</button>
             <button id=\"resetBtn\">Re-layout</button>
             <span id=\"meta\"></span>
+            <div id=\"legend\"></div>
         </div>
         <div id=\"cy\"></div>
     </div>
 
     <script>
         const elements = {elements_json};
+        const typeColorMap = {type_color_map_json};
         const nodeCount = elements.filter(e => e.data && e.data.id && !e.data.source).length;
         const edgeCount = elements.filter(e => e.data && e.data.source).length;
         document.getElementById("meta").textContent = `Nodes: ${{nodeCount}} | Relationships: ${{edgeCount}}`;
+
+        const legend = document.getElementById("legend");
+        const presentTypes = [...new Set(elements
+            .filter(e => e.data && e.data.label && !e.data.source)
+            .map(e => e.data.label))
+        ].sort((a, b) => a.localeCompare(b));
+
+        presentTypes.forEach(typeName => {{
+            const item = document.createElement("span");
+            item.className = "legend-item";
+            const dot = document.createElement("span");
+            dot.className = "legend-dot";
+            dot.style.backgroundColor = typeColorMap[typeName] || "#0ea5e9";
+            const text = document.createElement("span");
+            text.textContent = typeName;
+            item.appendChild(dot);
+            item.appendChild(text);
+            legend.appendChild(item);
+        }});
 
         const cy = cytoscape({{
             container: document.getElementById("cy"),
             elements,
             style: [
-                {{ selector: "node", style: {{ "label": "data(display)", "font-size": 10, "background-color": "#0ea5e9", "color": "#0f172a", "text-wrap": "wrap", "text-max-width": 120, "text-valign": "bottom", "text-halign": "center", "width": 26, "height": 26, "border-width": 1, "border-color": "#0369a1" }} }},
+                {{ selector: "node", style: {{ "label": "data(display)", "font-size": 10, "background-color": "data(fill)", "color": "#0f172a", "text-wrap": "wrap", "text-max-width": 96, "text-valign": "bottom", "text-halign": "center", "width": 26, "height": 26, "border-width": 1, "border-color": "#1f2937" }} }},
                 {{ selector: "node[label = 'SETask']", style: {{ "background-color": "#f97316", "border-color": "#c2410c", "width": 34, "height": 34 }} }},
                 {{ selector: "node[label = 'TaskGroup']", style: {{ "background-color": "#64748b", "border-color": "#334155", "width": 30, "height": 30 }} }},
                 {{ selector: "node[label = 'Artifact']", style: {{ "background-color": "#0ea5e9", "border-color": "#0369a1" }} }},

@@ -1,0 +1,22 @@
+task_id,task_name,totalModels,avgLineageLength,medianLineageLength,maxLineageLength,len0,len1,len2,len3,len4,len5plus
+code generation,code generation,2545,0.17445972495088408,0.0,4,2218,235,68,23,1,0
+coding,coding,1101,0.2052679382379655,0.0,4,912,158,26,4,1,0
+code completion,code completion,526,0.23193916349809887,0.0,3,434,66,22,4,0,0
+data analysis,data analysis,145,0.14482758620689656,0.0,4,132,10,0,1,2,0
+code understanding,code understanding,108,0.26851851851851855,0.0,3,88,14,3,3,0,0
+program synthesis,program synthesis,81,0.8888888888888888,0.0,3,43,11,20,7,0,0
+code review,code review,80,0.2625,0.0,2,64,11,5,0,0,0
+code translation,code translation,80,0.2,0.0,2,66,12,2,0,0,0
+code search,code search,79,0.0379746835443038,0.0,2,77,1,1,0,0,0
+vulnerability detection,vulnerability detection,57,0.3508771929824561,0.0,2,42,10,5,0,0,0
+logging,logging,56,0.017857142857142856,0.0,1,55,1,0,0,0,0
+verification,verification,52,0.057692307692307696,0.0,2,50,1,1,0,0,0
+code summarization,code summarization,47,0.06382978723404255,0.0,2,45,1,1,0,0,0
+sentiment analysis,sentiment analysis,45,0.0,0.0,0,45,0,0,0,0,0
+code editing,code editing,41,0.36585365853658536,0.0,3,31,6,3,1,0,0
+cybersecurity,cybersecurity,41,0.04878048780487805,0.0,2,40,0,1,0,0,0
+information security,information security,39,0.05128205128205128,0.0,1,37,2,0,0,0,0
+system design,system design,37,0.13513513513513514,0.0,2,34,1,2,0,0,0
+debugging,debugging,28,0.10714285714285714,0.0,2,26,1,1,0,0,0
+static analysis,static analysis,26,0.0,0.0,0,26,0,0,0,0,0
+defect detection,defect detection,23,0.043478260869565216,0.0,1,22,1,0,0,0,0

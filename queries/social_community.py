@@ -164,6 +164,85 @@ RETURN
     likes
 """
 
+SOCIAL_COMMUNITY_MODEL_PUBLISHER_DISTRIBUTION_QUERY = """
+MATCH (m:SEModel)<-[:PUBLISHED]-(publisher)
+WHERE publisher:User OR publisher:Organization
+WITH
+    coalesce(m.id, m.name, toString(id(m))) AS model_id,
+    CASE
+        WHEN publisher:User THEN 'User'
+        WHEN publisher:Organization THEN 'Organization'
+        ELSE 'Unknown'
+    END AS publisher_type,
+    CASE
+        WHEN publisher:Organization THEN
+            CASE
+                WHEN toLower(trim(coalesce(publisher.organization_type, publisher.org_type, publisher.organizationType, publisher.type, ''))) = 'company' THEN 'Industry'
+                WHEN toLower(trim(coalesce(publisher.organization_type, publisher.org_type, publisher.organizationType, publisher.type, ''))) IN ['university', 'classroom'] THEN 'Academic'
+                WHEN toLower(trim(coalesce(publisher.organization_type, publisher.org_type, publisher.organizationType, publisher.type, ''))) IN ['community', 'organization', '', 'non-profit', 'government'] THEN 'Non-Profit'
+                ELSE 'Other'
+            END
+        ELSE 'N/A'
+    END AS organization_division,
+    CASE
+        WHEN publisher:User THEN coalesce(publisher.username, publisher.fullname, publisher.id, toString(id(publisher)))
+        WHEN publisher:Organization THEN coalesce(publisher.id, publisher.name, toString(id(publisher)))
+        ELSE ''
+    END AS contributor_id
+RETURN
+    publisher_type,
+    organization_division,
+    count(DISTINCT contributor_id) AS uniqueContributors,
+    count(DISTINCT model_id) AS uniqueModels
+ORDER BY publisher_type, organization_division, uniqueContributors DESC
+"""
+
+SOCIAL_COMMUNITY_TOP_CONTRIBUTORS_QUERY = """
+MATCH (publisher)-[:PUBLISHED]->(m:SEModel)
+WHERE publisher:User OR publisher:Organization
+WITH
+    publisher,
+    CASE
+        WHEN publisher:User THEN coalesce(publisher.username, publisher.fullname, publisher.id, toString(id(publisher)))
+        WHEN publisher:Organization THEN coalesce(publisher.id, publisher.name, toString(id(publisher)))
+        ELSE ''
+    END AS contributor,
+    CASE
+        WHEN publisher:User THEN 'User'
+        WHEN publisher:Organization THEN 'Organization'
+        ELSE 'Unknown'
+    END AS contributorType,
+    CASE
+        WHEN publisher:Organization THEN
+            CASE
+                WHEN toLower(trim(coalesce(publisher.organization_type, publisher.org_type, publisher.organizationType, publisher.type, ''))) = 'company' THEN 'Industry'
+                WHEN toLower(trim(coalesce(publisher.organization_type, publisher.org_type, publisher.organizationType, publisher.type, ''))) IN ['university', 'classroom'] THEN 'Academic'
+                WHEN toLower(trim(coalesce(publisher.organization_type, publisher.org_type, publisher.organizationType, publisher.type, ''))) IN ['community', 'organization', '', 'non-profit', 'government'] THEN 'Non-Profit'
+                ELSE 'Other'
+            END
+        ELSE 'N/A'
+    END AS organizationDivision,
+    collect(DISTINCT m) AS models
+UNWIND models AS model
+OPTIONAL MATCH (model)-[:SUITABLE_FOR]->(t:SETask)
+WITH
+    contributor,
+    contributorType,
+    organizationDivision,
+    count(DISTINCT model) AS uniqueModels,
+    count(DISTINCT t) AS uniqueSETasks,
+    collect(DISTINCT coalesce(t.id, t.name, toString(id(t)))) AS seTasks
+RETURN
+    contributor,
+    contributorType,
+    organizationDivision,
+    uniqueModels,
+    uniqueSETasks,
+    CASE WHEN size(seTasks) = 0 THEN ['Unmapped'] ELSE seTasks END AS seTasks
+ORDER BY uniqueModels DESC, uniqueSETasks DESC, toLower(contributor)
+LIMIT toInteger(coalesce($top_limit, 100))
+"""
+
 SOCIAL_COMMUNITY_NETWORK_QUERY = """
 MATCH (t:SETask)
 WITH t

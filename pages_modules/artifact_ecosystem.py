@@ -28,6 +28,10 @@ try:
     from ..data import cached_entries_for_ui, get_data_with_fallback, query_looks_write_operation, utc_now_iso
     from ..queries import (
         ALL_TASKS_ECOSYSTEM_QUERY,
+        ALL_TASKS_MOST_USED_AND_LIKED_DATASETS_QUERY,
+        ALL_TASKS_ECOSYSTEM_RATIO_QUERY,
+        ALL_TASKS_DATASET_MODULE_DISTRIBUTION_QUERY,
+        ALL_TASKS_SEMODEL_DATASET_PROPERTIES_QUERY,
         TASK_ACTIVITY_BY_TASK_QUERY,
         TASK_ACTIVITY_TOP_OVERLAPS_QUERY,
         TASK_ARTIFACT_COUNTS_QUERY,
@@ -47,6 +51,10 @@ except ImportError:
     from data import cached_entries_for_ui, get_data_with_fallback, query_looks_write_operation, utc_now_iso
     from queries import (
         ALL_TASKS_ECOSYSTEM_QUERY,
+        ALL_TASKS_MOST_USED_AND_LIKED_DATASETS_QUERY,
+        ALL_TASKS_ECOSYSTEM_RATIO_QUERY,
+        ALL_TASKS_DATASET_MODULE_DISTRIBUTION_QUERY,
+        ALL_TASKS_SEMODEL_DATASET_PROPERTIES_QUERY,
         TASK_ACTIVITY_BY_TASK_QUERY,
         TASK_ACTIVITY_TOP_OVERLAPS_QUERY,
         TASK_ARTIFACT_COUNTS_QUERY,
@@ -293,6 +301,297 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                 st.caption(f"Returned {len(df)} tasks (limit used: {all_tasks_limit}).")
                 st.markdown("### All Tasks Ecosystem Summary")
                 st.dataframe(df[view_cols], use_container_width=True)
+
+                try:
+                    task_dataset_rows, task_dataset_source, task_dataset_info = get_data_with_fallback(
+                        uri=uri,
+                        username=username,
+                        password=password,
+                        database=database,
+                        query=ALL_TASKS_MOST_USED_AND_LIKED_DATASETS_QUERY,
+                        row_limit=all_tasks_limit,
+                        prefer_cache=load_clicked,
+                    )
+
+                    if task_dataset_source == "online":
+                        st.success(task_dataset_info)
+                    else:
+                        st.warning(task_dataset_info)
+
+                    task_dataset_df = pd.DataFrame(task_dataset_rows)
+                    if not task_dataset_df.empty:
+                        if "mostUsedDatasetCount" in task_dataset_df.columns:
+                            task_dataset_df["mostUsedDatasetCount"] = (
+                                pd.to_numeric(task_dataset_df["mostUsedDatasetCount"], errors="coerce")
+                                .fillna(0)
+                                .astype(int)
+                            )
+                        # Top-3 list columns: ensure numeric lists are cast where appropriate
+                        if "top3MostUsedCounts" in task_dataset_df.columns:
+                            def _cast_int_list(x):
+                                if not x:
+                                    return []
+                                try:
+                                    return [int(i) for i in x]
+                                except Exception:
+                                    return x
+
+                            task_dataset_df["top3MostUsedCounts"] = task_dataset_df["top3MostUsedCounts"].apply(_cast_int_list)
+                        if "top3MostLikedLikes" in task_dataset_df.columns:
+                            def _cast_int_list2(x):
+                                if not x:
+                                    return []
+                                try:
+                                    return [int(i) for i in x]
+                                except Exception:
+                                    return x
+
+                            task_dataset_df["top3MostLikedLikes"] = task_dataset_df["top3MostLikedLikes"].apply(_cast_int_list2)
+                        if "mostLikedDatasetLikes" in task_dataset_df.columns:
+                            task_dataset_df["mostLikedDatasetLikes"] = (
+                                pd.to_numeric(task_dataset_df["mostLikedDatasetLikes"], errors="coerce")
+                                .fillna(0)
+                                .astype(int)
+                            )
+                        if "mostUsedDatasetLikes" in task_dataset_df.columns:
+                            task_dataset_df["mostUsedDatasetLikes"] = (
+                                pd.to_numeric(task_dataset_df["mostUsedDatasetLikes"], errors="coerce")
+                                .fillna(0)
+                                .astype(int)
+                            )
+                        if "mostLikedDatasetUsedCount" in task_dataset_df.columns:
+                            task_dataset_df["mostLikedDatasetUsedCount"] = (
+                                pd.to_numeric(task_dataset_df["mostLikedDatasetUsedCount"], errors="coerce")
+                                .fillna(0)
+                                .astype(int)
+                            )
+
+                        dataset_display_cols = [
+                            "seTask",
+                            "mostUsedDataset",
+                            "mostUsedDatasetCount",
+                            "top3MostUsedDatasets",
+                            "top3MostUsedCounts",
+                            "mostUsedDatasetLikes",
+                            "mostLikedDataset",
+                            "mostLikedDatasetLikes",
+                            "top3MostLikedDatasets",
+                            "top3MostLikedLikes",
+                            "mostLikedDatasetUsedCount",
+                        ]
+                        dataset_display_cols = [c for c in dataset_display_cols if c in task_dataset_df.columns]
+
+                        st.markdown("### Most Used And Most Liked Dataset Per SETask")
+                        st.caption(
+                            "Includes cross-metrics: likes for the most-used dataset and linked-model count for the most-liked dataset."
+                        )
+                        st.dataframe(task_dataset_df[dataset_display_cols], use_container_width=True, height=420)
+                    else:
+                        st.info("No rows were returned for most-used/most-liked dataset summary.")
+                except Exception as exc:
+                    st.warning(f"Could not build most-used/most-liked dataset table: {exc}")
+
+                st.markdown("### SEModel Dataset Modalities and Formats")
+                st.caption("Unique datasets linked to SEModels, with raw n.modalities and n.formats values plus task coverage.")
+
+                try:
+                    dataset_props_rows, dataset_props_source, dataset_props_info = get_data_with_fallback(
+                        uri=uri,
+                        username=username,
+                        password=password,
+                        database=database,
+                        query=ALL_TASKS_SEMODEL_DATASET_PROPERTIES_QUERY,
+                        row_limit=all_tasks_limit,
+                        params={"dataset_limit": min(max(int(row_limit), 1), 2000)},
+                        prefer_cache=load_clicked,
+                    )
+
+                    if dataset_props_source == "online":
+                        st.success(dataset_props_info)
+                    else:
+                        st.warning(dataset_props_info)
+
+                    dataset_props_df = pd.DataFrame(dataset_props_rows)
+                    if not dataset_props_df.empty:
+                        if "linkedModels" in dataset_props_df.columns:
+                            dataset_props_df["linkedModels"] = pd.to_numeric(dataset_props_df["linkedModels"], errors="coerce").fillna(0).astype(int)
+                        if "taskCount" in dataset_props_df.columns:
+                            dataset_props_df["taskCount"] = pd.to_numeric(dataset_props_df["taskCount"], errors="coerce").fillna(0).astype(int)
+                        if "modalities" in dataset_props_df.columns:
+                            dataset_props_df["modalities"] = dataset_props_df["modalities"].apply(
+                                lambda values: ", ".join([str(v).strip() for v in values if str(v).strip()]) if isinstance(values, list) else str(values)
+                            )
+                        if "formats" in dataset_props_df.columns:
+                            dataset_props_df["formats"] = dataset_props_df["formats"].apply(
+                                lambda values: ", ".join([str(v).strip() for v in values if str(v).strip()]) if isinstance(values, list) else str(values)
+                            )
+                        if "tasks" in dataset_props_df.columns:
+                            dataset_props_df["tasks"] = dataset_props_df["tasks"].apply(
+                                lambda values: ", ".join([str(v).strip() for v in values if str(v).strip()]) if isinstance(values, list) else str(values)
+                            )
+
+                        dataset_props_display_cols = [
+                            "datasetId",
+                            "datasetName",
+                            "modalities",
+                            "formats",
+                            "linkedModels",
+                            "taskCount",
+                            "tasks",
+                        ]
+                        dataset_props_display_cols = [c for c in dataset_props_display_cols if c in dataset_props_df.columns]
+
+                        st.dataframe(dataset_props_df[dataset_props_display_cols], use_container_width=True, height=360)
+                    else:
+                        st.info("No dataset modality/module rows were returned.")
+                except Exception as exc:
+                    st.warning(f"Could not build dataset modality/module table: {exc}")
+
+                st.markdown("### Per Task Most Used Format and Modality")
+                st.caption("For each SETask, this shows the most frequent dataset format and modality among datasets linked to its SEModels.")
+
+                try:
+                    module_dist_rows, module_dist_source, module_dist_info = get_data_with_fallback(
+                        uri=uri,
+                        username=username,
+                        password=password,
+                        database=database,
+                        query=ALL_TASKS_DATASET_MODULE_DISTRIBUTION_QUERY,
+                        row_limit=all_tasks_limit,
+                        prefer_cache=load_clicked,
+                    )
+
+                    if module_dist_source == "online":
+                        st.success(module_dist_info)
+                    else:
+                        st.warning(module_dist_info)
+
+                    module_dist_df = pd.DataFrame(module_dist_rows)
+                    if not module_dist_df.empty:
+                        if "seActivities" in module_dist_df.columns:
+                            module_dist_df["seActivities"] = module_dist_df["seActivities"].apply(
+                                lambda values: ", ".join([str(v).strip() for v in values if str(v).strip()]) if isinstance(values, list) else str(values)
+                            )
+                        for column in [
+                            "numDatasets",
+                            "mostUsedFormatCount",
+                            "mostUsedModalityCount",
+                        ]:
+                            if column in module_dist_df.columns:
+                                module_dist_df[column] = pd.to_numeric(module_dist_df[column], errors="coerce").fillna(0).astype(int)
+
+                        module_dist_display_cols = [
+                            "seTask",
+                            "seActivities",
+                            "numDatasets",
+                            "mostUsedFormat",
+                            "mostUsedFormatCount",
+                            "mostUsedModality",
+                            "mostUsedModalityCount",
+                        ]
+                        module_dist_display_cols = [c for c in module_dist_display_cols if c in module_dist_df.columns]
+
+                        st.dataframe(module_dist_df[module_dist_display_cols], use_container_width=True, height=360)
+                    else:
+                        st.info("No per-task format/modality rows were returned.")
+                except Exception as exc:
+                    st.warning(f"Could not build per-task format/modality table: {exc}")
+
+                st.markdown("### Artifact Distribution per SETask")
+                st.caption(
+                    "Stacked view of Models, Datasets, Papers, Benchmarks, Collections, and Spaces "
+                    "for top tasks by total artifact volume."
+                )
+                top_task_n = st.slider(
+                    "Top tasks to display",
+                    min_value=20,
+                    max_value=30,
+                    value=25,
+                    step=1,
+                    key="artifact_distribution_top_n",
+                )
+
+                artifact_count_cols = [
+                    "numModels",
+                    "numDatasets",
+                    "numPapers",
+                    "numBenchmarks",
+                    "numCollections",
+                    "numSpaces",
+                ]
+                available_artifact_cols = [c for c in artifact_count_cols if c in df.columns]
+
+                if "seTask" in df.columns and available_artifact_cols:
+                    artifact_plot_df = df[["seTask"] + available_artifact_cols].copy()
+                    artifact_plot_df["totalArtifacts"] = artifact_plot_df[available_artifact_cols].sum(axis=1)
+                    if "numModels" in artifact_plot_df.columns:
+                        artifact_plot_df = artifact_plot_df.sort_values(
+                            ["numModels", "totalArtifacts", "seTask"],
+                            ascending=[False, False, True],
+                        )
+                    else:
+                        artifact_plot_df = artifact_plot_df.sort_values(
+                            ["totalArtifacts", "seTask"],
+                            ascending=[False, True],
+                        )
+                    artifact_plot_df = artifact_plot_df.head(int(top_task_n))
+
+                    rename_cols = {
+                        "numModels": "Models",
+                        "numDatasets": "Datasets",
+                        "numPapers": "Papers",
+                        "numBenchmarks": "Benchmarks",
+                        "numCollections": "Collections",
+                        "numSpaces": "Spaces",
+                    }
+                    artifact_plot_df = artifact_plot_df.rename(columns=rename_cols)
+                    artifact_types = [rename_cols[c] for c in available_artifact_cols]
+
+                    stacked_df = artifact_plot_df.melt(
+                        id_vars=["seTask"],
+                        value_vars=artifact_types,
+                        var_name="Artifact Type",
+                        value_name="Count",
+                    )
+
+                    artifact_color_map = {
+                        "Models": "#0284c7",
+                        "Datasets": "#16a34a",
+                        "Papers": "#eda53a",
+                        "Benchmarks": "#dc2626",
+                        "Collections": "#6d28d9",
+                        "Spaces": "#0f766e",
+                    }
+
+                    stacked_fig = px.bar(
+                        stacked_df,
+                        x="seTask",
+                        y="Count",
+                        color="Artifact Type",
+                        category_orders={"Artifact Type": artifact_types},
+                        color_discrete_map=artifact_color_map,
+                        title=f"Artifact distribution across top {len(artifact_plot_df)} SETasks",
+                    )
+                    stacked_fig.update_layout(
+                        barmode="stack",
+                        xaxis_title="SETask",
+                        yaxis_title="Artifact count (log scale)",
+                        yaxis_type="log",
+                        xaxis_tickangle=-35,
+                        height=560,
+                        legend_title_text="Artifact Type",
+                        legend=dict(
+                            orientation="v",
+                            x=10,
+                            y=100,
+                            xanchor="right",
+                            yanchor="bottom",
+                            bgcolor="rgba(255,255,255,0.78)",
+                        ),
+                    )
+                    st.plotly_chart(stacked_fig, use_container_width=True)
+                else:
+                    st.info("Artifact distribution chart is unavailable because required columns are missing.")
 
                 ratio_cols = [
                     "datasetCompletenessRatio",
@@ -570,6 +869,118 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                     height=360,
                 )
 
+                st.markdown("### Model Linkage Rates by SEActivity")
+                st.caption(
+                    "Stacked bar charts per SEActivity showing model linkage rates to datasets, collections, spaces, benchmarks, papers, and none."
+                )
+
+                donut_task_n = st.slider(
+                    "SEActivities to show",
+                    min_value=6,
+                    max_value=24,
+                    value=12,
+                    step=3,
+                    key="seactivity_model_linkage_donut_count",
+                )
+
+                required_linkage_cols = [
+                    "seActivity",
+                    "totalModels",
+                    "datasetCompletenessRatio",
+                    "collectionCompletenessRatio",
+                    "spaceCompletenessRatio",
+                    "benchmarkCompletenessRatio",
+                    "paperCompletenessRatio",
+                ]
+                has_linkage_inputs = all(c in activity_agg_df.columns for c in required_linkage_cols)
+
+                if has_linkage_inputs:
+                    linkage_task_df = activity_agg_df[required_linkage_cols].copy()
+                    linkage_task_df["totalModels"] = pd.to_numeric(linkage_task_df["totalModels"], errors="coerce").fillna(0)
+                    linkage_task_df = linkage_task_df[linkage_task_df["totalModels"] > 0].copy()
+                    linkage_task_df = linkage_task_df.head(int(donut_task_n))
+
+                    linkage_color_map = {
+                        "Datasets": "#16a34a",
+                        "Collections": "#6d28d9",
+                        "Spaces": "#0f766e",
+                        "Benchmarks": "#dc2626",
+                        "Papers": "#ea580c",
+                        "None": "#94a3b8",
+                    }
+
+                    linkage_plot_rows = []
+                    for _, task_row in linkage_task_df.iterrows():
+                        category_values = {
+                            "Datasets": float(task_row.get("datasetCompletenessRatio", 0.0)),
+                            "Collections": float(task_row.get("collectionCompletenessRatio", 0.0)),
+                            "Spaces": float(task_row.get("spaceCompletenessRatio", 0.0)),
+                            "Benchmarks": float(task_row.get("benchmarkCompletenessRatio", 0.0)),
+                            "Papers": float(task_row.get("paperCompletenessRatio", 0.0)),
+                        }
+
+                        linkage_plot_rows.append(
+                            {
+                                "seActivity": task_row.get("seActivity", ""),
+                                "totalModels": float(task_row.get("totalModels", 0.0)),
+                                **category_values,
+                            }
+                        )
+
+                    linkage_plot_df = pd.DataFrame(linkage_plot_rows)
+                    linkage_categories = ["Datasets", "Collections", "Spaces", "Benchmarks", "Papers"]
+                    chart_cols_per_row = 2
+                    for row_start in range(0, len(linkage_plot_df), chart_cols_per_row):
+                        row_slice = linkage_plot_df.iloc[row_start : row_start + chart_cols_per_row]
+                        chart_cols = st.columns(chart_cols_per_row)
+                        for i, (_, task_row) in enumerate(row_slice.iterrows()):
+                            with chart_cols[i]:
+                                activity_name = str(task_row.get("seActivity", "NoActivity"))
+                                activity_bar_df = pd.DataFrame(
+                                    {
+                                        "Linkage": linkage_categories,
+                                        "Rate": [
+                                            100.0 * float(task_row.get("Datasets", 0.0)),
+                                            100.0 * float(task_row.get("Collections", 0.0)),
+                                            100.0 * float(task_row.get("Spaces", 0.0)),
+                                            100.0 * float(task_row.get("Benchmarks", 0.0)),
+                                            100.0 * float(task_row.get("Papers", 0.0)),
+                                        ],
+                                    }
+                                )
+                                activity_bar_df = activity_bar_df[activity_bar_df["Rate"] > 0].copy()
+
+                                activity_fig = px.bar(
+                                    activity_bar_df,
+                                    x="Linkage",
+                                    y="Rate",
+                                    color="Linkage",
+                                    category_orders={"Linkage": linkage_categories},
+                                    color_discrete_map=linkage_color_map,
+                                    title=activity_name,
+                                    text_auto=".2f",
+                                )
+                                activity_fig.update_traces(
+                                    textposition="outside",
+                                    textfont=dict(size=16, color="#111827"),
+                                    cliponaxis=False,
+                                )
+                                activity_fig.update_layout(
+                                    height=340,
+                                    margin=dict(l=10, r=10, t=40, b=10),
+                                    xaxis_title="Artifact category",
+                                    yaxis_title="Percentage",
+                                    font=dict(size=15),
+                                    title_font=dict(size=18),
+                                    xaxis=dict(tickfont=dict(size=16), title_font=dict(size=15)),
+                                    yaxis=dict(tickfont=dict(size=16), title_font=dict(size=15)),
+                                    showlegend=False,
+                                )
+                                activity_fig.update_yaxes(range=[0, 100], ticksuffix="%")
+                                st.plotly_chart(activity_fig, use_container_width=True)
+                else:
+                    st.info("SEActivity linkage bar chart is unavailable because required columns are missing.")
+
                 if not emi_history_df.empty:
                     st.markdown("### EMI trend by SEActivity")
                     if latest_emi_year is not None:
@@ -598,6 +1009,77 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                     use_container_width=True,
                     height=460,
                 )
+
+                # Additional table: each task's share of ecosystem totals, computed by a query.
+                try:
+                    coverage_rows, coverage_source, coverage_info = get_data_with_fallback(
+                        uri=uri,
+                        username=username,
+                        password=password,
+                        database=database,
+                        query=ALL_TASKS_ECOSYSTEM_RATIO_QUERY,
+                        row_limit=all_tasks_limit,
+                        prefer_cache=load_clicked,
+                    )
+
+                    if coverage_source == "online":
+                        st.success(coverage_info)
+                    else:
+                        st.warning(coverage_info)
+
+                    coverage_df = pd.DataFrame(coverage_rows)
+                    if not coverage_df.empty:
+                        pct_cols = [
+                            "modelSharePct",
+                            "datasetSharePct",
+                            "paperSharePct",
+                            "benchmarkSharePct",
+                            "collectionSharePct",
+                            "spaceSharePct",
+                        ]
+                        for col in pct_cols:
+                            if col in coverage_df.columns:
+                                coverage_df[col] = pd.to_numeric(coverage_df[col], errors="coerce").fillna(0.0).mul(100.0).round(1)
+
+                        display_cols = [
+                            "seTask",
+                            "numModels", "totalModels", "modelSharePct",
+                            "numDatasets", "totalDatasets", "datasetSharePct",
+                            "numPapers", "totalPapers", "paperSharePct",
+                            "numBenchmarks", "totalBenchmarks", "benchmarkSharePct",
+                            "numCollections", "totalCollections", "collectionSharePct",
+                            "numSpaces", "totalSpaces", "spaceSharePct",
+                        ]
+                        display_cols = [c for c in display_cols if c in coverage_df.columns]
+
+                        rename_cols = {
+                            "numModels": "Task models",
+                            "totalModels": "All models",
+                            "modelSharePct": "Models share %",
+                            "numDatasets": "Task datasets",
+                            "totalDatasets": "All datasets",
+                            "datasetSharePct": "Datasets share %",
+                            "numPapers": "Task papers",
+                            "totalPapers": "All papers",
+                            "paperSharePct": "Papers share %",
+                            "numBenchmarks": "Task benchmarks",
+                            "totalBenchmarks": "All benchmarks",
+                            "benchmarkSharePct": "Benchmarks share %",
+                            "numCollections": "Task collections",
+                            "totalCollections": "All collections",
+                            "collectionSharePct": "Collections share %",
+                            "numSpaces": "Task spaces",
+                            "totalSpaces": "All spaces",
+                            "spaceSharePct": "Spaces share %",
+                        }
+
+                        st.markdown("### Per-task share of ecosystem totals")
+                        st.caption("Each share is computed as task count ÷ ecosystem total for that artifact type (percent, rounded to 0.1%).")
+                        st.dataframe(coverage_df[display_cols].rename(columns=rename_cols), use_container_width=True, height=460)
+                    else:
+                        st.info("No ratio rows were returned for the ecosystem totals table.")
+                except Exception as exc:
+                    st.warning(f"Could not build per-task share table: {exc}")
             else:
                 st.info("No tasks found.")
         except Exception as exc:
