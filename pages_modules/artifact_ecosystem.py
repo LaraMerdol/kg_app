@@ -667,31 +667,31 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                 ratio_fig.update_layout(showlegend=False, height=340)
                 st.plotly_chart(ratio_fig, use_container_width=True)
 
-                st.markdown("### Completeness Metrics (Per SEActivity)")
-                st.caption("EMI is loaded from a static snapshot: outputs/emi_run_latest/emi_seactivity_raw.csv")
-                st.markdown(
-                    """
-                    <div style="padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; background: #f8fafc;">
-                      <strong>Ecosystem Maturity Index (EMI)</strong><br/>
-                      For an SE activity <em>a</em> in year <em>y</em>, we compute a weighted score from seven components.
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-                st.latex(
-                    r"EMI(a,y)=0.30\cdot\hat{\beta}(a,y)+0.30\cdot\hat{\mu}(a,y)+0.20\cdot\gamma(a,y)+0.10\cdot\delta(a,y)+0.10\cdot\pi(a,y)"
-                )
-                st.markdown(
-                    """
-                    **Component meanings**
-                    - $\hat{\beta}(a,y)$: benchmark completeness ratio
-                    - $\hat{\mu}(a,y)$: log-normalized average models per task (fixed global scale)
-                    - $\gamma(a,y)$: task coverage, $1 - \mathrm{tasksWithoutModelsRatio}$
-                    - $\delta(a,y)$: dataset completeness ratio
-                    - $\pi(a,y)$: paper completeness ratio
+                # st.markdown("### Completeness Metrics (Per SEActivity)")
+                # st.caption("EMI is loaded from a static snapshot: outputs/emi_run_latest/emi_seactivity_raw.csv")
+                # st.markdown(
+                #     """
+                #     <div style="padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; background: #f8fafc;">
+                #       <strong>Ecosystem Maturity Index (EMI)</strong><br/>
+                #       For an SE activity <em>a</em> in year <em>y</em>, we compute a weighted score from seven components.
+                #     </div>
+                #     """,
+                #     unsafe_allow_html=True,
+                # )
+                # st.latex(
+                #     r"EMI(a,y)=0.30\cdot\hat{\beta}(a,y)+0.30\cdot\hat{\mu}(a,y)+0.20\cdot\gamma(a,y)+0.10\cdot\delta(a,y)+0.10\cdot\pi(a,y)"
+                # )
+                # st.markdown(
+                #     """
+                #     **Component meanings**
+                #     - $\hat{\beta}(a,y)$: benchmark completeness ratio
+                #     - $\hat{\mu}(a,y)$: log-normalized average models per task (fixed global scale)
+                #     - $\gamma(a,y)$: task coverage, $1 - \mathrm{tasksWithoutModelsRatio}$
+                #     - $\delta(a,y)$: dataset completeness ratio
+                #     - $\pi(a,y)$: paper completeness ratio
 
-                    """
-                )
+                #     """
+                # )
 
                 try:
                     activity_rows, _, _ = get_data_with_fallback(

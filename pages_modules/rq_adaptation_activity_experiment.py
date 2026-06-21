@@ -82,7 +82,7 @@ def get_adaptation_data_by_activity(driver, max_lineage_depth):
     OPTIONAL MATCH (m)-[ad:IS_ADAPTER_OF]->()
     OPTIONAL MATCH (m)-[mg:IS_MERGE_OF]->()
 
-    WITH m, t, a,
+    WITH m, t, a, lineage_length,
          count(DISTINCT ft) > 0 AS is_finetuned,
          count(DISTINCT qt) > 0 AS is_quantized,
          count(DISTINCT ad) > 0 AS is_adapter,

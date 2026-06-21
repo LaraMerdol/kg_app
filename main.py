@@ -14,6 +14,9 @@ try:
         render_analysis_3_placeholder,
         render_cache_page,
         render_query_explorer_page,
+        render_task_artifact_overlaps_page,
+        render_task_ecosystem_page,
+        render_task_specificity_page,
         render_activity_metrics_page,
     )
 except ImportError:
@@ -24,6 +27,9 @@ except ImportError:
         render_analysis_3_placeholder,
         render_cache_page,
         render_query_explorer_page,
+        render_task_artifact_overlaps_page,
+        render_task_ecosystem_page,
+        render_task_specificity_page,
         render_activity_metrics_page,
     )
 
@@ -54,7 +60,7 @@ def main() -> None:
 
         if selected_analysis[1] != current_analysis:
             st.session_state.nav_analysis = selected_analysis[1]
-            if selected_analysis[1] in (1, 2, 3):
+            if selected_analysis[1] in (1, 2, 3, 4):
                 st.session_state.nav_page = "All Tasks"
 
         st.divider()
@@ -66,11 +72,8 @@ def main() -> None:
         row_limit = st.number_input("Row limit", min_value=1, max_value=10000, value=200, step=10)
 
     current_analysis = st.session_state.nav_analysis
-    if current_analysis not in (1, 2, 3, "activity_metrics", "explorer", "cache"):
-        st.session_state.nav_analysis = 1
-        current_analysis = 1
 
-    if current_analysis in (1, 2, 3):
+    if current_analysis in (1, 2, 3, 4):
         analysis_names = {
             1: "Artifact Ecosystem",
             2: "Social Community",
@@ -78,8 +81,38 @@ def main() -> None:
         }
         st.title(analysis_names[current_analysis])
 
+        if current_analysis == 3:
+            if st.session_state.nav_page == "Specific Task":
+                st.session_state.nav_page = "All Tasks"
+
+            page_col1, page_col2, page_col3, page_col4, _ = st.columns([1, 1, 1, 1, 2], gap="small")
+            with page_col1:
+                if st.button("All Tasks", use_container_width=True, key="page_all"):
+                    st.session_state.nav_page = "All Tasks"
+
+            with page_col2:
+                if st.button("Lineage by Task", use_container_width=True, key="page_overlap"):
+                    st.session_state.nav_page = "Artifact Overlaps"
+
+            with page_col3:
+                if st.button("Lineage by Activity", use_container_width=True, key="page_specificity"):
+                    st.session_state.nav_page = "Task Specificity"
+
+            with page_col4:
+                if st.button("Family Summary", use_container_width=True, key="page_family_summary"):
+                    st.session_state.nav_page = "Family Summary"
+
+            st.divider()
+
     if current_analysis == 1:
-        render_all_tasks_ecosystem_page(uri, username, password, database, int(row_limit))
+        if st.session_state.nav_page == "All Tasks":
+            render_all_tasks_ecosystem_page(uri, username, password, database, int(row_limit))
+        elif st.session_state.nav_page == "Artifact Overlaps":
+            render_task_artifact_overlaps_page(uri, username, password, database, int(row_limit))
+        elif st.session_state.nav_page == "Task Specificity":
+            render_task_specificity_page(uri, username, password, database, int(row_limit))
+        else:
+            render_task_ecosystem_page(uri, username, password, database, int(row_limit))
     elif current_analysis == 2:
         render_analysis_2_placeholder(uri, username, password, database, int(row_limit), st.session_state.nav_page)
     elif current_analysis == 3:
