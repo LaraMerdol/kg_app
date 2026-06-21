@@ -211,10 +211,6 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
     load_clicked = col_load.button("Load all tasks (cache first)", type="primary")
     refresh_clicked = col_refresh.button("Refresh all tasks from DB")
 
-    if not (load_clicked or refresh_clicked):
-        st.info("Click Load to fetch all tasks ecosystem data.")
-        return
-
     if not password:
         st.error("Please provide Neo4j password in the sidebar.")
         return
@@ -231,8 +227,10 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                 database=database,
                 query=ALL_TASKS_ECOSYSTEM_QUERY,
                 row_limit=all_tasks_limit,
-                prefer_cache=load_clicked,
+                prefer_cache=not refresh_clicked,
             )
+
+            st.session_state.all_tasks_ecosystem_auto_loaded = True
 
             if source == "online":
                 st.success(info)
@@ -381,6 +379,7 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                         ]
                         dataset_display_cols = [c for c in dataset_display_cols if c in task_dataset_df.columns]
 
+                        st.markdown('<a id="most-used-and-most-liked-dataset-per-se-task"></a>', unsafe_allow_html=True)
                         st.markdown("### Most Used And Most Liked Dataset Per SETask")
                         st.caption(
                             "Includes cross-metrics: likes for the most-used dataset and linked-model count for the most-liked dataset."
