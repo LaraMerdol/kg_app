@@ -928,7 +928,7 @@
       "query": "MATCH (t:SETask)\nWITH t, coalesce(t.id, t.name, toString(id(t))) AS taskId\nCALL {\n    WITH t\n    MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)-[:USED_FOR]-(a:SEActivity)\n    MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    WHERE d.likes IS NOT NULL\n    WITH coalesce(d.id, d.name, toString(id(d))) AS datasetId, count(DISTINCT m) AS linkedModelCount\n    ORDER BY linkedModelCount DESC, toLower(datasetId)\n    RETURN collect(datasetId)[0..3] AS top3MostUsedDatasets, collect(linkedModelCount)[0..3] AS top3MostUsedCounts\n}\nCALL {\n    WITH t\n    MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)-[:USED_FOR]-(a:SEActivity)\n    MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    WHERE d.likes IS NOT NULL\n    WITH coalesce(d.id, d.name, toString(id(d))) AS datasetId, toInteger(coalesce(d.likes, 0)) AS datasetLikes\n    ORDER BY datasetLikes DESC, toLower(datasetId)\n    RETURN collect( distinct datasetId)[0..3] AS top3MostLikedDatasets, collect(datasetLikes)[0..3] AS top3MostLikedLikes\n}\n\nWITH t, taskId,\n     top3MostUsedDatasets, top3MostUsedCounts,\n     top3MostLikedDatasets, top3MostLikedLikes\nWITH t, taskId,\n     top3MostUsedDatasets, top3MostUsedCounts,\n     top3MostLikedDatasets, top3MostLikedLikes,\n     coalesce(head(top3MostUsedDatasets), \"\") AS mostUsedDataset,\n     toInteger(coalesce(head(top3MostUsedCounts), 0)) AS mostUsedDatasetCount,\n     coalesce(head(top3MostLikedDatasets), \"\") AS mostLikedDataset,\n     toInteger(coalesce(head(top3MostLikedLikes), 0)) AS mostLikedDatasetLikes\nCALL {\n    WITH t, mostUsedDataset\n    MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)-[:USED_FOR]-(a:SEActivity)\n    MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    WHERE d.likes IS NOT NULL\n    WITH mostUsedDataset, coalesce(d.id, d.name, toString(id(d))) AS datasetId, toInteger(coalesce(d.likes, 0)) AS datasetLikes\n    WHERE datasetId = mostUsedDataset\n    RETURN toInteger(coalesce(max(datasetLikes), 0)) AS mostUsedDatasetLikes\n}\nCALL {\n    WITH t, mostLikedDataset\n    MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)-[:USED_FOR]-(a:SEActivity)\n    MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    WHERE d.likes IS NOT NULL\n    WITH mostLikedDataset, coalesce(d.id, d.name, toString(id(d))) AS datasetId, count(DISTINCT m) AS linkedModelCount\n    WHERE datasetId = mostLikedDataset\n    RETURN toInteger(coalesce(max(linkedModelCount), 0)) AS mostLikedDatasetUsedCount\n}\nRETURN\n    taskId AS seTask,\n    mostUsedDataset,\n    mostUsedDatasetCount,\n    top3MostUsedDatasets,\n    top3MostUsedCounts,\n    mostUsedDatasetLikes,\n    mostLikedDataset,\n    mostLikedDatasetLikes,\n    top3MostLikedDatasets,\n    top3MostLikedLikes,\n    mostLikedDatasetUsedCount\nORDER BY toLower(taskId)",
       "params": {},
       "row_limit": 10000,
-      "fetched_at": "2026-06-21T13:40:26Z",
+      "fetched_at": "2026-06-21T18:28:16Z",
       "rows": [
         {
           "seTask": "api recommendation",
@@ -2399,7 +2399,7 @@
         "dataset_limit": 200
       },
       "row_limit": 10000,
-      "fetched_at": "2026-06-21T13:40:26Z",
+      "fetched_at": "2026-06-21T18:28:17Z",
       "rows": [
         {
           "datasetId": "garage-bAInd/Open-Platypus",
@@ -5355,7 +5355,7 @@
       "query": "MATCH (t:SETask)\nWITH coalesce(t.id, t.name, toString(id(t))) AS seTask, t\nCALL {\n    WITH t\n    OPTIONAL MATCH (t)-[:USED_FOR]-(a:SEActivity)\n    WITH collect(DISTINCT coalesce(a.id, a.label, toString(id(a)))) AS activities\n    RETURN CASE WHEN size(activities) = 0 THEN ['Unmapped'] ELSE activities END AS seActivities\n}\nCALL {\n    WITH t\n    OPTIONAL MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    WITH coalesce(d.`n.formats`, d.formats, d.format, d.n_formats, []) AS formatValues\n    UNWIND CASE WHEN size(formatValues) = 0 THEN [NULL] ELSE formatValues END AS formatValue\n    WITH toString(formatValue) AS formatValue\n    WHERE formatValue IS NOT NULL AND trim(formatValue) <> ''\n    WITH formatValue, count(*) AS frequency\n    ORDER BY frequency DESC, toLower(formatValue)\n    RETURN\n        coalesce(head(collect(formatValue)), '') AS mostUsedFormat,\n        coalesce(head(collect(frequency)), 0) AS mostUsedFormatCount\n}\nCALL {\n    WITH t\n    OPTIONAL MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    WITH coalesce(d.`n.modalities`, d.modalities, d.modality, d.n_modalities, []) AS modalityValues\n    UNWIND CASE WHEN size(modalityValues) = 0 THEN [NULL] ELSE modalityValues END AS modalityValue\n    WITH toString(modalityValue) AS modalityValue\n    WHERE modalityValue IS NOT NULL AND trim(modalityValue) <> ''\n    WITH modalityValue, count(*) AS frequency\n    ORDER BY frequency DESC, toLower(modalityValue)\n    RETURN\n        coalesce(head(collect(modalityValue)), '') AS mostUsedModality,\n        coalesce(head(collect(frequency)), 0) AS mostUsedModalityCount\n}\nCALL {\n    WITH t\n    OPTIONAL MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    RETURN count(DISTINCT d) AS numDatasets\n}\nRETURN\n    seTask,\n    seActivities,\n    numDatasets,\n    mostUsedFormat,\n    mostUsedFormatCount,\n    mostUsedModality,\n    mostUsedModalityCount\nORDER BY toLower(seTask)",
       "params": {},
       "row_limit": 10000,
-      "fetched_at": "2026-06-21T13:40:27Z",
+      "fetched_at": "2026-06-21T18:28:17Z",
       "rows": [
         {
           "seTask": "api recommendation",
@@ -6136,7 +6136,7 @@
       "query": "MATCH (t:SETask)-[:USED_FOR]-(a:SEActivity)\nWITH\n  coalesce(t.id, t.label, toString(id(t))) AS task,\n  coalesce(a.id, a.label, toString(id(a))) AS activity\nRETURN\n  task,\n  collect(DISTINCT activity) AS activities\nORDER BY task",
       "params": {},
       "row_limit": 10000,
-      "fetched_at": "2026-06-21T13:40:27Z",
+      "fetched_at": "2026-06-21T18:28:17Z",
       "rows": [
         {
           "task": "api recommendation",
@@ -6567,7 +6567,7 @@
       "query": "MATCH (n)\nWHERE any(lbl IN labels(n) WHERE lbl IN ['Model','Dataset','Paper','Benchmark','Collection','Space'])\n  AND n.seTaskGroups IS NOT NULL\nWITH\n  CASE head(labels(n))\n    WHEN 'Collection' THEN 'Collection:' + coalesce(n.slug, toString(n.id), n.name, toString(id(n)))\n    ELSE head(labels(n)) + ':' + coalesce(toString(n.id), n.name, toString(id(n)))\n  END AS artifactKey,\n  head(labels(n)) AS artifactType,\n  [g IN n.seTaskGroups WHERE g IS NOT NULL AND g <> ''] AS groups\nWHERE size(groups) > 0\n\nUNWIND groups AS task\nRETURN\n  task,\n  count(DISTINCT CASE WHEN artifactType = 'Dataset' THEN artifactKey END) AS datasetCount,\n  count(DISTINCT CASE WHEN artifactType = 'Model' THEN artifactKey END) AS modelCount,\n  count(DISTINCT CASE WHEN artifactType = 'Space' THEN artifactKey END) AS spaceCount,\n  count(DISTINCT CASE WHEN artifactType = 'Benchmark' THEN artifactKey END) AS benchmarkCount,\n  count(DISTINCT CASE WHEN artifactType = 'Collection' THEN artifactKey END) AS collectionCount\nORDER BY task",
       "params": {},
       "row_limit": 10000,
-      "fetched_at": "2026-06-21T13:40:28Z",
+      "fetched_at": "2026-06-21T18:28:17Z",
       "rows": []
     },
     "c1d1b06f5615737601822ec281d8f25ebb74b674e527e9c42615d430468b64f5": {
@@ -6577,7 +6577,7 @@
       "query": "CALL {\n    MATCH (m:SEModel)\n    RETURN count(DISTINCT m) AS totalModels\n}\nCALL {\n    MATCH (m:SEModel)-[:TRAINED_ON]->(d:Dataset)\n    RETURN count(DISTINCT d) AS totalDatasets\n}\nCALL {\n    OPTIONAL MATCH (m:SEModel)-[:CITES]->(p_model:Paper)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    OPTIONAL MATCH (p_data:Paper)-[:CITES]->(d)\n    WITH collect(DISTINCT p_model) + collect(DISTINCT p_data) AS paper_nodes\n    UNWIND paper_nodes AS p\n    WITH p\n    WHERE p IS NOT NULL\n    RETURN count(DISTINCT p) AS totalPapers\n}\nCALL {\n    MATCH (m:SEModel)-[:EVALUATED_ON]->(b:Benchmark)\n    RETURN count(DISTINCT b) AS totalBenchmarks\n}\nCALL {\n    MATCH (m:SEModel)\n    OPTIONAL MATCH (c_model:Collection)-[:CONTAINS]->(m)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    OPTIONAL MATCH (c_data:Collection)-[:CONTAINS]->(d)\n    WITH collect(DISTINCT c_model) + collect(DISTINCT c_data) AS collection_nodes\n    UNWIND collection_nodes AS c\n    WITH c\n    WHERE c IS NOT NULL\n    RETURN count(DISTINCT c) AS totalCollections\n}\nCALL {\n    MATCH (m:SEModel)\n    OPTIONAL MATCH (s_model:Space)-[:USES_MODEL]->(m)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    OPTIONAL MATCH (s_data:Space)-[:USES_DATASET]->(d)\n    WITH collect(DISTINCT s_model) + collect(DISTINCT s_data) AS space_nodes\n    UNWIND space_nodes AS s\n    WITH s\n    WHERE s IS NOT NULL\n    RETURN count(DISTINCT s) AS totalSpaces\n}\nMATCH (t:SETask)\nWITH t, coalesce(t.id, t.name, toString(id(t))) AS taskId,\n     totalModels, totalDatasets, totalPapers, totalBenchmarks, totalCollections, totalSpaces\nCALL {\n    WITH t, taskId\n    OPTIONAL MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)\n    RETURN count(DISTINCT m) AS numModels\n}\nCALL {\n    WITH t, taskId\n    OPTIONAL MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    RETURN count(DISTINCT d) AS numDatasets\n}\nCALL {\n    WITH t, taskId\n    OPTIONAL MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)\n    OPTIONAL MATCH (m)-[:CITES]->(p_model:Paper)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    OPTIONAL MATCH (p_data:Paper)-[:CITES]->(d)\n    WITH collect(DISTINCT p_model) + collect(DISTINCT p_data) AS paper_nodes\n    UNWIND paper_nodes AS p\n    WITH p\n    WHERE p IS NOT NULL\n    RETURN count(DISTINCT p) AS numPapers\n}\nCALL {\n    WITH t, taskId\n    OPTIONAL MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)\n    OPTIONAL MATCH (m)-[:EVALUATED_ON]->(b:Benchmark)\n    RETURN count(DISTINCT b) AS numBenchmarks\n}\nCALL {\n    WITH t, taskId\n    OPTIONAL MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)\n    OPTIONAL MATCH (c_model:Collection)-[:CONTAINS]->(m)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    OPTIONAL MATCH (c_data:Collection)-[:CONTAINS]->(d)\n    WITH collect(DISTINCT c_model) + collect(DISTINCT c_data) AS collection_nodes\n    UNWIND collection_nodes AS c\n    WITH c\n    WHERE c IS NOT NULL\n    RETURN count(DISTINCT c) AS numCollections\n}\nCALL {\n    WITH t, taskId\n    OPTIONAL MATCH (m:SEModel)-[:SUITABLE_FOR]->(t)\n    OPTIONAL MATCH (s_model:Space)-[:USES_MODEL]->(m)\n    OPTIONAL MATCH (m)-[:TRAINED_ON]->(d:Dataset)\n    OPTIONAL MATCH (s_data:Space)-[:USES_DATASET]->(d)\n    WITH collect(DISTINCT s_model) + collect(DISTINCT s_data) AS space_nodes\n    UNWIND space_nodes AS s\n    WITH s\n    WHERE s IS NOT NULL\n    RETURN count(DISTINCT s) AS numSpaces\n}\nRETURN\n    taskId AS seTask,\n    numModels,\n    totalModels,\n    CASE WHEN totalModels = 0 THEN 0.0 ELSE toFloat(numModels) / toFloat(totalModels) END AS modelSharePct,\n    numDatasets,\n    totalDatasets,\n    CASE WHEN totalDatasets = 0 THEN 0.0 ELSE toFloat(numDatasets) / toFloat(totalDatasets) END AS datasetSharePct,\n    numPapers,\n    totalPapers,\n    CASE WHEN totalPapers = 0 THEN 0.0 ELSE toFloat(numPapers) / toFloat(totalPapers) END AS paperSharePct,\n    numBenchmarks,\n    totalBenchmarks,\n    CASE WHEN totalBenchmarks = 0 THEN 0.0 ELSE toFloat(numBenchmarks) / toFloat(totalBenchmarks) END AS benchmarkSharePct,\n    numCollections,\n    totalCollections,\n    CASE WHEN totalCollections = 0 THEN 0.0 ELSE toFloat(numCollections) / toFloat(totalCollections) END AS collectionSharePct,\n    numSpaces,\n    totalSpaces,\n    CASE WHEN totalSpaces = 0 THEN 0.0 ELSE toFloat(numSpaces) / toFloat(totalSpaces) END AS spaceSharePct\nORDER BY toLower(taskId)",
       "params": {},
       "row_limit": 10000,
-      "fetched_at": "2026-06-21T13:40:29Z",
+      "fetched_at": "2026-06-21T18:28:18Z",
       "rows": [
         {
           "seTask": "api recommendation",
@@ -8060,7 +8060,7 @@
         "task_limit": 200
       },
       "row_limit": 200,
-      "fetched_at": "2026-06-20T16:28:11Z",
+      "fetched_at": "2026-06-21T18:28:52Z",
       "rows": [
         {
           "seTask": "api recommendation",
@@ -9473,7 +9473,7 @@
         "task_limit": 200
       },
       "row_limit": 200,
-      "fetched_at": "2026-06-20T16:28:13Z",
+      "fetched_at": "2026-06-21T18:28:52Z",
       "rows": [
         {
           "seTask": "api recommendation",
@@ -10114,7 +10114,7 @@
       "query": "MATCH (m:SEModel)\nWHERE m.likes IS NOT NULL\nMATCH (m)<-[:PUBLISHED]-(owner)\nWHERE owner:User OR owner:Organization\nRETURN\n    coalesce(m.id, m.name, toString(id(m))) AS model_id,\n    CASE\n        WHEN owner:User THEN 'User'\n        WHEN owner:Organization THEN 'Organization'\n        ELSE 'Unknown'\n    END AS owner_type,\n    toFloat(coalesce(m.likes, 0)) AS likes\nORDER BY likes DESC, owner_type, model_id",
       "params": {},
       "row_limit": 200000000,
-      "fetched_at": "2026-06-20T16:28:15Z",
+      "fetched_at": "2026-06-21T18:28:52Z",
       "rows": [
         {
           "model_id": "bigscience/bloom",
@@ -30150,7 +30150,7 @@
       "query": "MATCH (m:SEModel)\nWHERE m.likes IS NOT NULL\nMATCH (m)<-[:PUBLISHED]-(org:Organization)\nWITH\n    coalesce(m.id, m.name, toString(id(m))) AS model_id,\n    toLower(trim(coalesce(org.organization_type, org.org_type, org.organizationType, org.type, ''))) AS org_type,\n    toFloat(coalesce(m.likes, 0)) AS likes\nRETURN\n    model_id,\n    CASE\n        WHEN org_type = 'company' THEN 'Industry'\n        WHEN org_type IN ['university', 'classroom'] THEN 'Academic'\n        WHEN org_type IN ['community', 'organization', '', 'non-profit', 'government'] THEN 'Non-Profit'\n        ELSE 'Other'\n    END AS organization_type,\n    likes",
       "params": {},
       "row_limit": 5000000,
-      "fetched_at": "2026-06-20T16:28:18Z",
+      "fetched_at": "2026-06-21T18:28:53Z",
       "rows": [
         {
           "model_id": "dgtalbug/stable-code-instruct-3b",
@@ -36241,7 +36241,7 @@
       "query": "MATCH (m:SEModel)<-[:PUBLISHED]-(publisher)\nWHERE publisher:User OR publisher:Organization\nWITH\n    coalesce(m.id, m.name, toString(id(m))) AS model_id,\n    CASE\n        WHEN publisher:User THEN 'User'\n        WHEN publisher:Organization THEN 'Organization'\n        ELSE 'Unknown'\n    END AS publisher_type,\n    CASE\n        WHEN publisher:Organization THEN\n            CASE\n                WHEN toLower(trim(coalesce(publisher.organization_type, publisher.org_type, publisher.organizationType, publisher.type, ''))) = 'company' THEN 'Industry'\n                WHEN toLower(trim(coalesce(publisher.organization_type, publisher.org_type, publisher.organizationType, publisher.type, ''))) IN ['university', 'classroom'] THEN 'Academic'\n                WHEN toLower(trim(coalesce(publisher.organization_type, publisher.org_type, publisher.organizationType, publisher.type, ''))) IN ['community', 'organization', '', 'non-profit', 'government'] THEN 'Non-Profit'\n                ELSE 'Other'\n            END\n        ELSE 'N/A'\n    END AS organization_division,\n    CASE\n        WHEN publisher:User THEN coalesce(publisher.username, publisher.fullname, publisher.id, toString(id(publisher)))\n        WHEN publisher:Organization THEN coalesce(publisher.id, publisher.name, toString(id(publisher)))\n        ELSE ''\n    END AS contributor_id\nRETURN\n    publisher_type,\n    organization_division,\n    count(DISTINCT contributor_id) AS uniqueContributors,\n    count(DISTINCT model_id) AS uniqueModels\nORDER BY publisher_type, organization_division, uniqueContributors DESC",
       "params": {},
       "row_limit": 5000000,
-      "fetched_at": "2026-06-20T16:28:20Z",
+      "fetched_at": "2026-06-21T18:28:53Z",
       "rows": [
         {
           "publisher_type": "Organization",
@@ -36278,7 +36278,7 @@
         "top_limit": 100
       },
       "row_limit": 100,
-      "fetched_at": "2026-06-20T16:28:22Z",
+      "fetched_at": "2026-06-21T18:28:53Z",
       "rows": [
         {
           "contributor": "RichardErkhov",
@@ -45592,6 +45592,841 @@
           "numSpaces": 0,
           "totalSpaces": 38764,
           "spaceSharePct": 0.0
+        }
+      ]
+    },
+    "421b24ccbbdd6603799242d455c920ba200b53fb99d8f5bfd3970940de421624": {
+      "uri": "bolt://localhost:7687",
+      "username": "neo4j",
+      "database": "neo4j",
+      "query": "MATCH (m)-[:SUITABLE_FOR]->(t:SETask)-[:USED_FOR]->(a:SEActivity)\nWHERE m.createdAt IS NOT NULL\nWITH\n    a.label AS activity_name,\n    toInteger(substring(toString(m.createdAt), 0, 4)) AS year,\n    toInteger(substring(toString(m.createdAt), 5, 2)) AS month,\n    m\nWHERE year >= 2020\nWITH\n    activity_name,\n    toString(year) + '-Q' + toString(toInteger((month - 1) / 3) + 1) AS time_bucket,\n    count(DISTINCT m) AS quarterly_model_count\nRETURN\n    activity_name,\n    time_bucket,\n    quarterly_model_count AS model_count\nORDER BY activity_name, time_bucket",
+      "params": {},
+      "row_limit": 200,
+      "fetched_at": "2026-06-21T16:45:46Z",
+      "rows": [
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2022-Q1",
+          "model_count": 1
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2022-Q3",
+          "model_count": 1
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2023-Q2",
+          "model_count": 2
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2024-Q2",
+          "model_count": 5
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2024-Q4",
+          "model_count": 7
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2025-Q1",
+          "model_count": 2
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2025-Q2",
+          "model_count": 3
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2025-Q4",
+          "model_count": 3
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2026-Q1",
+          "model_count": 6
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2023-Q3",
+          "model_count": 2
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2024-Q1",
+          "model_count": 4
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2024-Q2",
+          "model_count": 3
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2024-Q3",
+          "model_count": 2
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2024-Q4",
+          "model_count": 3
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2025-Q1",
+          "model_count": 9
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2025-Q2",
+          "model_count": 1
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2025-Q3",
+          "model_count": 7
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2025-Q4",
+          "model_count": 9
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2026-Q1",
+          "model_count": 29
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2022-Q1",
+          "model_count": 49
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2022-Q2",
+          "model_count": 18
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2022-Q3",
+          "model_count": 11
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2022-Q4",
+          "model_count": 10
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q1",
+          "model_count": 19
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q2",
+          "model_count": 86
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q3",
+          "model_count": 164
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q4",
+          "model_count": 152
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2024-Q1",
+          "model_count": 210
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2024-Q2",
+          "model_count": 328
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2024-Q3",
+          "model_count": 273
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2024-Q4",
+          "model_count": 278
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2025-Q1",
+          "model_count": 247
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2025-Q2",
+          "model_count": 62
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2025-Q3",
+          "model_count": 534
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2025-Q4",
+          "model_count": 639
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2026-Q1",
+          "model_count": 549
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2026-Q2",
+          "model_count": 7
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q1",
+          "model_count": 8
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q2",
+          "model_count": 3
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q3",
+          "model_count": 3
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q4",
+          "model_count": 4
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2023-Q1",
+          "model_count": 3
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2023-Q2",
+          "model_count": 3
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2023-Q3",
+          "model_count": 5
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2023-Q4",
+          "model_count": 7
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2024-Q1",
+          "model_count": 12
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2024-Q2",
+          "model_count": 18
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2024-Q3",
+          "model_count": 24
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2024-Q4",
+          "model_count": 19
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q1",
+          "model_count": 35
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q2",
+          "model_count": 4
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q3",
+          "model_count": 9
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q4",
+          "model_count": 10
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2026-Q1",
+          "model_count": 54
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2022-Q1",
+          "model_count": 5
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2023-Q2",
+          "model_count": 2
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2023-Q3",
+          "model_count": 7
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2023-Q4",
+          "model_count": 6
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q1",
+          "model_count": 8
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q2",
+          "model_count": 22
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q3",
+          "model_count": 25
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q4",
+          "model_count": 26
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q1",
+          "model_count": 26
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q2",
+          "model_count": 6
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q3",
+          "model_count": 21
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q4",
+          "model_count": 37
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2026-Q1",
+          "model_count": 70
+        }
+      ]
+    },
+    "796081ec37b6d92bbaeb464932db0087c1b87ff405ec2062e16b786e30b7edd1": {
+      "uri": "bolt://localhost:7687",
+      "username": "neo4j",
+      "database": "neo4j",
+      "query": "MATCH (m)-[:SUITABLE_FOR]->(t:SETask)-[:USED_FOR]->(a:SEActivity)\nWHERE m.createdAt IS NOT NULL\nMATCH (m)-[:TRAINED_ON]->(d:Dataset)\nWITH\n    a.label AS activity_name,\n    toInteger(substring(toString(m.createdAt), 0, 4)) AS year,\n    toInteger(substring(toString(m.createdAt), 5, 2)) AS month,\n    d\nWHERE year >= 2020\nWITH\n    activity_name,\n    toString(year) + '-Q' + toString(toInteger((month - 1) / 3) + 1) AS time_bucket,\n    count(DISTINCT d) AS quarterly_dataset_count\nRETURN\n    activity_name,\n    time_bucket,\n    quarterly_dataset_count AS dataset_count\nORDER BY activity_name, time_bucket",
+      "params": {},
+      "row_limit": 200,
+      "fetched_at": "2026-06-21T16:45:46Z",
+      "rows": [
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2025-Q2",
+          "dataset_count": 1
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2025-Q4",
+          "dataset_count": 1
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2026-Q1",
+          "dataset_count": 1
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2024-Q1",
+          "dataset_count": 2
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2025-Q1",
+          "dataset_count": 8
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2025-Q2",
+          "dataset_count": 4
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2025-Q3",
+          "dataset_count": 1
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2025-Q4",
+          "dataset_count": 6
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2026-Q1",
+          "dataset_count": 4
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2022-Q1",
+          "dataset_count": 7
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2022-Q2",
+          "dataset_count": 3
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2022-Q3",
+          "dataset_count": 5
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2022-Q4",
+          "dataset_count": 6
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q1",
+          "dataset_count": 5
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q2",
+          "dataset_count": 16
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q3",
+          "dataset_count": 56
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q4",
+          "dataset_count": 55
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2024-Q1",
+          "dataset_count": 99
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2024-Q2",
+          "dataset_count": 188
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2024-Q3",
+          "dataset_count": 152
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2024-Q4",
+          "dataset_count": 112
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2025-Q1",
+          "dataset_count": 89
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2025-Q2",
+          "dataset_count": 72
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2025-Q3",
+          "dataset_count": 105
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2025-Q4",
+          "dataset_count": 137
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2026-Q1",
+          "dataset_count": 177
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q1",
+          "dataset_count": 2
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q4",
+          "dataset_count": 3
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2023-Q1",
+          "dataset_count": 1
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2023-Q4",
+          "dataset_count": 3
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2024-Q2",
+          "dataset_count": 4
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2024-Q3",
+          "dataset_count": 3
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2024-Q4",
+          "dataset_count": 26
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q1",
+          "dataset_count": 20
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q2",
+          "dataset_count": 11
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q3",
+          "dataset_count": 5
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q4",
+          "dataset_count": 5
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2026-Q1",
+          "dataset_count": 38
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2022-Q1",
+          "dataset_count": 2
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2023-Q2",
+          "dataset_count": 1
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2023-Q3",
+          "dataset_count": 3
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q1",
+          "dataset_count": 1
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q2",
+          "dataset_count": 6
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q3",
+          "dataset_count": 4
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q4",
+          "dataset_count": 11
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q1",
+          "dataset_count": 8
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q2",
+          "dataset_count": 2
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q3",
+          "dataset_count": 7
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q4",
+          "dataset_count": 17
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2026-Q1",
+          "dataset_count": 32
+        }
+      ]
+    },
+    "464e526d3d4da5d19fe5126d8b6f76baa3370fe1b96bbc7371a09eee068bbee2": {
+      "uri": "bolt://localhost:7687",
+      "username": "neo4j",
+      "database": "neo4j",
+      "query": "// Step 1: Get total task count per activity\nMATCH (t:SETask)-[:USED_FOR]->(a:SEActivity)\nWITH a.label AS activity_name, count(DISTINCT t) AS total_tasks\n\n// Step 2: For each activity+quarter, count tasks whose first model appears in that quarter\nMATCH (m)-[:SUITABLE_FOR]->(t:SETask)-[:USED_FOR]->(a:SEActivity)\nWHERE m.createdAt IS NOT NULL\n  AND a.label = activity_name\n  AND toInteger(substring(toString(m.createdAt), 0, 4)) >= 2020\nWITH\n    activity_name,\n    total_tasks,\n    t,\n    toInteger(substring(toString(m.createdAt), 0, 4)) AS year,\n    toInteger(substring(toString(m.createdAt), 5, 2)) AS month\nWITH\n    activity_name,\n    total_tasks,\n    t,\n    min(toString(year) + '-Q' + toString(toInteger((month - 1) / 3) + 1)) AS time_bucket\nWITH\n    activity_name,\n    total_tasks,\n    time_bucket,\n    count(*) AS quarterly_tasks_with_models\nRETURN\n    activity_name,\n    time_bucket,\n    total_tasks,\n    quarterly_tasks_with_models AS monthly_tasks_with_models,\n    round(toFloat(quarterly_tasks_with_models) / toFloat(total_tasks), 4) AS task_coverage_ratio\nORDER BY activity_name, time_bucket",
+      "params": {},
+      "row_limit": 200,
+      "fetched_at": "2026-06-21T16:45:47Z",
+      "rows": [
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2022-Q1",
+          "total_tasks": 11,
+          "monthly_tasks_with_models": 2,
+          "task_coverage_ratio": 0.1818
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2024-Q2",
+          "total_tasks": 11,
+          "monthly_tasks_with_models": 3,
+          "task_coverage_ratio": 0.2727
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2024-Q4",
+          "total_tasks": 11,
+          "monthly_tasks_with_models": 3,
+          "task_coverage_ratio": 0.2727
+        },
+        {
+          "activity_name": "Requirements engineering",
+          "time_bucket": "2026-Q1",
+          "total_tasks": 11,
+          "monthly_tasks_with_models": 3,
+          "task_coverage_ratio": 0.2727
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2023-Q3",
+          "total_tasks": 8,
+          "monthly_tasks_with_models": 2,
+          "task_coverage_ratio": 0.25
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2024-Q1",
+          "total_tasks": 8,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.125
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2024-Q3",
+          "total_tasks": 8,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.125
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2024-Q4",
+          "total_tasks": 8,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.125
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2025-Q1",
+          "total_tasks": 8,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.125
+        },
+        {
+          "activity_name": "Software design",
+          "time_bucket": "2026-Q1",
+          "total_tasks": 8,
+          "monthly_tasks_with_models": 2,
+          "task_coverage_ratio": 0.25
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2022-Q1",
+          "total_tasks": 17,
+          "monthly_tasks_with_models": 11,
+          "task_coverage_ratio": 0.6471
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q1",
+          "total_tasks": 17,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.0588
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2023-Q3",
+          "total_tasks": 17,
+          "monthly_tasks_with_models": 3,
+          "task_coverage_ratio": 0.1765
+        },
+        {
+          "activity_name": "Software implementation",
+          "time_bucket": "2024-Q4",
+          "total_tasks": 17,
+          "monthly_tasks_with_models": 2,
+          "task_coverage_ratio": 0.1176
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q1",
+          "total_tasks": 13,
+          "monthly_tasks_with_models": 3,
+          "task_coverage_ratio": 0.2308
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q2",
+          "total_tasks": 13,
+          "monthly_tasks_with_models": 2,
+          "task_coverage_ratio": 0.1538
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q3",
+          "total_tasks": 13,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.0769
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2022-Q4",
+          "total_tasks": 13,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.0769
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2023-Q4",
+          "total_tasks": 13,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.0769
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2024-Q3",
+          "total_tasks": 13,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.0769
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2024-Q4",
+          "total_tasks": 13,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.0769
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q1",
+          "total_tasks": 13,
+          "monthly_tasks_with_models": 2,
+          "task_coverage_ratio": 0.1538
+        },
+        {
+          "activity_name": "Software maintenance",
+          "time_bucket": "2025-Q2",
+          "total_tasks": 13,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.0769
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2022-Q1",
+          "total_tasks": 21,
+          "monthly_tasks_with_models": 2,
+          "task_coverage_ratio": 0.0952
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2023-Q3",
+          "total_tasks": 21,
+          "monthly_tasks_with_models": 5,
+          "task_coverage_ratio": 0.2381
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q1",
+          "total_tasks": 21,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.0476
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2024-Q2",
+          "total_tasks": 21,
+          "monthly_tasks_with_models": 2,
+          "task_coverage_ratio": 0.0952
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q1",
+          "total_tasks": 21,
+          "monthly_tasks_with_models": 4,
+          "task_coverage_ratio": 0.1905
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q2",
+          "total_tasks": 21,
+          "monthly_tasks_with_models": 1,
+          "task_coverage_ratio": 0.0476
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q3",
+          "total_tasks": 21,
+          "monthly_tasks_with_models": 4,
+          "task_coverage_ratio": 0.1905
+        },
+        {
+          "activity_name": "Software quality assurance",
+          "time_bucket": "2025-Q4",
+          "total_tasks": 21,
+          "monthly_tasks_with_models": 2,
+          "task_coverage_ratio": 0.0952
         }
       ]
     }

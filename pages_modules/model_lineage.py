@@ -446,8 +446,12 @@ def _render_all_tasks_lineage_table(uri: str, username: str, password: str, data
             st.info("Use Refresh from Neo4j to regenerate the CSV.")
             return
     else:
-        st.info(f"Load the saved CSV from {csv_path} or refresh it from Neo4j.")
-        return
+        try:
+            table_df = load_saved_lineage_table(csv_path)
+            st.caption(f"Auto-loaded cached CSV from {csv_path}. Use Refresh to update.")
+        except Exception:
+            st.info(f"No cached CSV found at {csv_path}. Use Refresh from Neo4j to generate it.")
+            return
 
     if table_df is None or table_df.empty:
         st.info("No lineage table rows available.")

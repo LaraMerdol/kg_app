@@ -1,6 +1,7 @@
 from collections import Counter
 import json
 from pathlib import Path
+from utils import anchor
 
 import pandas as pd
 import streamlit as st
@@ -206,7 +207,8 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
 
     st.subheader("All Tasks Ecosystem Overview")
     st.caption("Aggregated ecosystem count statistics for all SETasks.")
-
+    anchor("dataset-modalities")
+    st.subheader("SE Model Dataset Modalities and Formats")
     col_load, col_refresh = st.columns([1, 1])
     load_clicked = col_load.button("Load all tasks (cache first)", type="primary")
     refresh_clicked = col_refresh.button("Refresh all tasks from DB")

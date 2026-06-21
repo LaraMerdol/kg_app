@@ -49,12 +49,12 @@ except ImportError:
     )
     from visualization import build_cytoscape_html, build_graphviz_dot
 
+from utils import anchor, captionlink
+
 
 def render_task_ecosystem_page(uri: str, username: str, password: str, database: str, row_limit: int) -> None:
     st.subheader("Task Ecosystem Analysis")
-    st.caption(
-        "For each SE task in our knowledge graph, we build a task-centered subgraph with models, datasets, papers, benchmarks, collections, and spaces."
-    )
+    captionlink("For each SE task in our knowledge graph, we build a task-centered subgraph with models, datasets, papers, benchmarks, collections, and spaces.", "task-ecosystem-description", 1, "Specific Task")
 
     task_name = st.text_input("SETask name", value="code understanding")
     col_load, col_refresh = st.columns([1, 1])
@@ -122,7 +122,7 @@ def render_task_ecosystem_page(uri: str, username: str, password: str, database:
                 )
 
                 st.markdown("### Most Used Artifacts")
-                st.caption("Top entities ranked by number of linked models within the selected SETask.")
+                captionlink("Top entities ranked by number of linked models within the selected SETask.", "most-used-artifacts", 1, "Specific Task")
                 st.dataframe(most_used_df, use_container_width=True)
 
             subgraph_rows, subgraph_source, subgraph_info = get_data_with_fallback(
@@ -154,7 +154,7 @@ def render_task_ecosystem_page(uri: str, username: str, password: str, database:
                     if show_mode in ("Cytoscape.js", "Both"):
                         components.html(build_cytoscape_html(nodes, relationships, height_px=760), height=800, scrolling=False)
 
-                    st.caption(f"Nodes: {len(nodes)} | Relationships: {len(relationships)}")
+                    captionlink(f"Nodes: {len(nodes)} | Relationships: {len(relationships)}", "subgraph-node-count", 1, "Specific Task")
                     payload = {
                         "task_name": task_name.strip(),
                         "source": subgraph_source,
@@ -178,7 +178,7 @@ def render_task_ecosystem_page(uri: str, username: str, password: str, database:
 
 def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, database: str, row_limit: int) -> None:
     st.subheader("All Tasks Ecosystem Overview")
-    st.caption("Aggregated ecosystem count statistics for all SETasks.")
+    captionlink("Aggregated ecosystem count statistics for all SETasks.", "all-tasks-overview", 1, "All Tasks")
 
     col_load, col_refresh = st.columns([1, 1])
     load_clicked = col_load.button("Load all tasks (cache first)", type="primary")
@@ -265,7 +265,7 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                 ]
                 view_cols = [c for c in view_cols if c in df.columns]
 
-                st.caption(f"Returned {len(df)} tasks (limit used: {all_tasks_limit}).")
+                captionlink(f"Returned {len(df)} tasks (limit used: {all_tasks_limit}).", "tasks-returned-count", 1, "All Tasks")
                 st.markdown("### All Tasks Ecosystem Summary")
                 st.dataframe(df[view_cols], use_container_width=True)
 
@@ -306,7 +306,7 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                 )
 
                 st.markdown("### Completeness Metrics (Per SETask)")
-                st.caption(f"Total SEModels in scope: {int(total_models)}")
+                captionlink(f"Total SEModels in scope: {int(total_models)}", "completeness-total-models", 1, "All Tasks")
 
                 mc1, mc2, mc3, mc4 = st.columns(4)
                 mc1.metric("Dataset completeness", f"{agg_ratio_df.loc[0, 'Global ratio']:.2f}")
@@ -1069,7 +1069,7 @@ def render_task_artifact_overlaps_page(
     row_limit: int,
 ) -> None:
     st.subheader("Task Artifact Overlaps")
-    st.caption("Pairwise overlap summary for tasks and activities.")
+    captionlink("Pairwise overlap summary for tasks and activities.", "pairwise-overlap-summary", 1, "Artifact Overlaps")
 
     if not password:
         st.error("Please provide Neo4j password in the sidebar.")
@@ -1334,9 +1334,7 @@ def render_task_artifact_overlaps_page(
     st.plotly_chart(heatmap_fig, use_container_width=True)
 
     st.markdown("### Task overlap network")
-    st.caption(
-        "Tasks are connected when they share artifacts. Edge width encodes Jaccard overlap across all artifacts."
-    )
+    captionlink("Tasks are connected when they share artifacts. Edge width encodes Jaccard overlap across all artifacts.", "overlap-network-description", 1, "Artifact Overlaps")
     graph_col1, graph_col2 = st.columns([1, 1])
     min_edge_jaccard = graph_col1.slider(
         "Min edge Jaccard",
@@ -1368,9 +1366,7 @@ def render_task_artifact_overlaps_page(
         st.info("No overlap edges with positive Jaccard were found for the current task set.")
 
     st.markdown("### Hub artifacts")
-    st.caption(
-        "Hub artifacts are shared across many tasks."
-    )
+    captionlink("Hub artifacts are shared across many tasks.", "hub-artifacts-description", 1, "Artifact Overlaps")
     artifact_share_state_key = "task_artifact_share_global_rows"
     if artifact_share_state_key not in st.session_state:
         try:
@@ -1424,9 +1420,7 @@ def render_task_artifact_overlaps_page(
         st.dataframe(hub_df, use_container_width=True, height=360)
 
         st.markdown("### Cross-task artifact dependency graph")
-        st.caption(
-            "Enter an artifact key like Dataset:custom or Collection:diwank/k-65ecc81e3ec9c2d5f8fffcfb to show a focused neighborhood around that artifact."
-        )
+        captionlink("Enter an artifact key like Dataset:custom or Collection:diwank/k-65ecc81e3ec9c2d5f8fffcfb to show a focused neighborhood around that artifact.", "cross-task-artifact-graph", 1, "Artifact Overlaps")
         artifact_graph_col1, artifact_graph_col2 = st.columns([2, 1])
         selected_artifact_key = artifact_graph_col1.text_input(
             "Artifact key",
@@ -1467,7 +1461,7 @@ def render_task_artifact_overlaps_page(
             st.info("No artifact dependency graph could be built from the available task-share rows.")
 
     st.markdown("### Aggregate SDLC activity effect across HF dimensions")
-    st.caption("Compares mean Jaccard for task pairs in the same SEActivity vs different SEActivities.")
+    captionlink("Compares mean Jaccard for task pairs in the same SEActivity vs different SEActivities.", "sdlc-activity-effect", 1, "Artifact Overlaps")
 
     pair_stats_df = overlap_df.copy()
     pair_stats_df["activity1"] = pair_stats_df["task1"].map(lambda t: activity_by_task.get(str(t), "NoActivity"))
@@ -1626,8 +1620,8 @@ def render_task_artifact_overlaps_page(
         m3.metric("Overlap coefficient", f"{overlap_coeff:.3f}")
 
         st.markdown("### Pair graph grouped by SETask cluster")
-        st.caption("Tasks are shown as cluster anchors. Artifact nodes connect to the task groups in seTaskGroups, so shared artifacts sit naturally between both tasks.")
-        st.caption(f"Selected pair: {selected_task1} vs {selected_task2}")
+        captionlink("Tasks are shown as cluster anchors. Artifact nodes connect to the task groups in seTaskGroups, so shared artifacts sit naturally between both tasks.", "pair-graph-description", 1, "Artifact Overlaps")
+        captionlink(f"Selected pair: {selected_task1} vs {selected_task2}", "selected-pair-label", 1, "Artifact Overlaps")
         pair_graph_rows, _, _ = get_data_with_fallback(
             uri=uri,
             username=username,
@@ -1646,7 +1640,7 @@ def render_task_artifact_overlaps_page(
 
         if pair_nodes:
             components.html(build_cytoscape_html(pair_nodes, pair_relationships, height_px=760), height=800, scrolling=False)
-            st.caption(f"Combined ecosystem nodes: {len(pair_nodes)} | relationships: {len(pair_relationships)}")
+            captionlink(f"Combined ecosystem nodes: {len(pair_nodes)} | relationships: {len(pair_relationships)}", "pair-node-count", 1, "Artifact Overlaps")
         else:
             st.warning("No combined ecosystem subgraph was returned for this task pair.")
 
@@ -1671,9 +1665,7 @@ def render_task_specificity_page(
     row_limit: int,
 ) -> None:
     st.subheader("Task Specificity vs Generality")
-    st.caption(
-        "For a selected task, classify artifacts as exclusive to the task, shared with few tasks, or broadly shared infrastructure."
-    )
+    captionlink("For a selected task, classify artifacts as exclusive to the task, shared with few tasks, or broadly shared infrastructure.", "specificity-description", 1, "Task Specificity")
 
     if not password:
         st.error("Please provide Neo4j password in the sidebar.")
@@ -1873,10 +1865,10 @@ def render_task_specificity_page(
         g3.metric("Top generic ratio (all)", f"{top_generic_all[1] * 100.0:.1f}%", top_generic_all[0])
         g4.metric("Top generic ratio (model)", f"{top_generic_model[1] * 100.0:.1f}%", top_generic_model[0])
 
-        st.caption(f"Generic ratio uses current threshold: taskShareCount >= {generic_threshold_for_stats}")
+        captionlink(f"Generic ratio uses current threshold: taskShareCount >= {generic_threshold_for_stats}", "generic-ratio-threshold", 1, "Task Specificity")
 
         st.markdown("### General statistics table (all SETasks)")
-        st.caption("Ordered by exclusive ratio. Includes overall and artifact-type exclusive/generic ratios.")
+        captionlink("Ordered by exclusive ratio. Includes overall and artifact-type exclusive/generic ratios.", "general-stats-table-description", 1, "Task Specificity")
 
         base_cols = [
             "task",
