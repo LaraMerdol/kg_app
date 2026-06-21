@@ -1,7 +1,7 @@
 SOCIAL_COMMUNITY_COUNTS_QUERY = """
 MATCH (t:SETask)
 WITH t
-ORDER BY toLower(coalesce(t.id, t.name, toString(id(t))))
+ORDER BY toLower(coalesce(t.id, t.label, toString(id(t))))
 LIMIT toInteger(coalesce($task_limit, 25))
 
 OPTIONAL MATCH (m_root:Model)-[:SUITABLE_FOR]->(t)
@@ -12,8 +12,8 @@ WITH t,
 CALL {
     WITH t
     OPTIONAL MATCH (t)-[:USED_FOR]-(a:SEActivity)
-    WITH collect(DISTINCT coalesce(a.id, a.name, toString(id(a)))) AS activities
-    RETURN CASE WHEN size(activities) = 0 THEN ['Unmapped'] ELSE activities END AS seActivities
+    WITH collect(DISTINCT coalesce(a.id, a.label, toString(id(a)))) AS activities
+    RETURN CASE WHEN size(activities) = 0 THEN ['NoActivity'] ELSE activities END AS seActivities
 }
 CALL {
     WITH task_models
@@ -110,7 +110,7 @@ CALL {
         coalesce(head(collect(model_id)), '') AS mostLikedModel,
         toInteger(coalesce(head(collect(likes)), 0)) AS mostLikedModelLikes
 }
-RETURN coalesce(t.id, t.name, toString(id(t))) AS seTask,
+RETURN coalesce(t.id, t.label, toString(id(t))) AS seTask,
        seActivities,
        numModels,
        numDatasets,
@@ -126,7 +126,7 @@ RETURN coalesce(t.id, t.name, toString(id(t))) AS seTask,
        mostDownloadedModelDownloads,
        mostLikedModel,
        mostLikedModelLikes
-ORDER BY toLower(coalesce(t.id, t.name, toString(id(t))))
+ORDER BY toLower(coalesce(t.id, t.label, toString(id(t))))
 """
 
 SOCIAL_COMMUNITY_MODEL_LIKES_BY_OWNER_QUERY = """
@@ -238,7 +238,7 @@ RETURN
     organizationDivision,
     uniqueModels,
     uniqueSETasks,
-    CASE WHEN size(seTasks) = 0 THEN ['Unmapped'] ELSE seTasks END AS seTasks
+    CASE WHEN size(seTasks) = 0 THEN ['NoActivity'] ELSE seTasks END AS seTasks
 ORDER BY uniqueModels DESC, uniqueSETasks DESC, toLower(contributor)
 LIMIT toInteger(coalesce($top_limit, 100))
 """

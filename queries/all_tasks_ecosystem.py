@@ -328,7 +328,7 @@ WITH coalesce(t.id, t.name, toString(id(t))) AS seTask, t
 CALL {
     WITH t
     OPTIONAL MATCH (t)-[:USED_FOR]-(a:SEActivity)
-    WITH collect(DISTINCT coalesce(a.id, a.name, toString(id(a)))) AS activities
+    WITH collect(DISTINCT coalesce(a.id, a.label, toString(id(a)))) AS activities
     RETURN CASE WHEN size(activities) = 0 THEN ['Unmapped'] ELSE activities END AS seActivities
 }
 CALL {

@@ -70,7 +70,7 @@ ORDER BY numSeeds DESC
 MODEL_LINEAGE_BY_ACTIVITY_QUERY = """
 MATCH (t:SETask)-[:USED_FOR]->(a:SEActivity)
 WITH coalesce(t.id, t.name, toString(id(t))) AS taskKey,
-     coalesce(a.id, a.name, toString(id(a))) AS activityKey
+     coalesce(a.id, a.label, toString(id(a))) AS activityKey
 MATCH (seed:Model)
 WHERE taskKey IN coalesce(seed.seTaskGroups, [])
 WITH DISTINCT activityKey, seed
@@ -105,7 +105,7 @@ ORDER BY adapterShare DESC
 MODEL_LINEAGE_LENGTH_DISTRIBUTION_BY_ACTIVITY_QUERY = """
 MATCH (t:SETask)-[:USED_FOR]->(a:SEActivity)
 WITH coalesce(t.id, t.name, toString(id(t))) AS taskKey,
-     coalesce(a.id, a.name, toString(id(a))) AS activityKey
+     coalesce(a.id, a.label, toString(id(a))) AS activityKey
 MATCH (seed:Model)
 WHERE taskKey IN coalesce(seed.seTaskGroups, [])
 WITH DISTINCT activityKey, seed

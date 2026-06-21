@@ -9,7 +9,6 @@ The app provides multiple analysis views for the graph data:
 - Artifact Ecosystem
 - Social Community
 - Model Lineage
-- Successful Models
 - Query Explorer
 - Cache viewer
 

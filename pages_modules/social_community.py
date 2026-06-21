@@ -86,10 +86,10 @@ def _prepare_task_index_df(rows: List[dict]) -> pd.DataFrame:
 def _normalize_activities(value: object) -> List[str]:
     if isinstance(value, list):
         activities = [str(item).strip() for item in value if str(item).strip()]
-        return activities or ["Unmapped"]
+        return activities or ["NoActivity"]
     if isinstance(value, str) and value.strip():
         return [value.strip()]
-    return ["Unmapped"]
+    return ["NoActivity"]
 
 
 def _model_publisher_dominance(user_count: int, org_count: int) -> str:
@@ -337,32 +337,26 @@ def render_analysis_2_placeholder(
 
     if "seActivities" in df.columns:
         df["seActivities"] = df["seActivities"].apply(_normalize_activities)
-        df["seActivity"] = df["seActivities"].apply(lambda activities: ", ".join(activities))
     else:
-        df["seActivities"] = [["Unmapped"] for _ in range(len(df))]
-        df["seActivity"] = "Unmapped"
+        df["seActivities"] = [["NoActivity"] for _ in range(len(df))]
 
     st.markdown("### Task Community Index")
     st.caption("Tasks are ranked by related users, then by model and dataset contributors.")
 
-    metrics = st.columns(7)
+    metrics = st.columns(4)
     metrics[0].metric("Tasks", f"{len(df)}")
-    metrics[1].metric("Models", f"{int(df['numModels'].sum()) if 'numModels' in df.columns else 0}")
-    metrics[2].metric("Datasets", f"{int(df['numDatasets'].sum()) if 'numDatasets' in df.columns else 0}")
-    metrics[3].metric("Papers", f"{int(df['numPapers'].sum()) if 'numPapers' in df.columns else 0}")
-    metrics[4].metric(
+    metrics[1].metric(
         "Models by Users",
         f"{int(df['numModelsOwnedByUsers'].sum()) if 'numModelsOwnedByUsers' in df.columns else 0}",
     )
-    metrics[5].metric("Related Users", f"{int(df['numUsers'].sum()) if 'numUsers' in df.columns else 0}")
-    metrics[6].metric("Related Organizations", f"{int(df['numOrganizations'].sum()) if 'numOrganizations' in df.columns else 0}")
+    metrics[2].metric("Related Users", f"{int(df['numUsers'].sum()) if 'numUsers' in df.columns else 0}")
+    metrics[3].metric("Related Organizations", f"{int(df['numOrganizations'].sum()) if 'numOrganizations' in df.columns else 0}")
 
     if nav_page and nav_page != "All Tasks":
         st.caption(f"Focused view triggered from the {nav_page} navigation tab.")
 
     display_columns = [
         "seTask",
-        "seActivity",
         "numModels",
         "numDatasets",
         "numPapers",
@@ -393,7 +387,6 @@ def render_analysis_2_placeholder(
 
     rename_map = {
         "seTask": "SETask",
-        "seActivity": "SEActivity",
         "numModels": "Models",
         "numDatasets": "Datasets",
         "numPapers": "Papers",
@@ -553,7 +546,6 @@ def render_analysis_2_placeholder(
 
     popularity_cols = {
         "seTask",
-        "seActivity",
         "mostDownloadedModel",
         "mostDownloadedModelDownloads",
         "mostLikedModel",
@@ -563,7 +555,6 @@ def render_analysis_2_placeholder(
         popularity_df = df[
             [
                 "seTask",
-                "seActivity",
                 "mostDownloadedModel",
                 "mostDownloadedModelDownloads",
                 "mostLikedModel",
@@ -573,7 +564,6 @@ def render_analysis_2_placeholder(
         popularity_df = popularity_df.rename(
             columns={
                 "seTask": "SETask",
-                "seActivity": "SEActivity",
                 "mostDownloadedModel": "Most Downloaded Model",
                 "mostDownloadedModelDownloads": "Downloads",
                 "mostLikedModel": "Most Liked Model",
@@ -781,20 +771,19 @@ def render_analysis_2_placeholder(
 
     st.divider()
 
-    if {"seTask", "seActivity", "numHubContributors", "numProHubContributors", "proHubContributorRatio"}.issubset(df.columns):
-        pro_df = df[["seTask", "seActivity", "numHubContributors", "numProHubContributors", "proHubContributorRatio"]].copy()
+    if {"seTask", "numHubContributors", "numProHubContributors", "proHubContributorRatio"}.issubset(df.columns):
+        pro_df = df[["seTask", "numHubContributors", "numProHubContributors", "proHubContributorRatio"]].copy()
         pro_df["Pro User %"] = pro_df["proHubContributorRatio"].map(lambda value: f"{float(value) * 100:.2f}%")
         pro_df["proHubContributorRatio"] = pro_df["proHubContributorRatio"].map(lambda value: f"{float(value):.4f}")
         pro_df = pro_df.rename(
             columns={
                 "seTask": "SETask",
-                "seActivity": "SEActivity",
                 "numHubContributors": "Hub Contributors",
                 "numProHubContributors": "Pro Hub Contributors",
                 "proHubContributorRatio": "Pro User Ratio",
             }
         )
-        pro_df = pro_df[["SETask", "SEActivity", "Hub Contributors", "Pro Hub Contributors", "Pro User Ratio", "Pro User %"]]
+        pro_df = pro_df[["SETask", "Hub Contributors", "Pro Hub Contributors", "Pro User Ratio", "Pro User %"]]
 
         st.subheader("All Tasks Tab: Pro User Ratio by Task Hub Contributors")
         st.caption("Pro User Ratio = pro hub contributors / all hub contributors, where hub contributors are model, dataset, and paper publishers tied to the task.")
@@ -807,70 +796,8 @@ def render_analysis_2_placeholder(
             mime="text/csv",
         )
 
-        activity_rows = []
-        for _, row in df.iterrows():
-            task_name = str(row.get("seTask", ""))
-            activities = _normalize_activities(row.get("seActivities", ["Unmapped"]))
-            hub_count = int(row.get("numHubContributors", 0))
-            pro_hub_count = int(row.get("numProHubContributors", 0))
-            for activity in activities:
-                activity_rows.append(
-                    {
-                        "SEActivity": activity,
-                        "SETask": task_name,
-                        "Hub Contributors": hub_count,
-                        "Pro Hub Contributors": pro_hub_count,
-                    }
-                )
-
-        activity_pro_df = pd.DataFrame(activity_rows)
-        if not activity_pro_df.empty:
-            activity_index_df = (
-                activity_pro_df.groupby("SEActivity", as_index=False)
-                .agg(
-                    tasks=("SETask", "nunique"),
-                    hubContributors=("Hub Contributors", "sum"),
-                    proHubContributors=("Pro Hub Contributors", "sum"),
-                )
-                .sort_values(["proHubContributors", "hubContributors", "SEActivity"], ascending=[False, False, True])
-                .reset_index(drop=True)
-            )
-            activity_index_df["proHubContributorRatio"] = activity_index_df.apply(
-                lambda row: (
-                    float(row["proHubContributors"]) / float(row["hubContributors"])
-                    if int(row["hubContributors"]) > 0
-                    else 0.0
-                ),
-                axis=1,
-            )
-            activity_index_df["Pro User Ratio"] = activity_index_df["proHubContributorRatio"].map(lambda v: f"{v:.4f}")
-            activity_index_df["Pro User %"] = activity_index_df["proHubContributorRatio"].map(lambda v: f"{v * 100:.2f}%")
-
-            activity_index_df = activity_index_df.rename(
-                columns={
-                    "tasks": "Tasks",
-                    "hubContributors": "Hub Contributors",
-                    "proHubContributors": "Pro Hub Contributors",
-                }
-            )
-            activity_index_df = activity_index_df[
-                ["SEActivity", "Tasks", "Hub Contributors", "Pro Hub Contributors", "Pro User Ratio", "Pro User %"]
-            ]
-
-            st.markdown("### SEActivity Pro User Ratio Index")
-            st.caption("Aggregated index across tasks: hub contributors include model, dataset, and paper publishers.")
-            st.dataframe(activity_index_df, use_container_width=True, height=320)
-
-            st.download_button(
-                "Download SEActivity pro user ratio index (CSV)",
-                data=activity_index_df.to_csv(index=False),
-                file_name="social_community_seactivity_pro_user_ratio_index.csv",
-                mime="text/csv",
-            )
-
     if {
         "seTask",
-        "seActivity",
         "topModelContributor",
         "topModelContributorType",
         "topModelContributorModelCount",
@@ -879,7 +806,6 @@ def render_analysis_2_placeholder(
         bus_df = df[
             [
                 "seTask",
-                "seActivity",
                 "topModelContributor",
                 "topModelContributorType",
                 "topModelContributorModelCount",
@@ -890,7 +816,6 @@ def render_analysis_2_placeholder(
         bus_df = bus_df.rename(
             columns={
                 "seTask": "SETask",
-                "seActivity": "SEActivity",
                 "topModelContributor": "Top Model Publisher",
                 "topModelContributorType": "Publisher Type",
                 "topModelContributorModelCount": "Top Contributor Models",
@@ -902,7 +827,7 @@ def render_analysis_2_placeholder(
         st.caption("Bus Factor Ratio = (models from top model publisher: user or organization) / (all models in the task).")
         st.dataframe(bus_df, use_container_width=True, height=320)
 
-    dominance_columns = {"seTask", "seActivity", "numModelUserContributors", "numModelOrganizationContributors"}
+    dominance_columns = {"seTask", "numModelUserContributors", "numModelOrganizationContributors"}
     if dominance_columns.issubset(df.columns):
         dominance_df = df.copy()
         dominance_df["dominance"] = dominance_df.apply(
@@ -912,24 +837,21 @@ def render_analysis_2_placeholder(
             ),
             axis=1,
         )
-
         user_dominated_df = dominance_df[dominance_df["dominance"] == "User Dominated"][
-            ["seTask", "seActivity", "numModelUserContributors", "numModelOrganizationContributors"]
+            ["seTask", "numModelUserContributors", "numModelOrganizationContributors"]
         ].rename(
             columns={
                 "seTask": "SETask",
-                "seActivity": "SEActivity",
                 "numModelUserContributors": "Model Publishers (Users)",
                 "numModelOrganizationContributors": "Model Publishers (Organizations)",
             }
         )
 
         org_dominated_df = dominance_df[dominance_df["dominance"] == "Organization Dominated"][
-            ["seTask", "seActivity", "numModelUserContributors", "numModelOrganizationContributors"]
+            ["seTask", "numModelUserContributors", "numModelOrganizationContributors"]
         ].rename(
             columns={
                 "seTask": "SETask",
-                "seActivity": "SEActivity",
                 "numModelUserContributors": "Model Publishers (Users)",
                 "numModelOrganizationContributors": "Model Publishers (Organizations)",
             }

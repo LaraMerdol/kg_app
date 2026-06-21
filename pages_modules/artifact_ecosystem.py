@@ -981,21 +981,6 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                 else:
                     st.info("SEActivity linkage bar chart is unavailable because required columns are missing.")
 
-                if not emi_history_df.empty:
-                    st.markdown("### EMI trend by SEActivity")
-                    if latest_emi_year is not None:
-                        st.caption(f"Showing all years from CSV. Latest EMI year in table: {latest_emi_year}")
-                    emi_trend_fig = px.line(
-                        emi_history_df.sort_values(["year", "seActivity"]),
-                        x="year",
-                        y="EMI",
-                        color="seActivity",
-                        markers=True,
-                        title="EMI change over years",
-                    )
-                    emi_trend_fig.update_layout(legend_title_text="SEActivity", height=420)
-                    st.plotly_chart(emi_trend_fig, use_container_width=True)
-
                 per_task_ratio_df = df[["seTask", "numModels"] + ratio_cols].copy()
                 per_task_ratio_df["overallCompletenessRatio"] = per_task_ratio_df[ratio_cols].mean(axis=1)
                 per_task_ratio_df = per_task_ratio_df.sort_values(

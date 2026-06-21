@@ -326,96 +326,7 @@ def render_all_tasks_ecosystem_page(uri: str, username: str, password: str, data
                 ratio_fig.update_layout(showlegend=False, height=340)
                 st.plotly_chart(ratio_fig, use_container_width=True)
 
-                st.markdown("### Completeness Metrics (Per SEActivity)")
-
-                try:
-                    activity_rows, _, _ = get_data_with_fallback(
-                        uri=uri,
-                        username=username,
-                        password=password,
-                        database=database,
-                        query=TASK_ACTIVITY_BY_TASK_QUERY,
-                        row_limit=max(all_tasks_limit, 10000),
-                        prefer_cache=load_clicked,
-                    )
-                except Exception as exc:
-                    st.warning(f"Could not load task-activity mapping for SEActivity completeness: {exc}")
-                    activity_rows = []
-
-                task_activity_map: Dict[str, str] = {}
-                for row in activity_rows:
-                    task_name = str(row.get("task", "")).strip()
-                    if not task_name:
-                        continue
-                    activities = [str(a).strip() for a in (row.get("activities") or []) if str(a).strip()]
-                    task_activity_map[task_name] = activities[0] if activities else "NoActivity"
-
-                activity_ratio_df = df.copy()
-                activity_ratio_df["seActivity"] = activity_ratio_df["seTask"].map(
-                    lambda task: task_activity_map.get(str(task), "NoActivity")
-                )
-
-                activity_agg_df = (
-                    activity_ratio_df.groupby("seActivity", as_index=False)
-                    .agg(
-                        totalModels=("numModels", "sum"),
-                        linkedDatasetModels=("numModelsWithDataset", "sum"),
-                        linkedCollectionModels=("numModelsWithCollection", "sum"),
-                        linkedSpaceModels=("numModelsWithSpace", "sum"),
-                        linkedBenchmarkModels=("numModelsWithBenchmark", "sum"),
-                    )
-                )
-
-                activity_agg_df["datasetCompletenessRatio"] = activity_agg_df.apply(
-                    lambda r: _global_ratio(float(r["linkedDatasetModels"]), float(r["totalModels"])),
-                    axis=1,
-                )
-                activity_agg_df["collectionCompletenessRatio"] = activity_agg_df.apply(
-                    lambda r: _global_ratio(float(r["linkedCollectionModels"]), float(r["totalModels"])),
-                    axis=1,
-                )
-                activity_agg_df["spaceCompletenessRatio"] = activity_agg_df.apply(
-                    lambda r: _global_ratio(float(r["linkedSpaceModels"]), float(r["totalModels"])),
-                    axis=1,
-                )
-                activity_agg_df["benchmarkCompletenessRatio"] = activity_agg_df.apply(
-                    lambda r: _global_ratio(float(r["linkedBenchmarkModels"]), float(r["totalModels"])),
-                    axis=1,
-                )
-
-                activity_agg_df["overallCompletenessRatio"] = activity_agg_df[
-                    [
-                        "datasetCompletenessRatio",
-                        "collectionCompletenessRatio",
-                        "spaceCompletenessRatio",
-                        "benchmarkCompletenessRatio",
-                    ]
-                ].mean(axis=1)
-
-                activity_agg_df = activity_agg_df.sort_values(
-                    ["overallCompletenessRatio", "totalModels", "seActivity"],
-                    ascending=[False, False, True],
-                )
-
-                st.dataframe(
-                    activity_agg_df[
-                        [
-                            "seActivity",
-                            "totalModels",
-                            # "linkedDatasetModels",
-                            # "linkedCollectionModels",
-                            # "linkedSpaceModels",
-                            # "linkedBenchmarkModels",
-                            "datasetCompletenessRatio",
-                            "collectionCompletenessRatio",
-                            "spaceCompletenessRatio",
-                            "benchmarkCompletenessRatio",
-                            "overallCompletenessRatio",
-                        ]
-                    ].head(5),
-                    use_container_width=True,
-                    height=360,
-                )
+                st.info("SEActivity-based completeness summaries removed.")
 
                 per_task_ratio_df = df[["seTask", "numModels"] + ratio_cols].copy()
                 per_task_ratio_df["overallCompletenessRatio"] = per_task_ratio_df[ratio_cols].mean(axis=1)
@@ -1375,40 +1286,7 @@ def render_task_artifact_overlaps_page(
     overlap_df_view = overlap_df[visible_cols].sort_values("jaccardArtifacts", ascending=False)
     st.dataframe(overlap_df_view.head(int(top_n)), use_container_width=True)
 
-    st.markdown("### SE Activity overlaps (Model / Dataset / Space)")
-    st.caption("Computed via SETask USED_FOR SEActivity.")
-    activity_state_key = "se_activity_overlap_state"
-    col_act_run, col_act_top = st.columns([1, 2])
-    activity_run_clicked = col_act_run.button("Load activity overlaps", type="secondary")
-
-    if activity_run_clicked or activity_state_key not in st.session_state:
-        try:
-            activity_rows, activity_source, activity_info = get_data_with_fallback(
-                uri=uri,
-                username=username,
-                password=password,
-                database=database,
-                query=TASK_ACTIVITY_TOP_OVERLAPS_QUERY,
-                row_limit=int(15),
-                params={"top_n": int(15)},
-            )
-
-            if activity_source == "online":
-                st.success(activity_info)
-            else:
-                st.warning(activity_info)
-
-            activity_df = pd.DataFrame(activity_rows)
-            st.session_state[activity_state_key] = activity_df
-        except Exception as exc:
-            st.error(str(exc))
-            st.session_state[activity_state_key] = pd.DataFrame()
-
-    activity_df = st.session_state.get(activity_state_key, pd.DataFrame())
-    if activity_df is None or activity_df.empty:
-        st.info("No SE activity overlaps found yet. Click 'Load activity overlaps'.")
-    else:
-        st.dataframe(activity_df.head(int(15)), use_container_width=True)
+    st.info("SEActivity overlap visuals removed.")
 
     metric = st.selectbox(
         "Similarity metric",
@@ -1418,13 +1296,7 @@ def render_task_artifact_overlaps_page(
     )
 
     # Order tasks by their first linked SE activity, then by task id.
-    matrix_tasks = sorted(
-        tasks,
-        key=lambda t: (
-            (task_activity_map.get(str(t), ["NoActivity"])[0] or "NoActivity").lower(),
-            str(t).lower(),
-        ),
-    )
+    matrix_tasks = sorted(tasks, key=lambda t: str(t).lower())
 
     matrix_source = overlap_df[
         overlap_df["task1"].isin(matrix_tasks) & overlap_df["task2"].isin(matrix_tasks)
@@ -1438,22 +1310,8 @@ def render_task_artifact_overlaps_page(
     matrix_df.index = matrix_tasks
     matrix_df.columns = matrix_tasks
 
-    activity_by_task = {
-        t: (task_activity_map.get(str(t), ["NoActivity"])[0] or "NoActivity")
-        for t in matrix_tasks
-    }
-    unique_activities = sorted(set(activity_by_task.values()), key=lambda v: str(v).lower())
-
     st.markdown("### Task similarity heatmap")
-    palette = px.colors.qualitative.Alphabet + px.colors.qualitative.Set3 + px.colors.qualitative.Dark24
-    activity_color_map = {
-        activity: palette[i % len(palette)]
-        for i, activity in enumerate(unique_activities)
-    }
-    colored_task_labels = [
-        f"<span style='color:{activity_color_map.get(activity_by_task[t], '#222')}'>{t}</span>"
-        for t in matrix_tasks
-    ]
+    colored_task_labels = matrix_tasks
 
     heatmap_fig = px.imshow(
         matrix_df,
@@ -2043,173 +1901,7 @@ def render_task_specificity_page(
             height=520,
         )
 
-        activity_map_state_key = "task_specificity_activity_map_state"
-        if activity_map_state_key not in st.session_state:
-            try:
-                task_activity_rows, _, _ = get_data_with_fallback(
-                    uri=uri,
-                    username=username,
-                    password=password,
-                    database=database,
-                    query=TASK_ACTIVITY_BY_TASK_QUERY,
-                    row_limit=max(int(row_limit), 10000),
-                )
-                st.session_state[activity_map_state_key] = task_activity_rows
-            except Exception as exc:
-                st.warning(f"Could not load task-activity mapping: {exc}")
-                st.session_state[activity_map_state_key] = []
-
-        task_activity_rows = st.session_state.get(activity_map_state_key, [])
-        task_to_activity: Dict[str, str] = {}
-        for row in task_activity_rows:
-            task_name = str(row.get("task", "")).strip()
-            activities = [str(a).strip() for a in (row.get("activities") or []) if str(a).strip()]
-            if not task_name:
-                continue
-            task_to_activity[task_name] = activities[0] if activities else "NoActivity"
-
-        activity_df = global_df.copy()
-        activity_df["seActivity"] = activity_df["task"].map(lambda t: task_to_activity.get(str(t), "NoActivity"))
-
-        activity_summary = (
-            activity_df.groupby("seActivity", as_index=False)
-            .agg(
-                totalArtifacts=("artifactKey", "count"),
-                exclusiveCount=("taskShareCount", lambda s: int((s <= 1).sum())),
-                genericCount=("taskShareCount", lambda s: int((s >= generic_threshold_for_stats).sum())),
-            )
-        )
-        activity_summary["exclusiveRatioPct"] = activity_summary.apply(
-            lambda r: (100.0 * float(r["exclusiveCount"]) / float(r["totalArtifacts"])) if float(r["totalArtifacts"]) > 0 else 0.0,
-            axis=1,
-        )
-        activity_summary["genericRatioPct"] = activity_summary.apply(
-            lambda r: (100.0 * float(r["genericCount"]) / float(r["totalArtifacts"])) if float(r["totalArtifacts"]) > 0 else 0.0,
-            axis=1,
-        )
-
-        act_type_count_df = (
-            activity_df.groupby(["seActivity", "artifactType"], as_index=False)
-            .size()
-            .rename(columns={"size": "artifactTypeCount"})
-        )
-        act_type_count_pivot = (
-            act_type_count_df.pivot(index="seActivity", columns="artifactType", values="artifactTypeCount")
-            .fillna(0)
-            .astype(int)
-            .reset_index()
-        )
-        activity_comp_df = activity_summary.merge(act_type_count_pivot, on="seActivity", how="left")
-
-        act_exclusive_type_df = (
-            activity_df[activity_df["taskShareCount"] <= 1]
-            .groupby(["seActivity", "artifactType"], as_index=False)
-            .size()
-            .rename(columns={"size": "exclusiveTypeCount"})
-        )
-        act_generic_type_df = (
-            activity_df[activity_df["taskShareCount"] >= generic_threshold_for_stats]
-            .groupby(["seActivity", "artifactType"], as_index=False)
-            .size()
-            .rename(columns={"size": "genericTypeCount"})
-        )
-        act_exclusive_pivot = (
-            act_exclusive_type_df.pivot(index="seActivity", columns="artifactType", values="exclusiveTypeCount")
-            .fillna(0)
-            .astype(int)
-            .reset_index()
-        )
-        act_generic_pivot = (
-            act_generic_type_df.pivot(index="seActivity", columns="artifactType", values="genericTypeCount")
-            .fillna(0)
-            .astype(int)
-            .reset_index()
-        )
-
-        act_exclusive_cols = []
-        act_generic_cols = []
-        for artifact_type in artifact_types:
-            exc_col = f"exclusive_{artifact_type}Count"
-            gen_col = f"generic_{artifact_type}Count"
-            act_exclusive_cols.append(exc_col)
-            act_generic_cols.append(gen_col)
-
-            if artifact_type in act_exclusive_pivot.columns:
-                act_exclusive_pivot = act_exclusive_pivot.rename(columns={artifact_type: exc_col})
-            else:
-                act_exclusive_pivot[exc_col] = 0
-
-            if artifact_type in act_generic_pivot.columns:
-                act_generic_pivot = act_generic_pivot.rename(columns={artifact_type: gen_col})
-            else:
-                act_generic_pivot[gen_col] = 0
-
-        act_exclusive_pivot = act_exclusive_pivot[["seActivity"] + act_exclusive_cols]
-        act_generic_pivot = act_generic_pivot[["seActivity"] + act_generic_cols]
-
-        activity_comp_df = activity_comp_df.merge(act_exclusive_pivot, on="seActivity", how="left")
-        activity_comp_df = activity_comp_df.merge(act_generic_pivot, on="seActivity", how="left")
-        for col in act_exclusive_cols + act_generic_cols:
-            if col not in activity_comp_df.columns:
-                activity_comp_df[col] = 0
-            activity_comp_df[col] = pd.to_numeric(activity_comp_df[col], errors="coerce").fillna(0).astype(int)
-
-        for artifact_type in artifact_types:
-            exc_ratio_col = f"exclusive{artifact_type}RatioPct"
-            gen_ratio_col = f"generic{artifact_type}RatioPct"
-            exc_count_col = f"exclusive_{artifact_type}Count"
-            gen_count_col = f"generic_{artifact_type}Count"
-            activity_comp_df[exc_ratio_col] = activity_comp_df.apply(
-                lambda r: (100.0 * float(r.get(exc_count_col, 0)) / float(r.get(artifact_type, 0))) if float(r.get(artifact_type, 0)) > 0 else 0.0,
-                axis=1,
-            )
-            activity_comp_df[gen_ratio_col] = activity_comp_df.apply(
-                lambda r: (100.0 * float(r.get(gen_count_col, 0)) / float(r.get(artifact_type, 0))) if float(r.get(artifact_type, 0)) > 0 else 0.0,
-                axis=1,
-            )
-
-        activity_comp_df["exclusiveRatioPct"] = activity_comp_df["exclusiveRatioPct"].round(2)
-        activity_comp_df["genericRatioPct"] = activity_comp_df["genericRatioPct"].round(2)
-        for artifact_type in artifact_types:
-            type_count_col = artifact_type
-            exc_ratio_col = f"exclusive{artifact_type}RatioPct"
-            gen_ratio_col = f"generic{artifact_type}RatioPct"
-            activity_comp_df[exc_ratio_col] = activity_comp_df.apply(
-                lambda r: "-" if float(r.get(type_count_col, 0)) <= 0 else round(float(r.get(exc_ratio_col, 0.0)), 2),
-                axis=1,
-            )
-            activity_comp_df[gen_ratio_col] = activity_comp_df.apply(
-                lambda r: "-" if float(r.get(type_count_col, 0)) <= 0 else round(float(r.get(gen_ratio_col, 0.0)), 2),
-                axis=1,
-            )
-
-        activity_comp_df = activity_comp_df.sort_values(
-            ["exclusiveRatioPct", "totalArtifacts", "seActivity"],
-            ascending=[False, False, True],
-        )
-
-        activity_base_cols = [
-            "seActivity",
-            "totalArtifacts",
-            "exclusiveRatioPct",
-            "genericRatioPct",
-        ]
-        activity_type_ratio_cols = []
-        for artifact_type in artifact_types:
-            exc_col = f"exclusive{artifact_type}RatioPct"
-            gen_col = f"generic{artifact_type}RatioPct"
-            if exc_col in activity_comp_df.columns:
-                activity_type_ratio_cols.append(exc_col)
-            if gen_col in activity_comp_df.columns:
-                activity_type_ratio_cols.append(gen_col)
-
-        st.markdown("### Aggregated results by SEActivity")
-        st.caption("Same ratio schema as task-level table, aggregated per SEActivity.")
-        st.dataframe(
-            activity_comp_df[activity_base_cols + activity_type_ratio_cols],
-            use_container_width=True,
-            height=420,
-        )
+        st.info("SEActivity aggregations removed from Task Specificity view.")
 
     try:
         task_count_rows, _, _ = get_data_with_fallback(

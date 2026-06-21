@@ -129,8 +129,8 @@ LIMIT $pair_detail_limit
 TASK_ACTIVITY_BY_TASK_QUERY = """
 MATCH (t:SETask)-[:USED_FOR]-(a:SEActivity)
 WITH
-  coalesce(t.id, t.name, toString(id(t))) AS task,
-  coalesce(a.id, a.name, toString(id(a))) AS activity
+  coalesce(t.id, t.label, toString(id(t))) AS task,
+  coalesce(a.id, a.label, toString(id(a))) AS activity
 RETURN
   task,
   collect(DISTINCT activity) AS activities
@@ -153,8 +153,8 @@ WHERE size(groups) > 0
 UNWIND groups AS taskId
 MATCH (t:SETask)-[:USED_FOR]-(a:SEActivity)
 WHERE toLower(trim(coalesce(t.id, ''))) = toLower(trim(taskId))
-   OR toLower(trim(coalesce(t.name, ''))) = toLower(trim(taskId))
-WITH DISTINCT artifactKey, artifactType, coalesce(a.id, a.name, toString(id(a))) AS activity
+   OR toLower(trim(coalesce(t.label, ''))) = toLower(trim(taskId))
+WITH DISTINCT artifactKey, artifactType, coalesce(a.id, a.label, toString(id(a))) AS activity
 WITH
   activity,
   collect(DISTINCT artifactKey) AS allArtifactsRaw,
