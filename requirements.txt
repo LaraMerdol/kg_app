@@ -5,3 +5,5 @@ numpy
 networkx
 matplotlib
 neo4j
+scipy
+seaborn
